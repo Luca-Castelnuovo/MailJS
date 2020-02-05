@@ -68,7 +68,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']) {
     <div class="col s12 m8 offset-m2 l4 offset-l4">
         <div class="card">
             <div class="card-action blue accent-4 white-text">
-                <h3>TestingPlatform</h3>
+                <h3>MailJS</h3>
             </div>
             <div class="card-content">
                 <div class="row center">

@@ -14,8 +14,6 @@ function login($user)
         redirect("/?reset", 'Account not allowed');
     }
 
-    mkdir("users/{$username}", 0770);
-
     $_SESSION['logged_in'] = true;
     $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
     $_SESSION['id'] = $username;
