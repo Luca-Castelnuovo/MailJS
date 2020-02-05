@@ -1,0 +1,13 @@
+{
+    "name": "lucacastelnuovo/mail-js",
+    "require": {
+        "vlucas/phpdotenv": "^4.1",
+        "league/oauth2-github": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "Luca Castelnuovo",
+            "email": "ltcastelnuovo@gmail.com"
+        }
+    ]
+}

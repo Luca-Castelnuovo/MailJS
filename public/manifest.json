@@ -1,0 +1,10 @@
+{
+  "name": "TestingPlatform",
+  "short_name": "Test",
+  "theme_color": "#2962ff",
+  "background_color": "#2962ff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/"
+}
