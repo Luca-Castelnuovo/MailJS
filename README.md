@@ -19,7 +19,7 @@ A `user` creates an `email`.
 Project contains following settings:
 - ProjectName
 - Whitelisted Origin(s)
-- ApiKey (hashed)
+- ApiKey (hashed) (apikey should be used to determine which template needs to be used)
 - `ToEmail`, `FromName`, `Subject` (all these can include variables from handlebar)
 - Optional recaptcha requirement (the secret key will be asked)
 - The email template
