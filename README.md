@@ -1,25 +1,44 @@
-# MailJS
+<h1 align="center">Welcome to MailJS 👋</h1>
+<p>
+  <a href="https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  </a>
+</p>
 
-### Featues
-- Mail Services (SMTP, Sendgrid)
-- Mail Template (HandleBar)
-- Captcha Integration (optional captcha requirement)
-- Auto-Reply, if `<form>` auto-reply to `email`
-- Allow JSON request OR `<form>` post
-- If `<form>` also check for `<input type="hidden" name="redirect_to" value="https://example.com/success"`
-- Origin check per project
+> Backend for email submissions powering serverless aplications
 
-### Idea
+### 🏠 [Homepage](https://mail.lucacastelnuovo.nl)
 
-Authentication: similar to test.lucacastelnuovo.nl
-Server: personal-server
-DB: MariaDB
+## Install
 
-A `user` creates an `email`.
-Project contains following settings:
-- ProjectName
-- Whitelisted Origin(s)
-- ApiKey (hashed) (apikey should be used to determine which template needs to be used)
-- `ToEmail`, `FromName`, `Subject` (all these can include variables from handlebar)
-- Optional recaptcha requirement (the secret key will be asked)
-- The email template
+```sh
+git clone https://github.com/Luca-Castelnuovo/MailJS.git
+```
+
+## Usage
+
+```sh
+composer install
+```
+
+## Author
+
+👤 **Luca Castelnuovo**
+
+* Github: [@Luca-Castelnuovo](https://github.com/Luca-Castelnuovo)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Luca-Castelnuovo/MailJS/issues).
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📝 License
+
+Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
+This project is [MIT](https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE) licensed.
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
