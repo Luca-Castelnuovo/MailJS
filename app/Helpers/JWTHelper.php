@@ -40,11 +40,10 @@ class JWTHelper
      * Decode and validate JWT.
      *
      * @param string $access_token
-     * @param string $type
      *
      * @return bool
      */
-    public static function decode($access_token, $type)
+    public static function decode($access_token)
     {
         if (!$access_token) {
             throw new Exception('JWT not provided');
@@ -56,10 +55,6 @@ class JWTHelper
                 config('tokens.jwt_token.public_key'),
                 [config('tokens.jwt_token.algorithm')]
             );
-
-            if ($credentials->type !== $type) {
-                throw new Exception('JWT: Token type invalid');
-            }
         } catch (ExpiredException $error) {
             throw new Exception('JWT: Token has expired');
         } catch (Exception $error) {

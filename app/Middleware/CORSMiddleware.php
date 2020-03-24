@@ -1,17 +1,36 @@
 <?php
 
+namespace App\Middleware;
+
+use App\Helpers\JWTHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class AuthMiddleware implements Middleware
+class AuthenticationMiddleware implements Middleware
 {
-    public function handle(ServerRequestInterface $request, Closure $next)
+    /**
+     * Add CORS headers to requests
+     *
+     * @param Request $request
+     * @param $next
+     *
+     * @return mixed
+     */
+    public function handle(ServerRequestInterface $request, $next)
     {
-        if ($request->getHeader('Authorization')) {
-            return $next($request);
+        $headers = [
+            'Access-Control-Allow-Origin'  => implode(", ", config('cors')['allow_origins']),
+            'Access-Control-Allow-Headers' => implode(", ", config('cors')['allow_headers']),
+            'Access-Control-Allow-Methods' => implode(", ", config('cors')['allow_methods']),
+        ];
+
+        $response = $next($request);
+
+        foreach ($headers as $key => $value) {
+            $response->withHeader($key, $value);
         }
 
-        return new JsonResponse(['error' => 'Unauthorized!'], 401);
+        return $response->withHeader('X-demo', '123');
     }
 }

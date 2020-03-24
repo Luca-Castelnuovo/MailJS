@@ -7,30 +7,34 @@ use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class AuthenticationMiddleware
+class AuthenticationMiddleware implements Middleware
 {
     /**
      * Validate JWT token.
      *
      * @param Request $request
-     * @param Closure $next
+     * @param $next
      *
      * @return mixed
      */
-    public function handle(ServerRequestInterface $request, Closure $next)
+    public function handle(ServerRequestInterface $request, $next)
     {
         $authorization_header = $request->getHeader('Authorization');
-        $access_token = Str::replaceFirst('Bearer ', '', $authorization_header);
+        // $access_token = Str::replaceFirst('Bearer ', '', $authorization_header);
 
-        try {
-            $credentials = JWTHelper::decode($access_token, 'access');
-        } catch (Exception $error) {
-            return response()->json(['error' => $error->getMessage()], 401);
-        }
+        // try {
+        //     $credentials = JWTHelper::decode($access_token, 'access');
+        // } catch (Exception $error) {
+            // return new JsonResponse(['error' => $error->getMessage()], 401);
+        // }
 
-        $request->session_uuid = $credentials->token;
-        $request->user_id = $credentials->sub;
-        $request->role = $credentials->role;
+        // $origin_header = $request->getHeader('Origin');
+        // if ($origin_header !== $credentials->allowed_origin) {
+            return new JsonResponse(['error' => 'invalid origin'], 401);
+        // }
+
+        // $request->user_id = $credentials->sub;
+        // $request->template_id = $credentials->template_id;
 
         return $next($request);
     }
