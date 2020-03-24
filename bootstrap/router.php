@@ -6,7 +6,13 @@ use App\Middleware\AuthenticationMiddleware;
 
 $router = new Router('', 'App\Controllers');
 
+
 $router->get('/', 'GeneralController@index');
+
+$router->get('/auth/login', 'AuthController@login');
+$router->get('/auth/callback', 'AuthController@callback');
+$router->get('/auth/logout', 'AuthController@logout');
+
 
 $router->group(['middleware' => CORSMiddleware::class], function (Router $router) {
     $router->group(['middleware' => AuthenticationMiddleware::class], function (Router $router) {

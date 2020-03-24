@@ -6,8 +6,13 @@ use Zend\Diactoros\ServerRequest;
 
 class Controller
 {
-    public function getOrigin(ServerRequest $request)
-    {
-        return $request->getHeaders();
+    public $twig;
+
+    public function __construct() {
+        $loader = new \Twig\Loader\FilesystemLoader('../views');
+        $this->twig = new \Twig\Environment($loader);
+        // $this->twig = new \Twig\Environment($loader, [
+        //     'cache' => '../storage/views',
+        // ]);
     }
 }

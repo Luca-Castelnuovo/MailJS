@@ -37,6 +37,11 @@ function config($key, $fallback = null) {
                 'allow_headers' => ['Authorization', 'Content-Type'],
                 'allow_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
             ],
+            'oauth' => [
+                'client_id' => env('GITHUB_CIENT_ID'),
+                'client_secret' => env('GITHUB_CLIENT_SECRET'),
+                'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
+            ]
         ];
     }
     

@@ -3,22 +3,35 @@
 namespace App\Controllers;
 
 use Zend\Diactoros\ServerRequest;
-
-use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Diactoros\Response\TextResponse;
 
 class GeneralController extends Controller
 {
     /**
-     * Return required params for clients.
+     * Login screen
      *
-     * @return JsonResponse
+     * @return HtmlResponse
      */
-    public function index(ServerRequest $request)
+    public function index()
     {
-        // return new JsonResponse($this->getOrigin($request));
-        return new HtmlResponse('<html>This is also an HTML response</html>', 200);
+        return new HtmlResponse($this->twig->render('index.twig', ['name' => 'Fabien']), 200);
+    }
+
+    /**
+     * Dashboard screen
+     *
+     * @return HtmlResponse
+     */
+    public function dashboard(ServerRequest $request)
+    {
+        /*
+        
+            1. get user id from session
+            2. query templates belonging to user
+            3. render templates
+        
+        */
+
+        return new HtmlResponse($this->twig->render('dashboard.twig', ['name' => 'Fabien']), 200);
     }
 }
