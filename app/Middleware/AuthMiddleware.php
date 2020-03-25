@@ -7,7 +7,7 @@ use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class AuthenticationMiddleware implements Middleware
+class AuthMiddleware implements Middleware
 {
     /**
      * Validate JWT token.
@@ -25,12 +25,12 @@ class AuthenticationMiddleware implements Middleware
         // try {
         //     $credentials = JWTHelper::decode($access_token, 'access');
         // } catch (Exception $error) {
-            // return new JsonResponse(['error' => $error->getMessage()], 401);
+        // return new JsonResponse(['error' => $error->getMessage()], 401);
         // }
 
         // $origin_header = $request->getHeader('Origin');
         // if ($origin_header !== $credentials->allowed_origin) {
-            return new JsonResponse(['error' => 'invalid origin'], 401);
+        return new JsonResponse(['error' => 'invalid origin'], 401);
         // }
 
         // $request->user_id = $credentials->sub;

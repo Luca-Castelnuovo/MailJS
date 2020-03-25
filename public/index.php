@@ -1,4 +1,4 @@
 <?php
 
-$router = require __DIR__.'/../bootstrap/app.php';
-$router->dispatch();
+$router = require __DIR__ . '/../bootstrap/app.php';
+// $router->dispatch();

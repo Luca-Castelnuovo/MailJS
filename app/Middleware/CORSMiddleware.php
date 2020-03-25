@@ -2,12 +2,10 @@
 
 namespace App\Middleware;
 
-use App\Helpers\JWTHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
-class AuthenticationMiddleware implements Middleware
+class CORSMiddleware implements Middleware
 {
     /**
      * Add CORS headers to requests

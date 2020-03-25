@@ -1,16 +1,21 @@
 <?php
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-function config($key, $fallback = null) {
+function config($key, $fallback = null)
+{
     static $config;
-    
+
     if (is_null($config)) {
         $configExternal = json_decode(file_get_contents(env('EXTERNAL_CONFIG')));
         $config = [
-            'allowed_users' => $configExternal->allowed_users,
             'captcha_endpoint' => 'https://www.google.com/recaptcha/api/siteverify',
+            'analytics' => [
+                'enabled' => false,
+                'ackee_domainid' => '',
+                'ackee_options' => '{ "detailed": true }',
+            ],
             'database' => [
                 'host' => env('DB_HOST'),
                 'port' => env('DB_PORT'),
@@ -20,9 +25,8 @@ function config($key, $fallback = null) {
             ],
             'jwt' => [
                 'algorithm' => 'HS256',
-                'iss' => env('JWT_ISS'),
-                'length' => 64,
                 'ttl' => 31536000, // 1 year
+                'iss' => env('JWT_ISS'),
                 'secret' => env('JWT_SECRET'),
             ],
             'smtp' => [
@@ -35,15 +39,17 @@ function config($key, $fallback = null) {
             'cors' => [
                 'allow_origins' => ['*'],
                 'allow_headers' => ['Authorization', 'Content-Type'],
-                'allow_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
             ],
             'oauth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
+                // 'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
+                'redirect_url' => 'http://localhost:8080/auth/callback',
+                'allowed_users' => $configExternal->allowed_users,
             ]
         ];
     }
-    
+
     return array_key_exists($key, $config) ? $config[$key] : $fallback;
 }

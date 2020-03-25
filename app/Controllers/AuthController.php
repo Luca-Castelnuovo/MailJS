@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Exception;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response\RedirectResponse;
 use League\OAuth2\Client\Provider\Github;
@@ -11,8 +12,9 @@ class AuthController extends Controller
     /**
      * Initialize the OAuth provider
      */
-    public $provider;
-    public function __construct() {
+    private $provider;
+    public function __construct()
+    {
         $this->provider = new Github([
             'clientId'     => config('oauth')['client_id'],
             'clientSecret' => config('oauth')['client_secret'],
@@ -43,19 +45,24 @@ class AuthController extends Controller
         $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if(empty($state) || ($state !== $_SESSION['state']))  {
-            return $this->logout();
+        if (empty($state) || ($state !== $_SESSION['state'])) {
+            return $this->logout('invalid state');
         }
-    
+
         try {
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user = $this->provider->getResourceOwner($token);
+            $user_id = $this->provider->getResourceOwner($token)->getNickname();
 
-            $_SESSION['logged_in'] = true;
+            if (!in_array($user_id, config('oauth')['allowed_users'])) {
+                return $this->logout('account not allowed');
+            }
+
+            unset($_SESSION['state']);
+
+            $_SESSION['id'] = $user_id;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
-            $_SESSION['id'] = $user->getNickname();
-        } catch (Exception $error) {
-            return $this->logout();
+        } catch (Exception $e) {
+            return $this->logout($e);
         }
 
         return new RedirectResponse('/dashboard');
@@ -63,13 +70,19 @@ class AuthController extends Controller
 
     /**
      * Destroy session
+     * 
+     * @param string $message optional
      *
      * @return RedirectResponse
      */
-    public function logout(ServerRequest $request)
+    public function logout($message = null)
     {
         session_destroy();
         session_start();
+
+        if ($message !== null) {
+            return new RedirectResponse('/?message=' . $message);
+        }
 
         return new RedirectResponse('/');
     }

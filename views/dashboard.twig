@@ -1,0 +1,9 @@
+{% extends "base.twig" %}
+{% set title = "Dashboard" %}
+
+{% block content %}
+<h1>Dashboard</h1>
+<pre>
+    {{ templates|json_encode(constant('JSON_PRETTY_PRINT')) }}
+</pre>
+{% endblock %}
