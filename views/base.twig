@@ -20,7 +20,9 @@
         {% include 'partials/footer.twig' with analytics only %}
         
         <script>
-            {% block script %}{% endblock %}
+            document.addEventListener('DOMContentLoaded', function() {
+                {% block script %}{% endblock %}
+            });
         </script>
     </body>
 

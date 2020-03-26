@@ -1,69 +1,78 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Load JS for MaterializeCSS
-    const modals = document.querySelectorAll('.modal');
-    M.Modal.init(modals, {
-        dismissible: false
+// Load JS for MaterializeCSS
+M.Modal.init(document.querySelectorAll('.modal'), {dismissible: false});
+M.CharacterCounter.init(document.querySelectorAll('input.character-counter'));
+
+/**
+ * Create
+ */
+const createForm = document.querySelector("form.template-create");
+createForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const data = formDataToJSON(new FormData(createForm));
+
+    disableAll(true);
+    axios.post('https://enfw8jpb3aw9e.x.pipedream.net/template', data).then(async () => {
+        M.toast({html: 'Template Created'});
+        
+        M.Modal.getInstance(document.querySelector('.modal#template-create')).close();
+        await delay(750);
+        location.reload();
+    }, error => {
+        M.toast({html: 'Error'});
+        
+        disableAll(false);
+        console.error(error);
     });
+});
 
-    const inputs = document.querySelectorAll('input.character-counter');
-    M.CharacterCounter.init(inputs);
+/**
+ * Update
+ */
+const editForms = document.querySelectorAll("form.template-edit");
+editForms.forEach(form => {
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        const id = form.getAttribute("data-id");
+        const data = formDataToJSON(new FormData(form));
 
-    // Create btn
-    document.querySelector("button[data-action='create']").addEventListener("click", () => {
-        // TODO: validate form
-        // TODO: get data from form
-    
-        axios.post('/template').then(async () => {
-            M.toast({html: 'Template Created'});
+        disableAll(true);
+        axios.put(`https://enfw8jpb3aw9e.x.pipedream.net/template/${id}`, data).then(async () => {
+            M.toast({html: 'Template Updated'});
             
+            M.Modal.getInstance(document.querySelector(`.modal#template-${id}-edit`)).close();
             await delay(750);
             location.reload();
-        }, (error) => {
+        }, error => {
             M.toast({html: 'Error'});
             
+            disableAll(false);
             console.error(error);
         });
     });
-    
-    // Update btn
-    document.querySelectorAll("button[data-action='edit']").forEach(editBtn => 
-        editBtn.addEventListener("click", () => {
-            const templateID = editBtn.getAttribute("data-id");
-            const templateCardTitle = document.querySelector(`#template-${templateID} > .card > .card-content > .card-title`);
-            
-            // TODO: validate form
-            // TODO: get data from form
-    
-            axios.put(`/template/${templateID}`).then(async () => {
-                M.toast({html: 'Template updated'});
-    
-                // update title
-                templateCardTitle.textContent = 'Updated Title';
-            }, (error) => {
-                M.toast({html: 'Error'});
-                
-                console.error(error);
-            });
-        })
-    );
-    
-    // Delete btn
-    document.querySelectorAll("button[data-action='delete']").forEach(deleteBtn => 
-        deleteBtn.addEventListener("click", () => {
-            const templateID = deleteBtn.getAttribute("data-id");
-            const templateCard = document.querySelector(`#template-${templateID}`);
-            
-            axios.delete(`/template/${templateID}`).then(async () => {
-                M.toast({html: 'Template deleted'});
-                
-                templateCard.classList.add("scale-out");
-                await delay(250);
-                templateCard.remove();
-            }, (error) => {
-                M.toast({html: 'Error'});
-                
-                console.error(error);
-            });
-        })
-    );
 });
+
+/**
+ * Delete
+ */
+const deleteForms = document.querySelectorAll("form.template-delete");
+deleteForms.forEach(form => 
+    form.addEventListener("submit", e => {
+        e.preventDefault();
+        const id = form.getAttribute("data-id");
+        const data = formDataToJSON(new FormData(form));
+
+        disableAll(true);
+        axios.delete(`https://enfw8jpb3aw9e.x.pipedream.net/template/${id}`, data).then(async () => {
+            M.toast({html: 'Template Deleted'});
+            
+            M.Modal.getInstance(document.querySelector(`.modal#template-${id}-delete`)).close();
+            await delay(750);
+            location.reload();
+        }, error => {
+            M.toast({html: 'Error'});
+            
+            disableAll(false);
+            console.error(error);
+        });
+    })
+);
