@@ -26,9 +26,9 @@ class CORSMiddleware implements Middleware
         $response = $next($request);
 
         foreach ($headers as $key => $value) {
-            $response->withHeader($key, $value);
+            $response = $response->withHeader($key, $value);
         }
 
-        return $response->withHeader('X-demo', '123');
+        return $response;
     }
 }

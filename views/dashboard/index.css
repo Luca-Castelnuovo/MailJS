@@ -1,0 +1,29 @@
+/* default color */
+.input-field input:focus {
+  border-bottom: 1px solid #2962ff !important;
+  box-shadow: 0 1px 0 0 #2962ff !important;
+}
+
+.input-field input:focus + label {
+  color: #2962ff !important;
+}
+
+/* valid color */
+.input-field input.valid {
+  border-bottom: 1px solid #2962ff !important;
+  box-shadow: 0 1px 0 0 #2962ff !important;
+}
+
+.input-field input.valid + label {
+  color: #2962ff !important;
+}
+
+/* invalid color */
+.input-field input.invalid {
+  border-bottom: 1px solid #f44336 !important;
+  box-shadow: 0 1px 0 0 #f44336 !important;
+}
+
+.input-field input.invalid + label {
+  color: #f44336 !important;
+}

@@ -19,7 +19,7 @@ class AuthMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        $authorization_header = $request->getHeader('Authorization');
+        // $authorization_header = $request->getHeader('Authorization');
         // $access_token = Str::replaceFirst('Bearer ', '', $authorization_header);
 
         // try {
@@ -30,7 +30,7 @@ class AuthMiddleware implements Middleware
 
         // $origin_header = $request->getHeader('Origin');
         // if ($origin_header !== $credentials->allowed_origin) {
-        return new JsonResponse(['error' => 'invalid origin'], 401);
+        // return new JsonResponse(['error' => 'invalid origin'], 401);
         // }
 
         // $request->user_id = $credentials->sub;

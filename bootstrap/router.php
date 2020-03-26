@@ -11,6 +11,11 @@ $router = new Router('', 'App\Controllers');
 $router->get('/', 'GeneralController@index');
 $router->get('/dashboard', 'GeneralController@dashboard');
 
+$router->post('/template', 'TemplateController@create');
+$router->get('/template/{id}', 'TemplateController@view');
+$router->put('/template/{id}', 'TemplateController@update');
+$router->delete('/template/{id}', 'TemplateController@delete');
+
 $router->define('code', '[0-9]+');
 $router->get('/error/{code}', 'GeneralController@error');
 
@@ -18,11 +23,9 @@ $router->get('/auth/login', 'AuthController@login');
 $router->get('/auth/callback', 'AuthController@callback');
 $router->get('/auth/logout', 'AuthController@logout');
 
-$router->group(['middleware' => CORSMiddleware::class], function (Router $router) {
-    $router->group(['middleware' => AuthMiddleware::class], function (Router $router) {
-        $router->post('/submission/json', 'SubmissionController@json');
-        $router->post('/submission/form', 'SubmissionController@form');
-    });
+$router->group(['middleware' => [CORSMiddleware::class, AuthMiddleware::class]], function (Router $router) {
+    $router->post('/submission/json', 'SubmissionController@json');
+    $router->post('/submission/form', 'SubmissionController@form');
 });
 
 

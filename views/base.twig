@@ -3,6 +3,10 @@
     {% include 'partials/header.twig' %}
 
     <body>
+        <style>
+            {% block style %}{% endblock %}
+        </style>
+
         {% if not navbarDisable %}
             {% include 'partials/navbar.twig' %}
         {% endif %}
@@ -14,6 +18,10 @@
         </div>
 
         {% include 'partials/footer.twig' with analytics only %}
+        
+        <script>
+            {% block script %}{% endblock %}
+        </script>
     </body>
 
 </html>

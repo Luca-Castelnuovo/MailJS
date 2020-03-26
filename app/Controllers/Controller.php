@@ -59,6 +59,7 @@ class Controller
         $data = DB::select(
             'templates',
             [
+                'id',
                 'name',
                 'captcha_key',
                 'email_to',
