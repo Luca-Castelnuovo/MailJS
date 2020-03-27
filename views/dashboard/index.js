@@ -5,13 +5,13 @@ M.CharacterCounter.init(document.querySelectorAll('input.character-counter'));
 /**
  * Create
  */
-const createForm = document.querySelector("form.template-create");
-createForm.addEventListener("submit", e => {
+const createForm = document.querySelector('form.template-create');
+createForm.addEventListener('submit', e => {
     e.preventDefault();
     const data = formDataToJSON(new FormData(createForm));
 
     disableAll(true);
-    axios.post('https://enfw8jpb3aw9e.x.pipedream.net/template', data).then(async () => {
+    axios.post('/template', data).then(async () => {
         M.toast({html: 'Template Created'});
         
         M.Modal.getInstance(document.querySelector('.modal#template-create')).close();
@@ -28,15 +28,15 @@ createForm.addEventListener("submit", e => {
 /**
  * Update
  */
-const editForms = document.querySelectorAll("form.template-edit");
+const editForms = document.querySelectorAll('form.template-edit');
 editForms.forEach(form => {
-    form.addEventListener("submit", e => {
+    form.addEventListener('submit', e => {
         e.preventDefault();
-        const id = form.getAttribute("data-id");
+        const id = form.getAttribute('data-id');
         const data = formDataToJSON(new FormData(form));
 
         disableAll(true);
-        axios.put(`https://enfw8jpb3aw9e.x.pipedream.net/template/${id}`, data).then(async () => {
+        axios.put(`/template/${id}`, data).then(async () => {
             M.toast({html: 'Template Updated'});
             
             M.Modal.getInstance(document.querySelector(`.modal#template-${id}-edit`)).close();
@@ -54,15 +54,15 @@ editForms.forEach(form => {
 /**
  * Delete
  */
-const deleteForms = document.querySelectorAll("form.template-delete");
+const deleteForms = document.querySelectorAll('form.template-delete');
 deleteForms.forEach(form => 
-    form.addEventListener("submit", e => {
+    form.addEventListener('submit', e => {
         e.preventDefault();
-        const id = form.getAttribute("data-id");
+        const id = form.getAttribute('data-id');
         const data = formDataToJSON(new FormData(form));
 
         disableAll(true);
-        axios.delete(`https://enfw8jpb3aw9e.x.pipedream.net/template/${id}`, data).then(async () => {
+        axios.delete(`/template/${id}`, data).then(async () => {
             M.toast({html: 'Template Deleted'});
             
             M.Modal.getInstance(document.querySelector(`.modal#template-${id}-delete`)).close();
