@@ -61,7 +61,7 @@ class GeneralController extends Controller
      */
     public function dashboard()
     {
-        $templates = $this->getUserTemplates();
+        $templates = $this->getUserTemplates($_SESSION['user_id']);
 
         return $this->respond('dashboard.twig', ['templates' => $templates]);
     }

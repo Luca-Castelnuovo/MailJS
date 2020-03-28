@@ -9,10 +9,13 @@ use League\OAuth2\Client\Provider\Github;
 
 class AuthController extends Controller
 {
+    private $provider;
+
     /**
      * Initialize the OAuth provider
+     * 
+     * @return void
      */
-    private $provider;
     public function __construct()
     {
         $this->provider = new Github([
@@ -48,18 +51,17 @@ class AuthController extends Controller
         if (empty($state) || ($state !== $_SESSION['state'])) {
             return $this->logout('invalid state');
         }
+        unset($_SESSION['state']);
 
         try {
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user_id = $this->provider->getResourceOwner($token)->getNickname();
+            $user_id = $this->provider->getResourceOwner($token)->getNickname(); // TODO: escape the user_id
 
             if (!in_array($user_id, config('oauth')['allowed_users'])) {
                 return $this->logout('account not allowed');
             }
 
-            unset($_SESSION['state']);
-
-            $_SESSION['id'] = $user_id;
+            $_SESSION['user_id'] = $user_id;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
         } catch (Exception $e) {
             return $this->logout($e);
@@ -81,7 +83,7 @@ class AuthController extends Controller
         session_start();
 
         if ($message !== null) {
-            return new RedirectResponse('/?message=' . $message);
+            return new RedirectResponse('/?message=' . $message); // TODO: read this and display on the frontend (like in a clossable banner above the login btn)
         }
 
         return new RedirectResponse('/');

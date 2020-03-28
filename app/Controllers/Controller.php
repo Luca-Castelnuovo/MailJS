@@ -6,31 +6,45 @@ use DB;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Diactoros\Response\JsonResponse;
 
 class Controller
 {
     private $twig;
 
     /**
-     * Enable access for child classes
+     * Provide access for child classes
      * 
      * @return void
      */
     public function __construct()
     {
-        // Start template engine
+        // Start twig engine
         $loader = new FilesystemLoader('../views');
-        $this->twig = new Environment($loader);
-        // $this->twig = new Environment($loader, ['cache' => '../storage/views']);
+        $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));
     }
 
     /**
-     * Shorthand response function
+     * Get input data
+     * 
+     * @param array $data
+     * @param string $variable
+     * @param mixed $fallback optional
+     * 
+     * @return mixed
+     */
+    protected function get($data, $variable, $fallback = '')
+    {
+        return $data[$variable] ?: $fallback;
+    }
+
+    /**
+     * Shorthand HTML response function
      *
      * @param string $view
      * @param array $parameters
-     * @param integer $code
+     * @param integer $code optional
      * 
      * @return HtmlResponse
      */
@@ -46,17 +60,53 @@ class Controller
     }
 
     /**
+     * Shorthand JSON response function
+     * 
+     * @param array $data
+     * @param integer $code optional
+     * 
+     * @return JsonResponse
+     */
+    protected function respondJson($data = [], $code = 200)
+    {
+        return new JsonResponse([
+            'success' => true,
+            'data' => $data
+        ], $code);
+    }
+
+    /**
+     * Shorthand JSON error response function
+     *
+     * @param string $title
+     * @param string $detail optional
+     * @param integer $code optional
+     * 
+     * @return JsonResponse
+     */
+    protected function respondJsonError($title, $detail = null, $code = 400)
+    {
+        return new JsonResponse([
+            'success' => false,
+            'errors' => [
+                'status' => $code,
+                'title' => $title,
+                'detail' => $detail
+
+            ]
+        ], $code);
+    }
+
+    /**
      * Query all user templates
      *
-     * @param int $owner_id [optional]
+     * @param int $user_id
      * 
-     * @return void
+     * @return array
      */
-    protected function getUserTemplates($owner_id = null)
+    protected function getUserTemplates($user_id)
     {
-        $owner_id = $owner_id ? $owner_id : $_SESSION['id'];
-
-        $data = DB::select(
+        return DB::select(
             'templates',
             [
                 'id',
@@ -73,10 +123,24 @@ class Controller
                 'created_at'
             ],
             [
-                'owner_id' => $owner_id
+                'user_id' => $user_id
             ]
         );
+    }
 
-        return $data;
+    /**
+     * Check if user owns template
+     *
+     * @param int $template_id
+     * @param string $user_id
+     * 
+     * @return boolean
+     */
+    protected function hasUserTemplate($template_id, $user_id)
+    {
+        return DB::has('templates', [
+            'id' => $template_id,
+            'user_id' => $user_id
+        ]);
     }
 }

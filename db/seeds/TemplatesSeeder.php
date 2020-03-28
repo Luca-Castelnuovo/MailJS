@@ -17,10 +17,10 @@ class TemplatesSeeder extends AbstractSeed
     {
         $faker = Faker\Factory::create();
         $data = [];
-        
+
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
-                'owner_id'           => $faker->userName,
+                'user_id'        => $faker->userName,
                 'name'           => $faker->userName,
                 'captcha_key'    => $faker->md5,
                 'email_to'       => $faker->email,
