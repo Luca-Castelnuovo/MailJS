@@ -33,7 +33,7 @@ class JSONMiddleware implements Middleware
                 return $next($request);
             }
 
-            if (!StringHelper::contains($request->getHeaders()['content-type'][0], '/json')) {
+            if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
                 return new JsonResponse([
                     'success' => false,
                     'errors' => [
@@ -59,6 +59,7 @@ class JSONMiddleware implements Middleware
             }
 
             $request->data = $data;
+            $request->isJSON = true;
         }
 
         return $next($request);

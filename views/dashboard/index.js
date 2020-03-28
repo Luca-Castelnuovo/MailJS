@@ -2,6 +2,13 @@
 M.Modal.init(document.querySelectorAll('.modal'), {dismissible: false});
 M.CharacterCounter.init(document.querySelectorAll('input.character-counter'));
 
+const api = axios.create({
+    baseURL: '/',
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
 /**
  * Create
  */
@@ -11,13 +18,13 @@ createForm.addEventListener('submit', e => {
     const data = formDataToJSON(new FormData(createForm));
 
     disableAll();
-    axios.post('/template', data).then(async () => {
+    api.post('/template', data).then(async () => {
         M.toast({html: 'Template Created'});
         
         M.Modal.getInstance(document.querySelector('.modal#template-create')).close();
         await delay(750);
         location.reload();
-    }, error => {
+    }, async error => {
         M.toast({html: 'Error'});
         
         console.error(error);
@@ -37,13 +44,13 @@ editForms.forEach(form => {
         const data = formDataToJSON(new FormData(form));
 
         disableAll();
-        axios.put(`/template/${id}`, data).then(async () => {
+        api.put(`/template/${id}`, data).then(async () => {
             M.toast({html: 'Template Updated'});
             
             M.Modal.getInstance(document.querySelector(`.modal#template-${id}-edit`)).close();
             await delay(750);
             location.reload();
-        }, error => {
+        }, async error => {
             M.toast({html: 'Error'});
             
             console.error(error);
@@ -61,16 +68,15 @@ deleteForms.forEach(form =>
     form.addEventListener('submit', e => {
         e.preventDefault();
         const id = form.getAttribute('data-id');
-        const data = formDataToJSON(new FormData(form));
 
         disableAll();
-        axios.delete(`/template/${id}`, data).then(async () => {
+        api.delete(`/template/${id}`).then(async () => {
             M.toast({html: 'Template Deleted'});
             
             M.Modal.getInstance(document.querySelector(`.modal#template-${id}-delete`)).close();
             await delay(750);
             location.reload();
-        }, error => {
+        }, async error => {
             M.toast({html: 'Error'});
             
             console.error(error);

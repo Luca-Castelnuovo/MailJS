@@ -20,14 +20,14 @@ $router->get('/auth/login', 'AuthController@login');
 $router->get('/auth/callback', 'AuthController@callback');
 $router->get('/auth/logout', 'AuthController@logout');
 
-$router->group(['middleware' => JSONMiddleware::class, SessionMiddleware::class], function (Router $router) {
+$router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class]], function (Router $router) {
     $router->post('/template', 'TemplateController@create');
     $router->put('/template/{id}', 'TemplateController@update');
     $router->delete('/template/{id}', 'TemplateController@delete');
 });
 
-$router->group(['middleware' => [CORSMiddleware::class, JSONMiddleware::class, JWTMiddleware::class]], function (Router $router) {
-    $router->post('/submission/json', 'SubmissionController@json');
+$router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class]], function (Router $router) {
+    $router->post('/submission/json', 'SubmissionController@json', JSONMiddleware::class);
     $router->post('/submission/form', 'SubmissionController@form');
 });
 

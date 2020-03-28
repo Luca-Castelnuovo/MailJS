@@ -30,7 +30,7 @@ class AuthController extends Controller
      *
      * @return RedirectResponse
      */
-    public function login(ServerRequest $request)
+    public function login()
     {
         $authUrl = $this->provider->getAuthorizationUrl();
         $_SESSION['state'] = $this->provider->getState();
@@ -41,6 +41,8 @@ class AuthController extends Controller
     /**
      * Callback for OAuth
      *
+     * @param ServerRequest $request
+     * 
      * @return RedirectResponse
      */
     public function callback(ServerRequest $request)
