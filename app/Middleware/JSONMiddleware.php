@@ -23,10 +23,13 @@ class JSONMiddleware implements Middleware
         if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])) {
             // Endpoints which don't recieve JSON data
             $bypass_filter = [
-                'webhooks/order',
+                'submission/form',
             ];
 
+            // TODO: check why getUri() is empty
             if (in_array($request->getUri(), $bypass_filter)) {
+                $request->data = $request->getParsedBody();
+
                 return $next($request);
             }
 
@@ -36,8 +39,8 @@ class JSONMiddleware implements Middleware
                     'errors' => [
                         'status' => 400,
                         'title' => 'invalid_content_type',
-                        'detail' => 'Content-Type should be "application/json"',
-                        'extra' => $request->getHeaders()['content-type'][0]
+                        'detail' => "Content-Type should be 'application/json'",
+                        'extra' => $request->getUri()
                     ]
                 ], 400);
             }

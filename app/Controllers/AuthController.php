@@ -19,9 +19,9 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->provider = new Github([
-            'clientId'     => config('oauth')['client_id'],
-            'clientSecret' => config('oauth')['client_secret'],
-            'redirectUri'  => config('oauth')['redirect_url'],
+            'clientId'     => config('auth')['client_id'],
+            'clientSecret' => config('auth')['client_secret'],
+            'redirectUri'  => config('auth')['redirect_url'],
         ]);
     }
 
@@ -57,11 +57,12 @@ class AuthController extends Controller
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
             $user_id = $this->provider->getResourceOwner($token)->getNickname(); // TODO: escape the user_id
 
-            if (!in_array($user_id, config('oauth')['allowed_users'])) {
+            if (!in_array($user_id, config('auth')['allowed_users'])) {
                 return $this->logout('account not allowed');
             }
 
             $_SESSION['user_id'] = $user_id;
+            $_SESSION['last_activity'] = time();
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
         } catch (Exception $e) {
             return $this->logout($e);
@@ -77,7 +78,7 @@ class AuthController extends Controller
      *
      * @return RedirectResponse
      */
-    public function logout($message = null)
+    public function logout($message = 'You have been logged out!')
     {
         session_destroy();
         session_start();

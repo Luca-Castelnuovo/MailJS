@@ -10,7 +10,7 @@ createForm.addEventListener('submit', e => {
     e.preventDefault();
     const data = formDataToJSON(new FormData(createForm));
 
-    disableAll(true);
+    disableAll();
     axios.post('/template', data).then(async () => {
         M.toast({html: 'Template Created'});
         
@@ -20,8 +20,9 @@ createForm.addEventListener('submit', e => {
     }, error => {
         M.toast({html: 'Error'});
         
-        disableAll(false);
         console.error(error);
+        await delay(750);
+        location.reload();
     });
 });
 
@@ -35,7 +36,7 @@ editForms.forEach(form => {
         const id = form.getAttribute('data-id');
         const data = formDataToJSON(new FormData(form));
 
-        disableAll(true);
+        disableAll();
         axios.put(`/template/${id}`, data).then(async () => {
             M.toast({html: 'Template Updated'});
             
@@ -45,8 +46,9 @@ editForms.forEach(form => {
         }, error => {
             M.toast({html: 'Error'});
             
-            disableAll(false);
             console.error(error);
+            await delay(750);
+            location.reload();
         });
     });
 });
@@ -61,7 +63,7 @@ deleteForms.forEach(form =>
         const id = form.getAttribute('data-id');
         const data = formDataToJSON(new FormData(form));
 
-        disableAll(true);
+        disableAll();
         axios.delete(`/template/${id}`, data).then(async () => {
             M.toast({html: 'Template Deleted'});
             
@@ -71,8 +73,9 @@ deleteForms.forEach(form =>
         }, error => {
             M.toast({html: 'Error'});
             
-            disableAll(false);
             console.error(error);
+            await delay(750);
+            location.reload();
         });
     })
 );

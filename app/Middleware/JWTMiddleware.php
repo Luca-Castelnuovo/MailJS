@@ -7,7 +7,7 @@ use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
 
-class AuthMiddleware implements Middleware
+class JWTMiddleware implements Middleware
 {
     /**
      * Validate JWT token.

@@ -41,12 +41,13 @@ function config($key, $fallback = null)
                 'allow_headers' => ['Authorization', 'Content-Type'],
                 'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
             ],
-            'oauth' => [
+            'auth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
                 // 'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
                 'redirect_url' => 'http://localhost:8080/auth/callback',
                 'allowed_users' => $configExternal->allowed_users,
+                'session_expires' => 1800 // 30 min
             ]
         ];
     }

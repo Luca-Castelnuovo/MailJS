@@ -14,7 +14,7 @@ class TemplateController extends Controller
      */
     public function create(ServerRequest $request)
     {
-        // validate parameters
+        // TODO: validate parameters
 
         DB::create(
             'templates',
@@ -51,7 +51,7 @@ class TemplateController extends Controller
             );
         }
 
-        // validate parameters
+        // TODO: validate parameters
 
         $template = DB::get('templates', '*', $id);
 
