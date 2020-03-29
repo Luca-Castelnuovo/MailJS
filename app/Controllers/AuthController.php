@@ -87,7 +87,7 @@ class AuthController extends Controller
     {
         SessionHelper::destroy();
 
-        if ($message !== null) {
+        if ($message) {
             $message = JWTHelper::create('message', [
                 'message' => $message
             ], 5);
