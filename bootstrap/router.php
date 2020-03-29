@@ -1,12 +1,13 @@
 <?php
 
+use App\Middleware\CORSMiddleware;
+use App\Middleware\JSONMiddleware;
+use App\Middleware\FormMiddleware;
+use App\Middleware\JWTMiddleware;
+use App\Middleware\SessionMiddleware;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Zend\Diactoros\Response\RedirectResponse;
-use App\Middleware\CORSMiddleware;
-use App\Middleware\JSONMiddleware;
-use App\Middleware\JWTMiddleware;
-use App\Middleware\SessionMiddleware;
 
 $router = new Router('', 'App\Controllers');
 $router->define('code', '[0-9]+');
@@ -30,14 +31,14 @@ $router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class
 
 $router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class]], function (Router $router) {
     $router->post('/submission/json', 'SubmissionController@json', JSONMiddleware::class);
-    $router->post('/submission/form', 'SubmissionController@form');
+    $router->post('/submission/form', 'SubmissionController@form', FormMiddleware::class);
 });
 
 
 try {
     $router->dispatch();
 } catch (RouteNotFoundException $e) {
-    $router->getPublisher()->publish(new RedirectResponse('/error/404'));
+    $router->getPublisher()->publish(new RedirectResponse('/error/404', 404));
 } catch (Throwable $e) {
-    $router->getPublisher()->publish(new RedirectResponse("/error/500?e={$e}"));
+    $router->getPublisher()->publish(new RedirectResponse("/error/500?e={$e}", 500));
 }

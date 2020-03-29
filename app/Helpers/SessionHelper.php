@@ -55,6 +55,7 @@ class SessionHelper
     {
         session_destroy();
         session_start();
+        session_regenerate_id();
     }
 
     /**

@@ -7,7 +7,6 @@ use App\Helpers\SessionHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\JWTHelper;
 use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response\RedirectResponse;
 use League\OAuth2\Client\Provider\Github;
 
 class AuthController extends Controller
@@ -38,7 +37,7 @@ class AuthController extends Controller
         $authUrl = $this->provider->getAuthorizationUrl();
         SessionHelper::set('state', $this->provider->getState());
 
-        return new RedirectResponse($authUrl);
+        return $this->redirect($authUrl);
     }
 
     /**
@@ -75,7 +74,7 @@ class AuthController extends Controller
             return $this->logout("Error: {$e}");
         }
 
-        return new RedirectResponse('/dashboard');
+        return $this->redirect('/dashboard');
     }
 
     /**
@@ -94,9 +93,9 @@ class AuthController extends Controller
                 'message' => $message
             ], 5);
 
-            return new RedirectResponse("/?msg={$message}");
+            return $this->redirect("/?msg={$message}");
         }
 
-        return new RedirectResponse('/');
+        return $this->redirect('/');
     }
 }

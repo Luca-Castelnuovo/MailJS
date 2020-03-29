@@ -5,6 +5,7 @@ namespace App\Controllers;
 use DB;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -38,6 +39,19 @@ class Controller
     {
         // TODO: if phprouter is updated pull from constructor
         return $data[$variable] ?: $fallback;
+    }
+
+    /**
+     * Shorthand redirect function
+     *
+     * @param string $to
+     * @param integer $code optional
+     * 
+     * @return RedirectResponse
+     */
+    protected function redirect($to, $code = 302)
+    {
+        return new RedirectResponse($to, $code);
     }
 
     /**

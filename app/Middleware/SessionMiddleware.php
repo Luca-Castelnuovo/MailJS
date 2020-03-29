@@ -23,18 +23,18 @@ class SessionMiddleware implements Middleware
         if (!SessionHelper::valid()) {
             SessionHelper::destroy();
 
-            if ($request->isJSON) {
-                return new JsonResponse([
-                    'success' => false,
-                    'errors' => [
-                        'status' => 403,
-                        'title' => 'invalid_session',
-                        'detail' => 'Session expired or IP mismatch'
-                    ]
-                ], 403);
+            if (!$request->isJSON) {
+                return new RedirectResponse('/auth/logout', 403);
             }
 
-            return new RedirectResponse('/auth/logout', 403);
+            return new JsonResponse([
+                'success' => false,
+                'errors' => [
+                    'status' => 403,
+                    'title' => 'invalid_session',
+                    'detail' => 'Session expired or IP mismatch'
+                ]
+            ], 403);
         }
 
         SessionHelper::set('last_activity', time());

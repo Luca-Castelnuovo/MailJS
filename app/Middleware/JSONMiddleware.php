@@ -20,27 +20,14 @@ class JSONMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])) {
-            // Endpoints which don't recieve JSON data
-            $bypass_filter = [
-                'submission/form',
-            ];
-
-            // TODO: check why getUri() is empty
-            if (in_array($request->getUri(), $bypass_filter)) {
-                $request->data = $request->getParsedBody();
-
-                return $next($request);
-            }
-
+        if (in_array($request->getMethod(), ['POST', 'PUT'])) {
             if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
                 return new JsonResponse([
                     'success' => false,
                     'errors' => [
                         'status' => 400,
                         'title' => 'invalid_content_type',
-                        'detail' => "Content-Type should be 'application/json'",
-                        'extra' => $request->getUri()
+                        'detail' => "Content-Type should be 'application/json'"
                     ]
                 ], 400);
             }

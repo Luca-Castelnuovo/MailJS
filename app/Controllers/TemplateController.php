@@ -33,7 +33,7 @@ class TemplateController extends Controller
                 'email_cc' => $request->data['email_cc'],
                 'email_bcc' => $request->data['email_bcc'],
                 'email_fromName' => $request->data['email_fromName'],
-                'email_subject' => $request->data['email_subject'],
+                'email_subject' => $request->data['email_subject']
             ]
         );
 
@@ -74,7 +74,7 @@ class TemplateController extends Controller
                 'email_fromName' => $request->data['email_fromName'] ?: $template['email_fromName'],
                 'email_subject' => $request->data['email_subject'] ?: $template['email_subject'],
                 // 'email_content' => $request->data['email_content'] ?: $template['email_content'],
-                'updated_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
             ],
             $id
         );
@@ -131,7 +131,7 @@ class TemplateController extends Controller
         ]);
 
         $key = JWTHelper::create('submission', [
-            'uuid' => $uuid,
+            'sub' => $uuid,
             'allowed_origin' => $request->data['allowed_origin']
         ]);
 
@@ -159,6 +159,7 @@ class TemplateController extends Controller
 
         DB::update('templates', [
             'uuid' => Uuid::uuid4()->toString(),
+            'updated_at' => date("Y-m-d H:i:s")
         ], $id);
 
         return $this->respondJson();
