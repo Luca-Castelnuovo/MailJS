@@ -56,7 +56,9 @@ class AuthController extends Controller
         if (empty($state) || ($state !== SessionHelper::get('state'))) {
             return $this->logout('Provided state is invalid!');
         }
-        SessionHelper::unset('state');
+
+        // Prevent session fixation
+        SessionHelper::destroy();
 
         try {
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);

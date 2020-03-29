@@ -1,7 +1,6 @@
 <?php
 
 use Phinx\Migration\AbstractMigration;
-use Phinx\Util\Literal;
 
 class Templates extends AbstractMigration
 {
@@ -35,6 +34,7 @@ class Templates extends AbstractMigration
         $templates = $this->table('templates');
         $templates->addColumn('user_id', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('name', 'string', ['limit' => 64, 'null' => false])
+            ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])
             ->addColumn('captcha_key', 'string', ['limit' => 64, 'null' => true])
 
             ->addColumn('email_to', 'string', ['limit' => 256, 'null' => false])
