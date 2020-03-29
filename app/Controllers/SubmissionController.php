@@ -22,6 +22,7 @@ class SubmissionController extends Controller
         try {
             $this->sendMail(
                 $request->uuid,
+                $request->data,
                 $request->getHeader('origin')
             );
         } catch (Exception $e) {
@@ -41,23 +42,18 @@ class SubmissionController extends Controller
     public function form(ServerRequest $request)
     {
         // TODO: validate parameters
-
         $redirect_to = $request->data['redirect_to']; //var required
 
         try {
             $this->sendMail(
                 $request->uuid,
+                $request->data,
                 $request->getHeader('origin')
             );
         } catch (Exception $e) {
-            return $this->redirect($redirect_to, 400);
-
-            return $this->respondJsonError('Mail Error', $e, 400);
+            return $this->redirect("{$redirect_to}?error={$e}", 400);
         }
 
-        return $this->respondJson();
-
-        // redirect, if error add error to header
         return $this->redirect($redirect_to);
     }
 
@@ -65,11 +61,12 @@ class SubmissionController extends Controller
      * Handle all logic
      *
      * @param string $uuid
+     * @param array $data
      * @param string $origin_header
      * 
      * @return void
      */
-    private function sendMail($uuid, $origin_header = null)
+    private function sendMail($uuid, $data, $origin_header = null)
     {
         $template = DB::get('templates', [
             'id',
@@ -82,8 +79,11 @@ class SubmissionController extends Controller
             'email_content'
         ], ['uuid' => $uuid]);
 
-        // build template
-        // send email
+        // if enabled check for captcha_response
+
+        // TODO: build template
+        // $data
+        // TODO: send email
 
         DB::create(
             'history',
