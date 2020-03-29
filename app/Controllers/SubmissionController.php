@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use DB;
 use Exception;
+use App\Helpers\CaptchaHelper;
 use Zend\Diactoros\ServerRequest;
 
 class SubmissionController extends Controller
@@ -70,6 +71,7 @@ class SubmissionController extends Controller
     {
         $template = DB::get('templates', [
             'id',
+            'captcha_key',
             'email_to',
             'email_replyTo',
             'email_cc',
@@ -79,7 +81,14 @@ class SubmissionController extends Controller
             'email_content'
         ], ['uuid' => $uuid]);
 
-        // if enabled check for captcha_response
+        if ($template['captcha_key']) {
+            if (!CaptchaHelper::validate(
+                $data['g-recaptcha-response'],
+                $template['captcha_key']
+            )) {
+                throw new Exception('Invalid captcha response');
+            }
+        }
 
         // TODO: build template
         // $data
