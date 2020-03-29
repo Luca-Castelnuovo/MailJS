@@ -3,7 +3,6 @@
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Zend\Diactoros\Response\RedirectResponse;
-
 use App\Middleware\CORSMiddleware;
 use App\Middleware\JSONMiddleware;
 use App\Middleware\JWTMiddleware;

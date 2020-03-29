@@ -16,6 +16,19 @@ function config($key, $fallback = null)
                 'ackee_domainid' => '',
                 'ackee_options' => '{ "detailed": true }',
             ],
+            'auth' => [
+                'client_id' => env('GITHUB_CIENT_ID'),
+                'client_secret' => env('GITHUB_CLIENT_SECRET'),
+                // 'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
+                'redirect_url' => 'http://localhost:8080/auth/callback',
+                'allowed_users' => $configExternal->allowed_users,
+                'session_expires' => 1800 // 30 min
+            ],
+            'cors' => [
+                'allow_origins' => ['*'],
+                'allow_headers' => ['Authorization', 'Content-Type'],
+                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+            ],
             'database' => [
                 'host' => env('DB_HOST'),
                 'port' => env('DB_PORT'),
@@ -29,25 +42,15 @@ function config($key, $fallback = null)
                 'iss' => env('JWT_ISS'),
                 'secret' => env('JWT_SECRET'),
             ],
+            'sentry' => [
+                'dsn' => 'https://20ba7ab4da6941e5b8daf9e51b3791af@sentry.io/5178923'
+            ],
             'smtp' => [
                 'host' => env('SMTP_HOST'),
                 'port' => env('SMTP_PORT'),
                 'username' => env('SMTP_USER'),
                 'password' => env('SMTP_PASSWORD'),
                 'ssl' => env('SMTP_USESSL'),
-            ],
-            'cors' => [
-                'allow_origins' => ['*'],
-                'allow_headers' => ['Authorization', 'Content-Type'],
-                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-            ],
-            'auth' => [
-                'client_id' => env('GITHUB_CIENT_ID'),
-                'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                // 'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
-                'redirect_url' => 'http://localhost:8080/auth/callback',
-                'allowed_users' => $configExternal->allowed_users,
-                'session_expires' => 1800 // 30 min
             ]
         ];
     }

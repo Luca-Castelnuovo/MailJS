@@ -9,9 +9,9 @@ class TemplateController extends Controller
 {
     /**
      * Create template
-     * 
+     *
      * @param ServerRequest $request
-     * 
+     *
      * @return JsonResponse
      */
     public function create(ServerRequest $request)
@@ -22,14 +22,14 @@ class TemplateController extends Controller
             'templates',
             [
                 'user_id' => $_SESSION['user_id'],
-                'name' => $this->get($request->data, 'name'),
-                'captcha_key' => $this->get($request->data, 'captcha_key'),
-                'email_to' => $this->get($request->data, 'email_to'),
-                'email_replyTo' => $this->get($request->data, 'email_replyTo'),
-                'email_cc' => $this->get($request->data, 'email_cc'),
-                'email_bcc' => $this->get($request->data, 'email_bcc'),
-                'email_fromName' => $this->get($request->data, 'email_fromName'),
-                'email_subject' => $this->get($request->data, 'email_subject')
+                'name' => $request->data['name'],
+                'captcha_key' => $request->data['captcha_key'],
+                'email_to' => $request->data['email_to'],
+                'email_replyTo' => $request->data['email_replyTo'],
+                'email_cc' => $request->data['email_cc'],
+                'email_bcc' => $request->data['email_bcc'],
+                'email_fromName' => $request->data['email_fromName'],
+                'email_subject' => $request->data['email_subject'],
             ]
         );
 
@@ -41,7 +41,7 @@ class TemplateController extends Controller
      *
      * @param ServerRequest $request
      * @param int $id
-     * 
+     *
      * @return JsonResponse
      */
     public function update(ServerRequest $request, $id)
@@ -61,16 +61,16 @@ class TemplateController extends Controller
         DB::update(
             'templates',
             [
-                'name' => $this->get($request->data, 'name', $template['name']),
-                'captcha_key' => $this->get($request->data, 'captcha_key', $template['captcha_key']),
-                'email_to' => $this->get($request->data, 'email_to', $template['email_to']),
-                'email_replyTo' => $this->get($request->data, 'email_replyTo', $template['email_replyTo']),
-                'email_cc' => $this->get($request->data, 'email_cc', $template['email_cc']),
-                'email_bcc' => $this->get($request->data, 'email_bcc', $template['email_bcc']),
-                'email_fromName' => $this->get($request->data, 'email_fromName', $template['email_fromName']),
-                'email_subject' => $this->get($request->data, 'email_subject', $template['email_subject']),
-                // 'email_content' => $this->get($request->data, 'email_content', $template['email_content']),
-                'updated_at' => date("Y-m-d H:i:s")
+                'name' => $request->data['name'] ?: $template['name'],
+                'captcha_key' => $request->data['captcha_key'] ?: $template['captcha_key'],
+                'email_to' => $request->data['email_to'] ?: $template['email_to'],
+                'email_replyTo' => $request->data['email_replyTo'] ?: $template['email_replyTo'],
+                'email_cc' => $request->data['email_cc'] ?: $template['email_cc'],
+                'email_bcc' => $request->data['email_bcc'] ?: $template['email_bcc'],
+                'email_fromName' => $request->data['email_fromName'] ?: $template['email_fromName'],
+                'email_subject' => $request->data['email_subject'] ?: $template['email_subject'],
+                // 'email_content' => $request->data['email_content'] ?: $template['email_content'],
+                'updated_at' => date("Y-m-d H:i:s"),
             ],
             $id
         );
@@ -80,7 +80,7 @@ class TemplateController extends Controller
 
     /**
      * Delete template
-     * 
+     *
      * @param int $id
      *
      * @return JsonResponse
@@ -96,7 +96,7 @@ class TemplateController extends Controller
         }
 
         DB::delete('templates', [
-            'id' => $id
+            'id' => $id,
         ]);
 
         return $this->respondJson();
