@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Helpers\SessionHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -19,12 +20,8 @@ class SessionMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        $ip_match = $_SESSION['ip'] === $_SERVER['REMOTE_ADDR'];
-        $session_valid = time() - $_SESSION['last_activity'] < config('auth')['session_expires'];
-
-        if (!$ip_match || !$session_valid) {
-            session_destroy();
-            session_start();
+        if (!SessionHelper::valid()) {
+            SessionHelper::destroy();
 
             if ($request->isJSON) {
                 return new JsonResponse([
@@ -40,7 +37,7 @@ class SessionMiddleware implements Middleware
             return new RedirectResponse('/auth/logout', 403);
         }
 
-        $_SESSION['last_activity'] = time();
+        SessionHelper::set('last_activity', time());
 
         return $next($request);
     }

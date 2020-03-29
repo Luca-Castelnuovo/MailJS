@@ -16,4 +16,20 @@ class StringHelper
     {
         return strpos($haystack, $needle) !== false;
     }
+
+    /**
+     * Escape a string
+     *
+     * @param string $string
+     * 
+     * @return string
+     */
+    public static function escape($string)
+    {
+        $string = trim($string);
+        $string = htmlspecialchars($string);
+        $string = stripslashes($string);
+
+        return $string;
+    }
 }

@@ -2,16 +2,34 @@
 
 namespace App\Controllers;
 
+use Exception;
+use App\Helpers\JWTHelper;
+use App\Helpers\SessionHelper;
+use Zend\Diactoros\ServerRequest;
+
 class GeneralController extends Controller
 {
     /**
      * Login screen
-     *
+     * 
      * @return HtmlResponse
      */
-    public function index()
+    public function index(ServerRequest $request)
     {
-        return $this->respond('index.twig');
+        $msg = $request->getQueryParams()['msg'] ?: '';
+
+        if ($msg) {
+            try {
+                $claims = JWTHelper::valid('message', $msg);
+                $msg = $claims->message;
+            } catch (Exception $e) {
+                $msg = '';
+            }
+        }
+
+        return $this->respond('index.twig', [
+            'message' => $msg
+        ]);
     }
 
     /**
@@ -61,8 +79,10 @@ class GeneralController extends Controller
      */
     public function dashboard()
     {
-        $templates = $this->getUserTemplates($_SESSION['user_id']);
+        $templates = $this->getUserTemplates(SessionHelper::get('user_id'));
 
-        return $this->respond('dashboard.twig', ['templates' => $templates]);
+        return $this->respond('dashboard.twig', [
+            'templates' => $templates
+        ]);
     }
 }

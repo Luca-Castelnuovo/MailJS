@@ -36,11 +36,15 @@ function config($key, $fallback = null)
                 'username' => env('DB_USERNAME'),
                 'password' => env('DB_PASSWORD'),
             ],
+            'hmac' => [
+                'algorithm' => 'sha256',
+                'secret' => env('APP_KEY'),
+            ],
             'jwt' => [
-                'algorithm' => 'HS256',
+                'iss' => env('APP_URL'),
                 'ttl' => 31536000, // 1 year
-                'iss' => env('JWT_ISS'),
-                'secret' => env('JWT_SECRET'),
+                'algorithm' => 'HS256',
+                'secret' => env('APP_KEY'),
             ],
             'sentry' => [
                 'dsn' => 'https://20ba7ab4da6941e5b8daf9e51b3791af@sentry.io/5178923'

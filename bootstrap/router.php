@@ -36,6 +36,5 @@ try {
 } catch (RouteNotFoundException $e) {
     $router->getPublisher()->publish(new RedirectResponse('/error/404'));
 } catch (Throwable $e) {
-    // TODO: add logger for 500 errors
     $router->getPublisher()->publish(new RedirectResponse("/error/500?e={$e}"));
 }

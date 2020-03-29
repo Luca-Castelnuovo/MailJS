@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use Exception;
+use App\Helpers\SessionHelper;
+use App\Helpers\StringHelper;
+use App\Helpers\JWTHelper;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response\RedirectResponse;
 use League\OAuth2\Client\Provider\Github;
@@ -33,7 +36,7 @@ class AuthController extends Controller
     public function login()
     {
         $authUrl = $this->provider->getAuthorizationUrl();
-        $_SESSION['state'] = $this->provider->getState();
+        SessionHelper::set('state', $this->provider->getState());
 
         return new RedirectResponse($authUrl);
     }
@@ -50,24 +53,24 @@ class AuthController extends Controller
         $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (empty($state) || ($state !== $_SESSION['state'])) {
-            return $this->logout('invalid state');
+        if (empty($state) || ($state !== SessionHelper::get('state'))) {
+            return $this->logout('Provided state is invalid!');
         }
-        unset($_SESSION['state']);
+        SessionHelper::unset('state');
 
         try {
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user_id = $this->provider->getResourceOwner($token)->getNickname(); // TODO: escape the user_id
+            $user_id = StringHelper::escape($this->provider->getResourceOwner($token)->getNickname());
 
             if (!in_array($user_id, config('auth')['allowed_users'])) {
-                return $this->logout('account not allowed');
+                return $this->logout('Your account has not been authorized!');
             }
 
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['last_activity'] = time();
-            $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+            SessionHelper::set('user_id', $user_id);
+            SessionHelper::set('last_activity', time());
+            SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
         } catch (Exception $e) {
-            return $this->logout($e);
+            return $this->logout("Error: {$e}");
         }
 
         return new RedirectResponse('/dashboard');
@@ -82,11 +85,14 @@ class AuthController extends Controller
      */
     public function logout($message = 'You have been logged out!')
     {
-        session_destroy();
-        session_start();
+        SessionHelper::destroy();
 
         if ($message !== null) {
-            return new RedirectResponse('/?message=' . $message); // TODO: read this and display on the frontend (like in a clossable banner above the login btn)
+            $message = JWTHelper::create('message', [
+                'message' => $message
+            ], 5);
+
+            return new RedirectResponse("/?msg={$message}");
         }
 
         return new RedirectResponse('/');

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use DB;
+use App\Helpers\SessionHelper;
 use Zend\Diactoros\ServerRequest;
 
 class TemplateController extends Controller
@@ -21,7 +22,7 @@ class TemplateController extends Controller
         DB::create(
             'templates',
             [
-                'user_id' => $_SESSION['user_id'],
+                'user_id' => SessionHelper::get('user_id'),
                 'name' => $request->data['name'],
                 'captcha_key' => $request->data['captcha_key'],
                 'email_to' => $request->data['email_to'],
@@ -46,7 +47,7 @@ class TemplateController extends Controller
      */
     public function update(ServerRequest $request, $id)
     {
-        if (!$this->hasUserTemplate($id, $_SESSION['user_id'])) {
+        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',
@@ -87,7 +88,7 @@ class TemplateController extends Controller
      */
     public function delete($id)
     {
-        if (!$this->hasUserTemplate($id, $_SESSION['user_id'])) {
+        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',
