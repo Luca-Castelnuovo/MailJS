@@ -28,7 +28,8 @@ class GeneralController extends Controller
         }
 
         return $this->respond('index.twig', [
-            'message' => $msg
+            'message' => $msg,
+            'logged_in' => SessionHelper::valid()
         ]);
     }
 

@@ -18,9 +18,15 @@
                     </div>
                 {% endif %}
                 <div class="row center">
-                    <a class="waves-effect waves-light btn-large blue accent-4" href="/auth/login">
-                        Login with GitHub
-                    </a>
+                    {% if logged_in %}
+                        <a class="waves-effect waves-light btn-large blue accent-4" href="/dashboard">
+                            Go to dashboard
+                        </a>
+                    {% else %}
+                        <a class="waves-effect waves-light btn-large blue accent-4" href="/auth/login">
+                            Login with GitHub
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
