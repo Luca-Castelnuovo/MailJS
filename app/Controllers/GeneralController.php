@@ -50,6 +50,10 @@ class GeneralController extends Controller
                 $short_message = 'Oops! Page not found';
                 $message = 'We are sorry, but the page you requested was not found';
                 break;
+            case '422':
+                $short_message = 'Oops! Parameters missing';
+                $message = 'The page you requested missed required parameters';
+                break;
             case '500':
                 $short_message = 'Oops! Server error';
                 $message = 'We are experiencing some technical issues';

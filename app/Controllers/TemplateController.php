@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use DB;
+use Exception;
 use App\Helpers\SessionHelper;
 use App\Helpers\JWTHelper;
+use App\Validators\TemplateValidator;
 use Ramsey\Uuid\Uuid;
 use Zend\Diactoros\ServerRequest;
 
@@ -19,21 +21,29 @@ class TemplateController extends Controller
      */
     public function create(ServerRequest $request)
     {
-        // TODO: validate parameters
+        try {
+            TemplateValidator::create($request->data);
+        } catch (Exception $e) {
+            return $this->respondJsonError(
+                'invalid_input',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
 
         DB::create(
             'templates',
             [
                 'user_id' => SessionHelper::get('user_id'),
-                'name' => $request->data['name'],
+                'name' => $request->data->name,
                 'uuid' => Uuid::uuid4()->toString(),
-                'captcha_key' => $request->data['captcha_key'],
-                'email_to' => $request->data['email_to'],
-                'email_replyTo' => $request->data['email_replyTo'],
-                'email_cc' => $request->data['email_cc'],
-                'email_bcc' => $request->data['email_bcc'],
-                'email_fromName' => $request->data['email_fromName'],
-                'email_subject' => $request->data['email_subject']
+                'captcha_key' => $request->data->captcha_key,
+                'email_to' => $request->data->email_to,
+                'email_replyTo' => $request->data->email_replyTo,
+                'email_cc' => $request->data->email_cc,
+                'email_bcc' => $request->data->email_bcc,
+                'email_fromName' => $request->data->email_fromName,
+                'email_subject' => $request->data->email_subject
             ]
         );
 
@@ -58,22 +68,30 @@ class TemplateController extends Controller
             );
         }
 
-        // TODO: validate parameters
+        try {
+            TemplateValidator::update($request->data);
+        } catch (Exception $e) {
+            return $this->respondJsonError(
+                'invalid_input',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
 
         $template = DB::get('templates', '*', $id);
 
         DB::update(
             'templates',
             [
-                'name' => $request->data['name'] ?: $template['name'],
-                'captcha_key' => $request->data['captcha_key'] ?: $template['captcha_key'],
-                'email_to' => $request->data['email_to'] ?: $template['email_to'],
-                'email_replyTo' => $request->data['email_replyTo'] ?: $template['email_replyTo'],
-                'email_cc' => $request->data['email_cc'] ?: $template['email_cc'],
-                'email_bcc' => $request->data['email_bcc'] ?: $template['email_bcc'],
-                'email_fromName' => $request->data['email_fromName'] ?: $template['email_fromName'],
-                'email_subject' => $request->data['email_subject'] ?: $template['email_subject'],
-                // 'email_content' => $request->data['email_content'] ?: $template['email_content'],
+                'name' => $request->data->name ?: $template['name'],
+                'captcha_key' => $request->data->captcha_key ?: $template['captcha_key'],
+                'email_to' => $request->data->email_to ?: $template['email_to'],
+                'email_replyTo' => $request->data->email_replyTo ?: $template['email_replyTo'],
+                'email_cc' => $request->data->email_cc ?: $template['email_cc'],
+                'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
+                'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
+                'email_subject' => $request->data->email_subject ?: $template['email_subject'],
+                // 'email_content' => $request->data->email_content ?: $template['email_content'],
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             $id
@@ -124,7 +142,15 @@ class TemplateController extends Controller
             );
         }
 
-        // TODO: validate parameters
+        try {
+            TemplateValidator::createKey($request->data);
+        } catch (Exception $e) {
+            return $this->respondJsonError(
+                'invalid_input',
+                json_decode($e->getMessage()),
+                422
+            );
+        }
 
         $uuid = DB::get('templates', 'uuid', [
             'id' => $id
@@ -132,7 +158,7 @@ class TemplateController extends Controller
 
         $key = JWTHelper::create('submission', [
             'sub' => $uuid,
-            'allowed_origin' => $request->data['allowed_origin']
+            'allowed_origin' => $request->data->allowed_origin
         ]);
 
         return $this->respondJson([

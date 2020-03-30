@@ -32,7 +32,7 @@ class JSONMiddleware implements Middleware
                 ], 400);
             }
 
-            $data = json_decode($request->getBody()->getContents(), true);
+            $data = json_decode($request->getBody()->getContents());
 
             if ((JSON_ERROR_NONE !== json_last_error())) {
                 return new JsonResponse([

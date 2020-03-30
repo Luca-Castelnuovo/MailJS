@@ -5,7 +5,9 @@ namespace App\Controllers;
 use DB;
 use Exception;
 use App\Helpers\CaptchaHelper;
+use App\Validators\SubmissionValidator;
 use Zend\Diactoros\ServerRequest;
+
 
 class SubmissionController extends Controller
 {
@@ -18,16 +20,14 @@ class SubmissionController extends Controller
      */
     public function json(ServerRequest $request)
     {
-        // TODO: validate parameters
-
         try {
             $this->sendMail(
                 $request->uuid,
                 $request->data,
-                $request->getHeader('origin')
+                $request->origin
             );
         } catch (Exception $e) {
-            return $this->respondJsonError('Mail Error', $e, 400);
+            return $this->respondJsonError('Mail Error', $e->getMessage(), 400);
         }
 
         return $this->respondJson();
@@ -42,17 +42,22 @@ class SubmissionController extends Controller
      */
     public function form(ServerRequest $request)
     {
-        // TODO: validate parameters
-        $redirect_to = $request->data['redirect_to']; //var required
+        $redirect_to = $request->data->redirect_to ?: '/error/422';
+
+        try {
+            SubmissionValidator::form($request->data);
+        } catch (Exception $e) {
+            return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 422);
+        }
 
         try {
             $this->sendMail(
                 $request->uuid,
                 $request->data,
-                $request->getHeader('origin')
+                $request->origin
             );
         } catch (Exception $e) {
-            return $this->redirect("{$redirect_to}?error={$e}", 400);
+            return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 400);
         }
 
         return $this->redirect($redirect_to);
@@ -67,7 +72,7 @@ class SubmissionController extends Controller
      * 
      * @return void
      */
-    private function sendMail($uuid, $data, $origin_header = null)
+    private function sendMail($uuid, $data, $origin_header)
     {
         $template = DB::get('templates', [
             'id',
@@ -91,6 +96,7 @@ class SubmissionController extends Controller
         }
 
         // TODO: build template
+        // if var empty just leave empty
         // $data
         // TODO: send email
 
@@ -103,8 +109,6 @@ class SubmissionController extends Controller
             ]
         );
 
-        if (false) {
-            throw new Exception('Mail server connection not allowed');
-        }
+        // throw new Exception('Mail server connection not allowed');
     }
 }
