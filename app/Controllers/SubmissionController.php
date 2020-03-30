@@ -7,6 +7,7 @@ use Exception;
 use App\Helpers\CaptchaHelper;
 use App\Validators\SubmissionValidator;
 use Zend\Diactoros\ServerRequest;
+use Zend\Diactoros\Response\HtmlResponse;
 
 
 class SubmissionController extends Controller
@@ -42,11 +43,13 @@ class SubmissionController extends Controller
      */
     public function form(ServerRequest $request)
     {
-        $redirect_to = $request->data->redirect_to ?: '/error/422';
+        $redirect_to = $request->data->redirect_to ?: $request->referer;
 
         try {
             SubmissionValidator::form($request->data);
         } catch (Exception $e) {
+            return new HtmlResponse($e->getMessage()); // TODO: remove debug
+            exit;
             return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 422);
         }
 
@@ -60,7 +63,9 @@ class SubmissionController extends Controller
             return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 400);
         }
 
-        return $this->redirect($redirect_to);
+
+        return $redirect_to;
+        // return $this->redirect($redirect_to);
     }
 
     /**

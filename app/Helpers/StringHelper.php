@@ -18,6 +18,19 @@ class StringHelper
     }
 
     /**
+     * Determines if the given string starts with the given value
+     *
+     * @param string $haystack
+     * @param string $start
+     * 
+     * @return bool
+     */
+    public static function beginsWith($haystack, $start)
+    {
+        return substr($haystack, 0, strlen($start)) === $start;
+    }
+
+    /**
      * Escape a string
      *
      * @param string $string
