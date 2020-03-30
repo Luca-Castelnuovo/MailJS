@@ -33,6 +33,7 @@ class History extends AbstractMigration
     {
         $history = $this->table('history');
         $history->addColumn('template_id', 'integer')
+            ->addColumn('template_params', 'text')
             ->addColumn('user_ip', 'string', ['limit' => 39])
             ->addColumn('origin', 'string', ['limit' => 256])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])

@@ -43,16 +43,16 @@ class JWTMiddleware implements Middleware
         // TODO: fix origin system
         $origin_header = $request->getHeader('origin')[0];
         $referer_header = $request->getHeader('referer')[0];
-        if ($origin_header !== $credentials->allowed_origin) {
-            // return new JsonResponse([
-            //     'success' => false,
-            //     'errors' => [
-            //         'status' => 401,
-            //         'title' => 'invalid_origin',
-            //         'detail' => "Provided origin doesn't match allowed origin"
-            //     ]
-            // ], 401);
-        }
+        // if ($origin_header !== $credentials->allowed_origin) {
+        // return new JsonResponse([
+        //     'success' => false,
+        //     'errors' => [
+        //         'status' => 401,
+        //         'title' => 'invalid_origin',
+        //         'detail' => "Provided origin doesn't match allowed origin"
+        //     ]
+        // ], 401);
+        // }
 
         if (!DB::has('templates', ['uuid' =>  $credentials->sub])) {
             return new JsonResponse([

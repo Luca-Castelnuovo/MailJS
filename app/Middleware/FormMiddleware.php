@@ -33,6 +33,8 @@ class FormMiddleware implements Middleware
 
             $request->data = (object) $request->getParsedBody();
             $request->isJSON = false;
+
+            unset($request->data->authorization);
         }
 
         return $next($request);

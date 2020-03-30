@@ -108,7 +108,7 @@ class SubmissionController extends Controller
 
         if ($template['captcha_key']) {
             if (!CaptchaHelper::validate(
-                $data['g-recaptcha-response'],
+                $data->{"g-recaptcha-response"},
                 $template['captcha_key']
             )) {
                 throw new Exception('Invalid captcha response');
@@ -120,15 +120,15 @@ class SubmissionController extends Controller
         // $data
         // TODO: send email
 
+        // TODO: if error insert into DB
         DB::create(
             'history',
             [
                 'template_id' => $template['id'],
+                'template_params' => json_encode($data),
                 'user_ip' => $_SERVER['REMOTE_ADDR'],
                 'origin' => $origin_header ?: 'unknown',
             ]
         );
-
-        // throw new Exception('Mail server connection not allowed');
     }
 }
