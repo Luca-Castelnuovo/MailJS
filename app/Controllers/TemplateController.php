@@ -60,6 +60,8 @@ class TemplateController extends Controller
      */
     public function update(ServerRequest $request, $id)
     {
+        // TODO: update function doesn't work
+
         if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',

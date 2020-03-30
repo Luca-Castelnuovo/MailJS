@@ -2,6 +2,7 @@
 M.Modal.init(document.querySelectorAll('.modal'), {dismissible: false});
 M.CharacterCounter.init(document.querySelectorAll('input.character-counter'));
 
+// Bootstrap axios instance
 const api = axios.create({
     baseURL: '/',
     headers: {

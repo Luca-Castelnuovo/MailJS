@@ -49,7 +49,6 @@ class SubmissionController extends Controller
             SubmissionValidator::form($request->data);
         } catch (Exception $e) {
             return new HtmlResponse($e->getMessage()); // TODO: remove debug
-            exit;
             return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 422);
         }
 
@@ -63,9 +62,7 @@ class SubmissionController extends Controller
             return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 400);
         }
 
-
-        return $redirect_to;
-        // return $this->redirect($redirect_to);
+        return $this->redirect($redirect_to);
     }
 
     /**
