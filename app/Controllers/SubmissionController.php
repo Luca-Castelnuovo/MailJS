@@ -64,6 +64,26 @@ class SubmissionController extends Controller
     }
 
     /**
+     * Get history connected to template_id
+     *
+     * @param string $template_id
+     * 
+     * @return JsonResponse
+     */
+    public function history($template_id)
+    {
+        $history = DB::select('history', [
+            'user_ip',
+            'origin',
+            'created_at'
+        ], [
+            'template_id' => $template_id
+        ]);
+
+        return $this->respondJson($history);
+    }
+
+    /**
      * Handle all logic
      *
      * @param string $uuid

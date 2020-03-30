@@ -6,8 +6,6 @@ use Respect\Validation\Validator as v;
 
 class SubmissionValidator extends ValidatorBase
 {
-    // TODO: create Validators
-
     /**
      * Validate form submission
      *
@@ -17,10 +15,7 @@ class SubmissionValidator extends ValidatorBase
      */
     public static function form($data)
     {
-        $v = v::attribute('redirect_to', v::stringType()->length(1, 32))
-            ->attribute('birthdate', v::date()->age(18));
-
-        // redirect_to
+        $v = v::attribute('redirect_to', v::url());
 
         SubmissionValidator::validate($v, $data);
     }

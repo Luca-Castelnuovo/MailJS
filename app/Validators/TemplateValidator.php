@@ -6,8 +6,6 @@ use Respect\Validation\Validator as v;
 
 class TemplateValidator extends ValidatorBase
 {
-    // TODO: create Validators
-
     /**
      * Validate json submission
      *
@@ -17,19 +15,14 @@ class TemplateValidator extends ValidatorBase
      */
     public static function create($data)
     {
-        $v = v::attribute('name', v::stringType()->length(1, 32))
-            ->attribute('birthdate', v::date()->age(18));
-
-        // [
-        //     'name' => $request->data->name,
-        //     'captcha_key' => $request->data->captcha_key,
-        //     'email_to' => $request->data->email_to,
-        //     'email_replyTo' => $request->data->email_replyTo,
-        //     'email_cc' => $request->data->email_cc,
-        //     'email_bcc' => $request->data->email_bcc,
-        //     'email_fromName' => $request->data->email_fromName,
-        //     'email_subject' => $request->data->email_subject
-        // ]
+        $v = v::attribute('name', v::alnum()->length(1, 64))
+            ->attribute('captcha_key', v::alnum()->length(0, 64))
+            ->attribute('email_to', v::stringType()->length(1, 256))
+            ->attribute('email_replyTo', v::stringType()->length(0, 256))
+            ->attribute('email_cc', v::stringType()->length(0, 256))
+            ->attribute('email_bcc', v::stringType()->length(0, 256))
+            ->attribute('email_fromName', v::stringType()->length(0, 256))
+            ->attribute('email_subject', v::stringType()->length(1, 256));
 
         SubmissionValidator::validate($v, $data);
     }
@@ -43,20 +36,15 @@ class TemplateValidator extends ValidatorBase
      */
     public static function update($data)
     {
-        $v = v::attribute('name', v::stringType()->length(1, 32))
-            ->attribute('birthdate', v::date()->age(18));
-
-        // [
-        //     'name' => $request->data->name ?: $template['name'],
-        //     'captcha_key' => $request->data->captcha_key ?: $template['captcha_key'],
-        //     'email_to' => $request->data->email_to ?: $template['email_to'],
-        //     'email_replyTo' => $request->data->email_replyTo ?: $template['email_replyTo'],
-        //     'email_cc' => $request->data->email_cc ?: $template['email_cc'],
-        //     'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
-        //     'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
-        //     'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-        //     // 'email_content' => $request->data->email_content ?: $template['email_content'],
-        // ]
+        $v = v::attribute('name', v::alnum()->length(0, 64))
+            ->attribute('captcha_key', v::alnum()->length(0, 64))
+            ->attribute('email_to', v::stringType()->length(0, 256))
+            ->attribute('email_replyTo', v::stringType()->length(0, 256))
+            ->attribute('email_cc', v::stringType()->length(0, 256))
+            ->attribute('email_bcc', v::stringType()->length(0, 256))
+            ->attribute('email_fromName', v::stringType()->length(0, 256))
+            ->attribute('email_subject', v::stringType()->length(0, 256));
+        // ->attribute('email_content', v::stringType());
 
         SubmissionValidator::validate($v, $data);
     }
@@ -70,10 +58,7 @@ class TemplateValidator extends ValidatorBase
      */
     public static function createKey($data)
     {
-        $v = v::attribute('name', v::stringType()->length(1, 32))
-            ->attribute('birthdate', v::date()->age(18));
-
-        // 'allowed_origin' => $request->data->allowed_origin
+        $v = v::attribute('allowed_origin', v::url()->length(1, 256));
 
         SubmissionValidator::validate($v, $data);
     }

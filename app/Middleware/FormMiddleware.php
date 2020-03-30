@@ -31,7 +31,7 @@ class FormMiddleware implements Middleware
                 ], 400);
             }
 
-            $request->data = $request->getParsedBody();
+            $request->data = (object) $request->getParsedBody();
             $request->isJSON = false;
         }
 

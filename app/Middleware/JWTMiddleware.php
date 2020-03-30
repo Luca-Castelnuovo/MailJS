@@ -41,7 +41,8 @@ class JWTMiddleware implements Middleware
         }
 
         // TODO: fix origin system
-        $origin_header = $request->getHeader('origin');
+        $origin_header = $request->getHeader('origin')[0];
+        $referer_header = $request->getHeader('referer')[0];
         if ($origin_header !== $credentials->allowed_origin) {
             // return new JsonResponse([
             //     'success' => false,
@@ -66,6 +67,7 @@ class JWTMiddleware implements Middleware
 
         $request->uuid = $credentials->sub;
         $request->origin = $origin_header;
+        $request->referer = $referer_header;
 
         return $next($request);
     }

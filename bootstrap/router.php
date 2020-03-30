@@ -27,6 +27,8 @@ $router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class
 
     $router->post('/template/{id}/key', 'TemplateController@createKey');
     $router->delete('/template/{id}/key', 'TemplateController@resetKey');
+
+    $router->get('/submission/history/{template_id}', 'SubmissionController@history');
 });
 
 $router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class]], function (Router $router) {
