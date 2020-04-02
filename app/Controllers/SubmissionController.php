@@ -5,10 +5,10 @@ namespace App\Controllers;
 use DB;
 use Exception;
 use App\Helpers\CaptchaHelper;
+use App\Helpers\MailHelper;
 use App\Validators\SubmissionValidator;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response\HtmlResponse;
-
 
 class SubmissionController extends Controller
 {
@@ -31,7 +31,7 @@ class SubmissionController extends Controller
             return $this->respondJsonError('Mail Error', $e->getMessage(), 400);
         }
 
-        return $this->respondJson();
+        return $this->respondJson($request->data);
     }
 
     /**
@@ -49,7 +49,7 @@ class SubmissionController extends Controller
             SubmissionValidator::form($request->data);
         } catch (Exception $e) {
             return new HtmlResponse($e->getMessage()); // TODO: remove debug
-            return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 422);
+            // return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 422);
         }
 
         try {
@@ -118,11 +118,22 @@ class SubmissionController extends Controller
         }
 
         // TODO: build template
-        // if var empty just leave empty
-        // $data
-        // TODO: send email
+        $email_content = '<h1>testmail</h1>';
+        $email_content_2 = $this->twig->render(
+            $template['email_content'],
+            $data
+        );
 
-        // TODO: if error insert into DB
+        MailHelper::send([
+            'email_to' => $template['email_to'],
+            'email_replyTo' => $template['email_replyTo'],
+            'email_cc' => $template['email_cc'],
+            'email_bcc' => $template['email_bcc'],
+            'email_fromName' => $template['email_fromName'],
+            'email_subject' => $template['email_subject'],
+            'email_content' => $email_content
+        ]);
+
         DB::create(
             'history',
             [

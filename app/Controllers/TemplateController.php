@@ -27,7 +27,7 @@ class TemplateController extends Controller
             return $this->respondJsonError(
                 'invalid_input',
                 json_decode($e->getMessage()),
-                422
+                400
             );
         }
 
@@ -43,7 +43,8 @@ class TemplateController extends Controller
                 'email_cc' => $request->data->email_cc,
                 'email_bcc' => $request->data->email_bcc,
                 'email_fromName' => $request->data->email_fromName,
-                'email_subject' => $request->data->email_subject
+                'email_subject' => $request->data->email_subject,
+                'email_content' => $request->data->email_content
             ]
         );
 
@@ -60,8 +61,6 @@ class TemplateController extends Controller
      */
     public function update(ServerRequest $request, $id)
     {
-        // TODO: update function doesn't work
-
         if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
@@ -93,7 +92,7 @@ class TemplateController extends Controller
                 'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
                 'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
                 'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-                // 'email_content' => $request->data->email_content ?: $template['email_content'],
+                'email_content' => $request->data->email_content ?: $template['email_content'],
                 'updated_at' => date("Y-m-d H:i:s")
             ],
             $id

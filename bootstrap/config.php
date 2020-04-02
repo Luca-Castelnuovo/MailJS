@@ -3,6 +3,7 @@
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// TODO: clean function config('auth.client_id')
 function config($key, $fallback = null)
 {
     static $config;
@@ -14,7 +15,7 @@ function config($key, $fallback = null)
             'analytics' => [
                 'enabled' => false,
                 'ackee_domainid' => '',
-                'ackee_options' => '{ "detailed": true }',
+                'ackee_options' => '{ "detailed": true }'
             ],
             'auth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),
@@ -27,24 +28,24 @@ function config($key, $fallback = null)
             'cors' => [
                 'allow_origins' => ['*'],
                 'allow_headers' => ['Authorization', 'Content-Type'],
-                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+                'allow_methods' => ['HEAD', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
             ],
             'database' => [
                 'host' => env('DB_HOST'),
                 'port' => env('DB_PORT'),
                 'database' => env('DB_DATABASE'),
                 'username' => env('DB_USERNAME'),
-                'password' => env('DB_PASSWORD'),
+                'password' => env('DB_PASSWORD')
             ],
             'hmac' => [
                 'algorithm' => 'sha256',
-                'secret' => env('APP_KEY'),
+                'secret' => env('APP_KEY')
             ],
             'jwt' => [
                 'iss' => env('APP_URL'),
                 'ttl' => 31536000, // 1 year
                 'algorithm' => 'HS256',
-                'secret' => env('APP_KEY'),
+                'secret' => env('APP_KEY')
             ],
             'sentry' => [
                 'dsn' => 'https://20ba7ab4da6941e5b8daf9e51b3791af@sentry.io/5178923'
@@ -54,7 +55,7 @@ function config($key, $fallback = null)
                 'port' => env('SMTP_PORT'),
                 'username' => env('SMTP_USER'),
                 'password' => env('SMTP_PASSWORD'),
-                'ssl' => env('SMTP_USESSL'),
+                'fromName' => 'Notification - Luca Castelnuovo'
             ]
         ];
     }

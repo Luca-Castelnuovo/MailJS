@@ -17,6 +17,6 @@ class SubmissionValidator extends ValidatorBase
     {
         $v = v::attribute('redirect_to', v::url()->length(0, 256));
 
-        SubmissionValidator::validate($v, $data);
+        ValidatorBase::validate($v, $data);
     }
 }
