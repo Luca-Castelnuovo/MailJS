@@ -1,6 +1,7 @@
 // Load JS for MaterializeCSS
 M.Modal.init(document.querySelectorAll('.modal'), {dismissible: false});
 M.CharacterCounter.init(document.querySelectorAll('.character-counter'));
+M.Collapsible.init(document.querySelectorAll('.collapsible'), {accordion: true});
 
 // Bootstrap axios instance
 const api = axios.create({

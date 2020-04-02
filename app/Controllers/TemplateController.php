@@ -79,7 +79,19 @@ class TemplateController extends Controller
             );
         }
 
-        $template = DB::get('templates', '*', $id);
+        $template = DB::get('templates', [
+            'name',
+            'captcha_key',
+            'email_to',
+            'email_replyTo',
+            'email_cc',
+            'email_bcc',
+            'email_fromName',
+            'email_subject',
+            'email_content'
+        ], [
+            'id' => $id
+        ]);
 
         DB::update(
             'templates',
@@ -98,7 +110,7 @@ class TemplateController extends Controller
             $id
         );
 
-        return $this->respondJson(DB::get('templates', '*', $id));
+        return $this->respondJson();
     }
 
     /**
