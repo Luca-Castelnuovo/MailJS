@@ -8,9 +8,11 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
+// use Zend\Diactoros\ServerRequest;
 
 class Controller
 {
+    // private $request;
     private $twig;
 
     /**
@@ -18,8 +20,11 @@ class Controller
      * 
      * @return void
      */
-    public function __construct()
+    public function __construct(/*ServerRequest $request*/)
     {
+        // TODO: Pull data from router
+        // $this->request = $request
+
         // Start twig engine
         $loader = new FilesystemLoader('../views');
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
@@ -29,16 +34,24 @@ class Controller
     /**
      * Get input data
      * 
-     * @param array $data
      * @param string $variable
      * @param mixed $fallback optional
      * 
      * @return mixed
      */
-    protected function get($data, $variable, $fallback = '')
+    protected function get($variable, $fallback = '')
     {
-        // TODO: if phprouter is updated pull from constructor
-        return $data[$variable] ?: $fallback;
+        return $this->request->data[$variable] ?: $fallback;
+    }
+
+    /**
+     * Get all input data
+     * 
+     * @return array
+     */
+    protected function getAll()
+    {
+        return $this->request->data;
     }
 
     /**
