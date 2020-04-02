@@ -1,29 +1,31 @@
-<!DOCTYPE html>
-<html>
-    {% include 'partials/header.twig' %}
+{% autoescape %}
+    <!DOCTYPE html>
+    <html>
+        {% include 'partials/header.twig' %}
 
-    <body>
-        <style>
-            {% block style %}{% endblock %}
-        </style>
+        <body>
+            <style>
+                {% block style %}{% endblock %}
+            </style>
 
-        {% if not navbarDisable %}
-            {% include 'partials/navbar.twig' %}
-        {% endif %}
+            {% if not navbarDisable %}
+                {% include 'partials/navbar.twig' %}
+            {% endif %}
 
-        <div class="section">
-            <div class="container">
-                {% block content %}{% endblock %}
+            <div class="section">
+                <div class="container">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
-        </div>
 
-        {% include 'partials/footer.twig' with analytics only %}
-        
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                {% block script %}{% endblock %}
-            });
-        </script>
-    </body>
+            {% include 'partials/footer.twig' with analytics only %}
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    {% block script %}{% endblock %}
+                });
+            </script>
+        </body>
 
-</html>
+    </html>
+{% endautoescape %}

@@ -32,6 +32,14 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="email_content" name="email_content" class="materialize-textarea validate character-counter" data-length="15000" required></textarea>
+                                    <label for="email_content">Email template*</label>
+                                    <span class="helper-text" data-error="Field is required">Template can include "{{"{{varName}}"}}" to be dynamicly added</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="input-field col s12 m6">
                                     <input id="email_fromName" name="email_fromName" type="text" class="validate character-counter" data-length="256">
                                     <label for="email_fromName">Email fromName</label>

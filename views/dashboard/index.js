@@ -1,6 +1,6 @@
 // Load JS for MaterializeCSS
 M.Modal.init(document.querySelectorAll('.modal'), {dismissible: false});
-M.CharacterCounter.init(document.querySelectorAll('input.character-counter'));
+M.CharacterCounter.init(document.querySelectorAll('.character-counter'));
 
 // Bootstrap axios instance
 const api = axios.create({
