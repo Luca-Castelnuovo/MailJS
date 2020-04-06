@@ -193,7 +193,7 @@
         },
         {
             "name": "cakephp/database",
-            "version": "3.8.10",
+            "version": "3.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
