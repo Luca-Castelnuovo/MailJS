@@ -2195,16 +2195,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.11.5",
+            "version": "0.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "06c65d63ca22be27f278133f439ddcf0bd150635"
+                "reference": "6bac1f51c8e35201ec281e842e6ae6dbe066212f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/06c65d63ca22be27f278133f439ddcf0bd150635",
-                "reference": "06c65d63ca22be27f278133f439ddcf0bd150635",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/6bac1f51c8e35201ec281e842e6ae6dbe066212f",
+                "reference": "6bac1f51c8e35201ec281e842e6ae6dbe066212f",
                 "shasum": ""
             },
             "require": {
@@ -2271,7 +2271,7 @@
                 "migrations",
                 "phinx"
             ],
-            "time": "2020-03-30T12:38:04+00:00"
+            "time": "2020-04-06T16:36:00+00:00"
         },
         {
             "name": "sentry/sdk",
