@@ -69,7 +69,7 @@ class SessionHelper
     public static function valid()
     {
         $ip_match = SessionHelper::get('ip') === $_SERVER['REMOTE_ADDR'];
-        $session_valid = time() - SessionHelper::get('last_activity') < config('auth')['session_expires'];
+        $session_valid = time() - SessionHelper::get('last_activity') < config('auth.session_expires');
 
         SessionHelper::set('last_activity', time());
 

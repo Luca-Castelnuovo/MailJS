@@ -62,7 +62,7 @@ class SubmissionController extends Controller
             return $this->redirect("{$redirect_to}?error={$e->getMessage()}", 400);
         }
 
-        return $this->redirect($redirect_to);
+        return $this->redirect("{$redirect_to}?success");
     }
 
     /**
@@ -117,9 +117,7 @@ class SubmissionController extends Controller
             }
         }
 
-        // TODO: build template
-        $email_content = '<h1>testmail</h1>';
-        $email_content_2 = $this->twig->render(
+        $email_content = $this->renderFromText(
             $template['email_content'],
             $data
         );

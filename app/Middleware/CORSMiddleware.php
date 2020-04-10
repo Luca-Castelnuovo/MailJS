@@ -18,9 +18,9 @@ class CORSMiddleware implements Middleware
     public function handle(ServerRequestInterface $request, $next)
     {
         $headers = [
-            'Access-Control-Allow-Origin'  => implode(", ", config('cors')['allow_origins']),
-            'Access-Control-Allow-Headers' => implode(", ", config('cors')['allow_headers']),
-            'Access-Control-Allow-Methods' => implode(", ", config('cors')['allow_methods']),
+            'Access-Control-Allow-Origin'  => implode(", ", config('cors.allow_origins')),
+            'Access-Control-Allow-Headers' => implode(", ", config('cors.allow_headers')),
+            'Access-Control-Allow-Methods' => implode(", ", config('cors.allow_methods')),
         ];
 
         $response = $next($request);

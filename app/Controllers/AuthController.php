@@ -21,9 +21,9 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->provider = new Github([
-            'clientId'     => config('auth')['client_id'],
-            'clientSecret' => config('auth')['client_secret'],
-            'redirectUri'  => config('auth')['redirect_url'],
+            'clientId'     => config('auth.client_id'),
+            'clientSecret' => config('auth.client_secret'),
+            'redirectUri'  => config('auth.redirect_url'),
         ]);
     }
 
@@ -63,7 +63,7 @@ class AuthController extends Controller
             $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
             $user_id = StringHelper::escape($this->provider->getResourceOwner($token)->getNickname());
 
-            if (!in_array($user_id, config('auth')['allowed_users'])) {
+            if (!in_array($user_id, config('auth.allowed_users', []))) {
                 return $this->logout('Your account has not been authorized!');
             }
 

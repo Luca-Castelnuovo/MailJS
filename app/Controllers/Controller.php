@@ -55,6 +55,24 @@ class Controller
     }
 
     /**
+     * Render template in string form
+     *
+     * @param string $template
+     * @param array $parameters
+     * 
+     * @return string
+     */
+    protected function renderFromText($template, $parameters = [])
+    {
+        // TODO: render correct
+        return '<h1>test</h1>';
+        return $this->twig->render(
+            $template,
+            $parameters
+        );
+    }
+
+    /**
      * Shorthand redirect function
      *
      * @param string $to

@@ -6,15 +6,13 @@ class DB
 {
     public static function connect()
     {
-        $config = config('database');
-
         return new Medoo([
             'database_type' => 'mysql',
-            'server'        => $config['host'],
-            'port'          => $config['port'],
-            'database_name' => $config['database'],
-            'username'      => $config['username'],
-            'password'      => $config['password']
+            'server'        => config('database.host'),
+            'port'          => config('database.port'),
+            'database_name' => config('database.database'),
+            'username'      => config('database.username'),
+            'password'      => config('database.password')
         ]);
     }
 

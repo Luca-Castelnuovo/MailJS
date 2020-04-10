@@ -1,9 +1,10 @@
 <?php
 
+use App\Helpers\ArrayHelper;
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
-// TODO: clean function config('auth.client_id')
 function config($key, $fallback = null)
 {
     static $config;
@@ -60,5 +61,5 @@ function config($key, $fallback = null)
         ];
     }
 
-    return array_key_exists($key, $config) ? $config[$key] : $fallback;
+    return ArrayHelper::get($config, $key, $fallback);
 }

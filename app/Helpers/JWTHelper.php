@@ -19,9 +19,9 @@ class JWTHelper
      */
     public static function create($type, $data, $expires = null)
     {
-        $expires = $expires ?: config('jwt')['ttl'];
+        $expires = $expires ?: config('jwt.ttl');
         $head = [
-            'iss' => config('jwt')['iss'],
+            'iss' => config('jwt.iss'),
             'iat' => time(),
             'exp' => time() + $expires,
             'type' => $type
@@ -31,8 +31,8 @@ class JWTHelper
 
         return JWT::encode(
             $payload,
-            config('jwt')['secret'],
-            config('jwt')['algorithm']
+            config('jwt.secret'),
+            config('jwt.algorithm')
         );
     }
 
@@ -53,8 +53,8 @@ class JWTHelper
         try {
             $credentials = JWT::decode(
                 $token,
-                config('jwt')['secret'],
-                [config('jwt')['algorithm']]
+                config('jwt.secret'),
+                [config('jwt.algorithm')]
             );
         } catch (ExpiredException $e) {
             throw new Exception('Token has expired');
