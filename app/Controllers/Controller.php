@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use DB;
 use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -64,12 +65,10 @@ class Controller
      */
     protected function renderFromText($template, $parameters = [])
     {
-        // TODO: render correct
-        return '<h1>test</h1>';
-        return $this->twig->render(
-            $template,
-            $parameters
-        );
+        $loader = new ArrayLoader(['base.html' => $template,]);
+        $twig = new Environment($loader);
+
+        return $twig->render('base.html', $parameters);
     }
 
     /**

@@ -119,7 +119,7 @@ class SubmissionController extends Controller
 
         $email_content = $this->renderFromText(
             $template['email_content'],
-            $data
+            (array) $data
         );
 
         MailHelper::send([
