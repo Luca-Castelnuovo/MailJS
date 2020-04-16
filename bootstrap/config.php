@@ -12,7 +12,10 @@ function config($key, $fallback = null)
     if (is_null($config)) {
         $configExternal = json_decode(file_get_contents(env('EXTERNAL_CONFIG')));
         $config = [
-            'captcha_endpoint' => 'https://www.google.com/recaptcha/api/siteverify',
+            'links' => [
+                'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
+                'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/'
+            ],
             'analytics' => [
                 'enabled' => false,
                 'ackee_domainid' => '',

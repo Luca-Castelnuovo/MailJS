@@ -21,7 +21,7 @@ class CaptchaHelper
     {
         $guzzle_client = new Client();
 
-        $response = $guzzle_client->request('POST', config('captcha_endpoint'), [
+        $response = $guzzle_client->request('POST', config('links.captcha'), [
             'form_params' => [
                 'secret' => $captcha_secret,
                 'response' => $captcha_response,

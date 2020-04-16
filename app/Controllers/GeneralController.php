@@ -41,7 +41,7 @@ class GeneralController extends Controller
      */
     public function docs()
     {
-        return $this->redirect('https://ltcastelnuovo.gitbook.io/mailjs/');
+        return $this->redirect(config('links.docs'));
     }
 
     /**
