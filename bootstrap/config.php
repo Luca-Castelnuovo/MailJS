@@ -24,7 +24,7 @@ function config($key, $fallback = null)
             'auth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                'redirect_url' => 'https://mail.lucacastelnuovo.nl/auth/callback',
+                'redirect_url' => 'https://mailjs.lucacastelnuovo.nl/auth/callback',
                 'allowed_users' => $configExternal->allowed_users,
                 'session_expires' => 1800 // 30 min
             ],
