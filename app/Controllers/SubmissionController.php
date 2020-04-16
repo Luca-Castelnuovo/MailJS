@@ -72,32 +72,4 @@ class SubmissionController extends Controller
 
         return $this->respondJson($request->data);
     }
-
-    /**
-     * Get history connected to template_id
-     *
-     * @param string $template_id
-     * 
-     * @return JsonResponse
-     */
-    public function history($template_id) // TODO: remove
-    {
-        if (!$this->hasUserTemplate($template_id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
-                403
-            );
-        }
-
-        $history = DB::select('history', [
-            'user_ip',
-            'origin',
-            'created_at'
-        ], [
-            'template_id' => $template_id
-        ]);
-
-        return $this->respondJson($history);
-    }
 }
