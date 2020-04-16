@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use DB;
 use Exception;
+use SplObjectStorage;
 use App\Helpers\JWTHelper;
 use App\Helpers\SessionHelper;
 use Zend\Diactoros\ServerRequest;
@@ -95,28 +96,51 @@ class GeneralController extends Controller
      */
     public function dashboard()
     {
-        $templates = DB::select(
+        $templates = DB::join(
             'templates',
             [
-                'id',
-                'name',
-                'captcha_key',
-                'email_to',
-                'email_replyTo',
-                'email_cc',
-                'email_bcc',
-                'email_fromName',
-                'email_subject',
-                'email_content',
-                'updated_at',
-                'created_at'
+                'templates.id',
+                'templates.name',
+                'templates.captcha_key',
+                'templates.email_to',
+                'templates.email_replyTo',
+                'templates.email_cc',
+                'templates.email_bcc',
+                'templates.email_fromName',
+                'templates.email_subject',
+                'templates.email_content',
+                'templates.updated_at',
+                'templates.created_at',
+
+                'history' => [
+                    'history.created_at',
+                    'history.origin',
+                    'history.user_ip',
+                    'history.template_params[JSON]'
+                ]
             ],
             [
-                'user_id' => SessionHelper::get('user_id')
+                'user_id' => SessionHelper::get('user_id'),
+                "ORDER" => ["templates.id" => "ASC"]
+            ],
+            [
+                "[>]history" => ["id" => "template_id"],
             ]
         );
 
-        // TODO: join all history items to template // created_at, user_ip, origin, template_params
+        $result = [];
+
+        foreach ($templates as $template) {
+            $key = $template['id'];
+
+            if (isset($result[$key])) {
+                $result[$key]['history'] = [$result[$key]['history'], $template['history']];
+            } else {
+                $result[$key] = $template;
+            }
+        }
+
+        $templates = array_values($result);
 
         return $this->respond('dashboard.twig', [
             'templates' => $templates
