@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6">
-                            <input id="email_to" name="email_to" type="email" class="validate character-counter" data-length="256"  value="{{ template.email_to }}" required>
+                            <input id="email_to" name="email_to" type="text" class="validate character-counter" data-length="256"  value="{{ template.email_to }}" required>
                             <label for="email_to">Email To*</label>
                             <span class="helper-text" data-error="Field is required">The adres where the form submission is recieved</span>
                         </div>
@@ -44,19 +44,19 @@
                             <span class="helper-text" data-error="Input too long">The name from the sender</span>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input id="email_replyTo" name="email_replyTo" type="email" class="validate character-counter" data-length="256" value="{{ template.email_replyTo }}">
+                            <input id="email_replyTo" name="email_replyTo" type="text" class="validate character-counter" data-length="256" value="{{ template.email_replyTo }}">
                             <label for="email_replyTo">Email replyTo</label>
                             <span class="helper-text" data-error="Input too long">The adres which is used by the reply button</span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6">
-                            <input id="email_cc" name="email_cc" type="email" class="validate character-counter" data-length="256" value="{{ template.email_cc }}">
+                            <input id="email_cc" name="email_cc" type="text" class="validate character-counter" data-length="256" value="{{ template.email_cc }}">
                             <label for="email_cc">Email CC</label>
                             <span class="helper-text" data-error="Input too long"></span>
                         </div>
                         <div class="input-field col s12 m6">
-                            <input id="email_bcc" name="email_bcc" type="email" class="validate character-counter" data-length="256" value="{{ template.email_bcc }}">
+                            <input id="email_bcc" name="email_bcc" type="text" class="validate character-counter" data-length="256" value="{{ template.email_bcc }}">
                             <label for="email_bcc">Email BCC</label>
                             <span class="helper-text" data-error="Input too long"></span>
                         </div>
