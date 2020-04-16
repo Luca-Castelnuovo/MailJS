@@ -30,7 +30,7 @@ $router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class
 });
 
 $router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
-    $router->post('/submit', 'SubmissionController@submit');
+    $router->any('/submit', 'SubmissionController@submit');
 });
 
 
