@@ -79,6 +79,7 @@ class GeneralController extends Controller
             default:
                 $short_message = 'Oops! Unknown Error';
                 $message = 'Unknown error occured';
+                $code = 500;
                 break;
         }
 
