@@ -2,7 +2,6 @@
 
 use App\Middleware\CORSMiddleware;
 use App\Middleware\JSONMiddleware;
-use App\Middleware\FormMiddleware;
 use App\Middleware\JWTMiddleware;
 use App\Middleware\SessionMiddleware;
 use MiladRahimi\PhpRouter\Router;
@@ -13,8 +12,9 @@ $router = new Router('', 'App\Controllers');
 $router->define('code', '[0-9]+');
 
 $router->get('/', 'GeneralController@index');
-$router->get('/dashboard', 'GeneralController@dashboard', SessionMiddleware::class);
+$router->get('/docs', 'GeneralController@docs');
 $router->get('/error/{code}', 'GeneralController@error');
+$router->get('/dashboard', 'GeneralController@dashboard', SessionMiddleware::class);
 
 $router->get('/auth/login', 'AuthController@login');
 $router->get('/auth/callback', 'AuthController@callback');
@@ -28,7 +28,7 @@ $router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class
     $router->post('/template/{id}/key', 'TemplateController@createKey');
     $router->delete('/template/{id}/key', 'TemplateController@resetKey');
 
-    $router->get('/submit/{template_id}', 'SubmissionController@history');
+    $router->get('/submit/{template_id}', 'SubmissionController@history'); // TODO: remove
 });
 
 $router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {

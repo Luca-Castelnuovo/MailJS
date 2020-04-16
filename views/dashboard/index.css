@@ -33,3 +33,8 @@
 .input-field textarea.invalid + label {
   color: #f44336 !important;
 }
+
+/* On mobile show btns spaced */
+.btn.modal-trigger {
+  margin-bottom: 5px;
+}

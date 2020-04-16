@@ -80,7 +80,7 @@ class SubmissionController extends Controller
      * 
      * @return JsonResponse
      */
-    public function history($template_id)
+    public function history($template_id) // TODO: remove
     {
         if (!$this->hasUserTemplate($template_id, SessionHelper::get('user_id'))) {
             return $this->respondJsonError(

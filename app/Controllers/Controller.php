@@ -143,37 +143,6 @@ class Controller
     }
 
     /**
-     * Query all user templates
-     *
-     * @param int $user_id
-     * 
-     * @return array
-     */
-    protected function getUserTemplates($user_id)
-    {
-        return DB::select(
-            'templates',
-            [
-                'id',
-                'name',
-                'captcha_key',
-                'email_to',
-                'email_replyTo',
-                'email_cc',
-                'email_bcc',
-                'email_fromName',
-                'email_subject',
-                'email_content',
-                'updated_at',
-                'created_at'
-            ],
-            [
-                'user_id' => $user_id
-            ]
-        );
-    }
-
-    /**
      * Check if user owns template
      *
      * @param int $template_id

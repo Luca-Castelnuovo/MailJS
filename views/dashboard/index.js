@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             await delay(750);
             location.reload();
         }, async error => {
-            M.toast({html: 'Error'});
+            M.toast({html: 'Error: Data formatted invalid'});
             
             console.error(error);
             await delay(750);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 await delay(750);
                 location.reload();
             }, async error => {
-                M.toast({html: 'Error'});
+                M.toast({html: 'Error: Data formatted invalid'});
                 
                 console.error(error);
                 await delay(750);
@@ -80,7 +80,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 await delay(750);
                 location.reload();
             }, async error => {
-                M.toast({html: 'Error'});
+                M.toast({html: 'Error: Unknown error happend'});
+                
+                console.error(error);
+                await delay(750);
+                location.reload();
+            });
+        })
+    );
+
+    /**
+     * Key Create
+     */
+    const keyCreateForms = document.querySelectorAll('form.template-key-create');
+    keyCreateForms.forEach(form => 
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const id = form.getAttribute('data-id');
+            const data = formDataToJSON(new FormData(form));
+
+            disableAll();
+            api.post(`/template/${id}/key`, data).then(async response => {
+                M.toast({html: 'Key Created'});
+                prompt('Your key is:', response.data.data.key);
+                
+                M.Modal.getInstance(document.querySelector(`.modal#template-${id}-key`)).close();
+                await delay(750);
+                location.reload();
+            }, async error => {
+                M.toast({html: 'Error: Invalid domain'});
                 
                 console.error(error);
                 await delay(750);
@@ -89,4 +117,29 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     );
     
+    /**
+     * Keys Revoke
+     */
+    const keyDeleteForms = document.querySelectorAll('form.template-key-delete');
+    keyDeleteForms.forEach(form => 
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const id = form.getAttribute('data-id');
+
+            disableAll();
+            api.delete(`/template/${id}/key`).then(async () => {
+                M.toast({html: 'Keys Revoked'});
+                
+                M.Modal.getInstance(document.querySelector(`.modal#template-${id}-key`)).close();
+                await delay(750);
+                location.reload();
+            }, async error => {
+                M.toast({html: 'Error: Unknown error happend'});
+                
+                console.error(error);
+                await delay(750);
+                location.reload();
+            });
+        })
+    );
 });

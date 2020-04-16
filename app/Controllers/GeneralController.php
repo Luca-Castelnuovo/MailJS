@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use DB;
 use Exception;
 use App\Helpers\JWTHelper;
 use App\Helpers\SessionHelper;
@@ -31,6 +32,16 @@ class GeneralController extends Controller
             'message' => $msg,
             'logged_in' => SessionHelper::valid()
         ]);
+    }
+
+    /**
+     * Docs screen
+     * 
+     * @return RedirectResponse
+     */
+    public function docs()
+    {
+        return $this->redirect('https://ltcastelnuovo.gitbook.io/mailjs/');
     }
 
     /**
@@ -84,7 +95,28 @@ class GeneralController extends Controller
      */
     public function dashboard()
     {
-        $templates = $this->getUserTemplates(SessionHelper::get('user_id'));
+        $templates = DB::select(
+            'templates',
+            [
+                'id',
+                'name',
+                'captcha_key',
+                'email_to',
+                'email_replyTo',
+                'email_cc',
+                'email_bcc',
+                'email_fromName',
+                'email_subject',
+                'email_content',
+                'updated_at',
+                'created_at'
+            ],
+            [
+                'user_id' => SessionHelper::get('user_id')
+            ]
+        );
+
+        // TODO: join all history items to template // created_at, user_ip, origin, template_params
 
         return $this->respond('dashboard.twig', [
             'templates' => $templates

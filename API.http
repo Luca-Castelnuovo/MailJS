@@ -60,7 +60,3 @@ Content-Type: application/json
 {
 	"foo": "Bar"
 }
-
-### Get form submission history
-GET http://localhost:8080/submit/:id
-Authorization: Bearer PHPSESSID=cookieValue
