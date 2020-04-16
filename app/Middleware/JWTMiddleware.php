@@ -39,18 +39,18 @@ class JWTMiddleware implements Middleware
         }
 
         $origin_header = $request->getHeader('origin')[0];
-        $referer_header = $request->getHeader('referer')[0];
+        // $referer_header = $request->getHeader('referer')[0];
 
-        if (!StringHelper::beginsWith($referer_header, $origin_header)) {
-            return new JsonResponse([
-                'success' => false,
-                'errors' => [
-                    'status' => 401,
-                    'title' => 'invalid_referer_origin',
-                    'detail' => "Refer doesn't match Origin header"
-                ]
-            ], 401);
-        }
+        // if (!StringHelper::beginsWith($referer_header, $origin_header)) {
+        //     return new JsonResponse([
+        //         'success' => false,
+        //         'errors' => [
+        //             'status' => 401,
+        //             'title' => 'invalid_referer_origin',
+        //             'detail' => "Refer doesn't match Origin header"
+        //         ]
+        //     ], 401);
+        // }
 
         if ($origin_header !== $credentials->allowed_origin) {
             return new JsonResponse([
@@ -76,7 +76,6 @@ class JWTMiddleware implements Middleware
 
         $request->uuid = $credentials->sub;
         $request->origin = $origin_header;
-        $request->referer = $referer_header;
 
         return $next($request);
     }
