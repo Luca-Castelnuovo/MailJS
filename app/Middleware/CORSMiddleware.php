@@ -4,6 +4,7 @@ namespace App\Middleware;
 
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Diactoros\Response\EmptyResponse;
 
 class CORSMiddleware implements Middleware
 {
@@ -27,6 +28,10 @@ class CORSMiddleware implements Middleware
 
         foreach ($headers as $key => $value) {
             $response = $response->withHeader($key, $value);
+        }
+
+        if ($request->getMethod() !== 'POST') {
+            return new EmptyResponse(200, $headers);
         }
 
         return $response;
