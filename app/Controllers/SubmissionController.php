@@ -32,11 +32,6 @@ class SubmissionController extends Controller
             'email_content'
         ], ['uuid' => $request->uuid]);
 
-        $email_content = $this->renderFromText(
-            $template['email_content'],
-            (array) $request->data
-        );
-
         try {
             if ($template['captcha_key']) {
                 if (!CaptchaHelper::validate(
@@ -48,13 +43,13 @@ class SubmissionController extends Controller
             }
 
             MailHelper::send([
-                'email_to' => $template['email_to'],
-                'email_replyTo' => $template['email_replyTo'],
-                'email_cc' => $template['email_cc'],
-                'email_bcc' => $template['email_bcc'],
-                'email_fromName' => $template['email_fromName'],
-                'email_subject' => $template['email_subject'],
-                'email_content' => $email_content
+                'email_to' => $this->renderFromText($template['email_to'], (array) $request->data),
+                'email_replyTo' => $this->renderFromText($template['email_replyTo'], (array) $request->data),
+                'email_cc' => $this->renderFromText($template['email_cc'], (array) $request->data),
+                'email_bcc' => $this->renderFromText($template['email_bcc'], (array) $request->data),
+                'email_fromName' => $this->renderFromText($template['email_fromName'], (array) $request->data),
+                'email_subject' => $this->renderFromText($template['email_subject'], (array) $request->data),
+                'email_content' => $this->renderFromText($template['email_content'], (array) $request->data)
             ]);
         } catch (Exception $e) {
             return $this->respondJsonError('Mail Error', $e->getMessage(), 400);
