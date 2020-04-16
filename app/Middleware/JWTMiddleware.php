@@ -23,10 +23,7 @@ class JWTMiddleware implements Middleware
     public function handle(ServerRequestInterface $request, $next)
     {
         $authorization_header = $request->getHeader('authorization')[0];
-        $authorization_form = $request->getParsedBody()['authorization'];
-        $authorization_bearer = $authorization_header ?: $authorization_form;
-
-        $access_token = str_replace('Bearer ', '', $authorization_bearer);
+        $access_token = str_replace('Bearer ', '', $authorization_header);
 
         try {
             $credentials = JWTHelper::valid('submission', $access_token);
