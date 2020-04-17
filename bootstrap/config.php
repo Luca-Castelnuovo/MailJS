@@ -58,7 +58,7 @@ function config($key, $fallback = null)
                 'port' => env('SMTP_PORT'),
                 'username' => env('SMTP_USER'),
                 'password' => env('SMTP_PASSWORD'),
-                'fromName' => 'Notification - Luca Castelnuovo'
+                'fromName' => 'Luca Castelnuovo'
             ]
         ];
     }

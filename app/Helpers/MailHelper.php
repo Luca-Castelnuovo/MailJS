@@ -29,19 +29,21 @@ class MailHelper
             $mail->Password   = config('smtp.password');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
-
             $mail->isHTML(true);
+
+            // Template Conf
+            $mail->addAddress($config['email_to']);
+            $mail->Subject = $config['email_subject'];
+            $mail->Body = $config['email_content'];
+
             $mail->setFrom(
                 config('smtp.username'),
                 $config['email_fromName'] ?: config('smtp.fromName')
             );
 
-            // Template Conf
-            $mail->addAddress($config['email_to']);
-            $mail->addReplyTo(
-                $config['email_replyTo'] ?: config('smtp.username'),
-                $config['email_fromName'] ?: config('smtp.fromName')
-            );
+            if ($config['email_replyTo']) {
+                $mail->addReplyTo($config['email_replyTo'], $config['email_replyTo']);
+            }
 
             if ($config['email_cc']) {
                 $mail->addCC($config['email_cc']);
@@ -50,9 +52,6 @@ class MailHelper
             if ($config['email_bcc']) {
                 $mail->addBCC($config['email_bcc']);
             }
-
-            $mail->Subject = $config['email_subject'];
-            $mail->Body = $config['email_content'];
 
             $mail->send();
         } catch (MailException $e) {
