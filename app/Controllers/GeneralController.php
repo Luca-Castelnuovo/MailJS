@@ -119,7 +119,7 @@ class GeneralController extends Controller
                 'email_bcc',
                 'email_fromName',
                 'email_subject',
-                // 'email_content',
+                'email_content',
                 'updated_at',
                 'created_at'
             ],
