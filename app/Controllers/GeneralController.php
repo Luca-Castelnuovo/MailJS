@@ -107,48 +107,47 @@ class GeneralController extends Controller
      */
     public function dashboard()
     {
-        $templates = DB::join(
+        $templates = DB::select(
             'templates',
             [
-                'templates.id',
-                'templates.name',
-                'templates.captcha_key',
-                'templates.email_to',
-                'templates.email_replyTo',
-                'templates.email_cc',
-                'templates.email_bcc',
-                'templates.email_fromName',
-                'templates.email_subject',
-                'templates.email_content',
-                'templates.updated_at',
-                'templates.created_at',
-
-                'history' => [
-                    'history.created_at',
-                    'history.origin',
-                    'history.user_ip',
-                    'history.template_params[JSON]'
-                ]
+                'id',
+                'name',
+                'captcha_key',
+                'email_to',
+                'email_replyTo',
+                'email_cc',
+                'email_bcc',
+                'email_fromName',
+                'email_subject',
+                // 'email_content',
+                'updated_at',
+                'created_at'
             ],
             [
                 'user_id' => SessionHelper::get('user_id'),
-                "ORDER" => ["templates.id" => "ASC"]
-            ],
-            [
-                "[>]history" => ["id" => "template_id"],
+                "ORDER" => ["id" => "ASC"]
             ]
         );
 
         $result = [];
 
         foreach ($templates as $template) {
-            $key = $template['id'];
+            $history = DB::select(
+                'history',
+                [
+                    'template_params[JSON]',
+                    'user_ip',
+                    'origin',
+                    'created_at'
+                ],
+                [
+                    'template_id' => $template['id'],
+                    "ORDER" => ["id" => "ASC"]
+                ]
+            );
 
-            if (isset($result[$key])) {
-                $result[$key]['history'] = [$result[$key]['history'], $template['history']];
-            } else {
-                $result[$key] = $template;
-            }
+            $result[$template['id']] = $template;
+            $result[$template['id']]['history'] = $history;
         }
 
         $templates = array_values($result);
