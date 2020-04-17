@@ -9,6 +9,10 @@
 
 ### 🏠 [Homepage](https://mail.lucacastelnuovo.nl)
 
+### 📖 [Docs](https://mail.lucacastelnuovo.nl/docs)
+
+### 💾 [SDK](https://mail.lucacastelnuovo.nl/sdk)
+
 ## Install
 
 ```sh
@@ -21,24 +25,7 @@ git clone https://github.com/Luca-Castelnuovo/MailJS.git
 composer install
 ```
 
-## Author
-
-👤 **Luca Castelnuovo**
-
-* Github: [@Luca-Castelnuovo](https://github.com/Luca-Castelnuovo)
-
-## 🤝 Contributing
-
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Luca-Castelnuovo/MailJS/issues).
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
 ## 📝 License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
 This project is [MIT](https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE) licensed.
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

@@ -14,7 +14,8 @@ function config($key, $fallback = null)
         $config = [
             'links' => [
                 'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
-                'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/'
+                'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/',
+                'sdk' => 'https://www.npmjs.com/package/mailjs-sdk'
             ],
             'analytics' => [
                 'enabled' => false,

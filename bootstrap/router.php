@@ -13,6 +13,7 @@ $router->define('code', '[0-9]+');
 
 $router->get('/', 'GeneralController@index');
 $router->get('/docs', 'GeneralController@docs');
+$router->get('/sdk', 'GeneralController@sdk');
 $router->get('/error/{code}', 'GeneralController@error');
 $router->get('/dashboard', 'GeneralController@dashboard', SessionMiddleware::class);
 

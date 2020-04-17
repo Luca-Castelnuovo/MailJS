@@ -46,6 +46,16 @@ class GeneralController extends Controller
     }
 
     /**
+     * SDK screen
+     * 
+     * @return RedirectResponse
+     */
+    public function sdk()
+    {
+        return $this->redirect(config('links.sdk'));
+    }
+
+    /**
      * Error screen
      * 
      * @param string $code
