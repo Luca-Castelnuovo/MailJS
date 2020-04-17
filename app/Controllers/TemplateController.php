@@ -134,6 +134,10 @@ class TemplateController extends Controller
             'id' => $id,
         ]);
 
+        DB::delete('history', [
+            'template_id' => $id,
+        ]);
+
         return $this->respondJson();
     }
 
