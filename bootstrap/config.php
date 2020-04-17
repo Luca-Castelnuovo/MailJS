@@ -25,7 +25,7 @@ function config($key, $fallback = null)
             'auth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),
                 'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                'redirect_url' => 'https://mailjs.lucacastelnuovo.nl/auth/callback',
+                'redirect_url' => env('GITHUB_REDIRECT'),
                 'allowed_users' => $configExternal->allowed_users,
                 'session_expires' => 1800 // 30 min
             ],
@@ -50,9 +50,6 @@ function config($key, $fallback = null)
                 'ttl' => 31536000, // 1 year
                 'algorithm' => 'HS256',
                 'secret' => env('APP_KEY')
-            ],
-            'sentry' => [
-                'dsn' => 'https://20ba7ab4da6941e5b8daf9e51b3791af@sentry.io/5178923'
             ],
             'smtp' => [
                 'host' => env('SMTP_HOST'),
