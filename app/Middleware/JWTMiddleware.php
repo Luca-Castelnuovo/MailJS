@@ -67,11 +67,11 @@ class JWTMiddleware implements Middleware
             return new JsonResponse([
                 'success' => false,
                 'errors' => [
-                    'status' => 401,
+                    'status' => 404,
                     'title' => 'template_not_found',
                     'detail' => 'this uuid is not connected to a template'
                 ]
-            ], 401);
+            ], 404);
         }
 
         $request->uuid = $credentials->sub;

@@ -27,7 +27,7 @@ class TemplateController extends Controller
             return $this->respondJsonError(
                 'invalid_input',
                 json_decode($e->getMessage()),
-                400
+                422
             );
         }
 

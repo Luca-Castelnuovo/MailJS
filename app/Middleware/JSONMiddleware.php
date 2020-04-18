@@ -25,11 +25,11 @@ class JSONMiddleware implements Middleware
                 return new JsonResponse([
                     'success' => false,
                     'errors' => [
-                        'status' => 400,
+                        'status' => 415,
                         'title' => 'invalid_content_type',
                         'detail' => "Content-Type should be 'application/json'"
                     ]
-                ], 400);
+                ], 415);
             }
 
             $data = json_decode($request->getBody()->getContents());
@@ -38,11 +38,11 @@ class JSONMiddleware implements Middleware
                 return new JsonResponse([
                     'success' => false,
                     'errors' => [
-                        'status' => 400,
+                        'status' => 415,
                         'title' => 'invalid_json',
                         'detail' => 'Problems parsing provided JSON'
                     ]
-                ], 400);
+                ], 415);
             }
 
             $request->data = $data;

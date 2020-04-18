@@ -31,7 +31,7 @@ class CORSMiddleware implements Middleware
         }
 
         if ($request->getMethod() !== 'POST') {
-            return new EmptyResponse(200, $headers);
+            return new EmptyResponse(204, $headers);
         }
 
         return $response;
