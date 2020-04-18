@@ -4,6 +4,7 @@ use App\Middleware\CORSMiddleware;
 use App\Middleware\JSONMiddleware;
 use App\Middleware\JWTMiddleware;
 use App\Middleware\SessionMiddleware;
+use App\Middleware\RateLimitMiddleware;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -30,7 +31,7 @@ $router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class
     $router->delete('/template/{id}/key', 'TemplateController@resetKey');
 });
 
-$router->group(['middleware' => [CORSMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
+$router->group(['middleware' => [CORSMiddleware::class, RateLimitMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
     $router->any('/submit', 'SubmissionController@submit');
 });
 
