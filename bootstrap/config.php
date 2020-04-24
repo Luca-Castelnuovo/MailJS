@@ -15,12 +15,13 @@ function config($key, $fallback = null)
             'links' => [
                 'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
                 'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/',
-                'sdk' => 'https://www.npmjs.com/package/mailjs-sdk'
+                'sdk' => 'https://www.npmjs.com/package/mailjs-sdk',
+                'template' => 'https://topol.io/#selecttemplate'
             ],
             'analytics' => [
-                'enabled' => false,
-                'ackee_domainid' => '',
-                'ackee_options' => '{ "detailed": true }'
+                'enabled' => true,
+                'domainId' => '751563b2-769f-441f-bfab-b3f2c099ccc8',
+                'options' => '{ "localhost": false, "detailed": true }'
             ],
             'auth' => [
                 'client_id' => env('GITHUB_CIENT_ID'),

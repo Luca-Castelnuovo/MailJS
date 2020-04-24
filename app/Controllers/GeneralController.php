@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use DB;
 use Exception;
-use SplObjectStorage;
 use App\Helpers\JWTHelper;
 use App\Helpers\SessionHelper;
 use Zend\Diactoros\ServerRequest;
@@ -53,6 +52,16 @@ class GeneralController extends Controller
     public function sdk()
     {
         return $this->redirect(config('links.sdk'));
+    }
+
+    /**
+     * Template screen
+     * 
+     * @return RedirectResponse
+     */
+    public function template()
+    {
+        return $this->redirect(config('links.template'));
     }
 
     /**
