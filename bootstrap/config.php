@@ -16,7 +16,7 @@ function config($key, $fallback = null)
                 'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
                 'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/',
                 'sdk' => 'https://www.npmjs.com/package/mailjs-sdk',
-                'template' => 'https://topol.io/#selecttemplate'
+                'template' => 'https://beefree.io/editor/?template=empty'
             ],
             'analytics' => [
                 'enabled' => true,
