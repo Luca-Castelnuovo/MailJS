@@ -15,7 +15,7 @@ class TemplateValidator extends ValidatorBase
      */
     public static function create($data)
     {
-        $v = v::attribute('name', v::alnum()->length(1, 64))
+        $v = v::attribute('name', v::alnum(' ', '-')->length(1, 64))
             ->attribute('captcha_key', v::optional(v::alnum()->length(32, 64)))
             ->attribute('email_to', v::stringType()->length(1, 256))
             ->attribute('email_replyTo', v::optional(v::stringType()->length(1, 256)))
@@ -37,7 +37,7 @@ class TemplateValidator extends ValidatorBase
      */
     public static function update($data)
     {
-        $v = v::attribute('name', v::alnum()->length(1, 64))
+        $v = v::attribute('name', v::alnum(' ', '-')->length(1, 64))
             ->attribute('captcha_key', v::optional(v::alnum()->length(32, 64)))
             ->attribute('email_to', v::stringType()->length(1, 256))
             ->attribute('email_replyTo', v::optional(v::stringType()->length(1, 256)))
