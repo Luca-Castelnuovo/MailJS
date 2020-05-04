@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Helpers\StringHelper;
 use App\Helpers\SessionHelper;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,7 +24,7 @@ class SessionMiddleware implements Middleware
         if (!SessionHelper::valid()) {
             SessionHelper::destroy();
 
-            if (!$request->isJSON) {
+            if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
                 return new RedirectResponse('/auth/logout', 403);
             }
 
