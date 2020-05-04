@@ -150,16 +150,16 @@
         },
         {
             "name": "cakephp/database",
-            "version": "4.0.6",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "ea6fb36fc9f76c5c6e5998380f7d7e485c867ab5"
+                "reference": "af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/ea6fb36fc9f76c5c6e5998380f7d7e485c867ab5",
-                "reference": "ea6fb36fc9f76c5c6e5998380f7d7e485c867ab5",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e",
+                "reference": "af6eb0f89e65c16bd10bf6041b90b8daa2b0dc1e",
                 "shasum": ""
             },
             "require": {
@@ -195,7 +195,7 @@
                 "database abstraction",
                 "pdo"
             ],
-            "time": "2020-04-17T04:56:07+00:00"
+            "time": "2020-04-30T19:42:01+00:00"
         },
         {
             "name": "cakephp/datasource",
