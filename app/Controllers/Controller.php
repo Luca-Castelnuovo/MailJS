@@ -9,7 +9,6 @@ use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
-// use Zend\Diactoros\ServerRequest;
 
 class Controller
 {
@@ -21,38 +20,12 @@ class Controller
      * 
      * @return void
      */
-    public function __construct(/*ServerRequest $request*/)
+    public function __construct()
     {
-        // TODO: Pull data from router
-        // $this->request = $request
-
         // Start twig engine
         $loader = new FilesystemLoader('../views');
         $this->twig = new Environment($loader /* , ['cache' => '../storage/views'] */);
         $this->twig->addGlobal('analytics', config('analytics'));
-    }
-
-    /**
-     * Get input data
-     * 
-     * @param string $variable
-     * @param mixed $fallback optional
-     * 
-     * @return mixed
-     */
-    protected function get($variable, $fallback = '')
-    {
-        return $this->request->data[$variable] ?: $fallback;
-    }
-
-    /**
-     * Get all input data
-     * 
-     * @return array
-     */
-    protected function getAll()
-    {
-        return $this->request->data;
     }
 
     /**
