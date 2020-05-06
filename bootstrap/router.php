@@ -23,6 +23,7 @@ $router->group(['prefix' => '/auth'], function (Router $router) {
 
 $router->group(['middleware' => SessionMiddleware::class], function (Router $router) {
     $router->get('/dashboard', 'UserController@dashboard');
+    $router->get('/history/{id}', 'UserController@history');
 });
 
 $router->group(['prefix' => '/template', 'middleware' => [JSONMiddleware::class, SessionMiddleware::class]], function (Router $router) {

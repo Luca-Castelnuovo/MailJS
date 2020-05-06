@@ -36,31 +36,40 @@ class UserController extends Controller
             ]
         );
 
-        $result = [];
-
-        foreach ($templates as $template) {
-            $history = DB::select(
-                'history',
-                [
-                    'template_params[JSON]',
-                    'user_ip',
-                    'origin',
-                    'created_at'
-                ],
-                [
-                    'template_id' => $template['id'],
-                    "ORDER" => ["id" => "ASC"]
-                ]
-            );
-
-            $result[$template['id']] = $template;
-            $result[$template['id']]['history'] = $history;
-        }
-
-        $templates = array_values($result);
-
         return $this->respond('dashboard.twig', [
             'templates' => $templates
+        ]);
+    }
+
+    /**
+     * Template history
+     *
+     * @param string $id
+     * 
+     * @return HtmlResponse
+     */
+    public function history($id)
+    {
+        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+            return $this->redirect('/dashboard');
+        }
+
+        $history = DB::select(
+            'history',
+            [
+                'template_params[JSON]',
+                'user_ip',
+                'origin',
+                'created_at'
+            ],
+            [
+                'template_id' => $id,
+                "ORDER" => ["id" => "ASC"]
+            ]
+        );
+
+        return $this->respond('history.twig', [
+            'history' => $history
         ]);
     }
 }

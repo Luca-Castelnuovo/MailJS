@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use Exception;
-use App\Helpers\JWTHelper;
 use App\Helpers\AuthHelper;
 use Zend\Diactoros\ServerRequest;
 
@@ -17,13 +15,25 @@ class GeneralController extends Controller
     public function index(ServerRequest $request)
     {
         $msg = $request->getQueryParams()['msg'] ?: '';
+        $code = $request->getQueryParams()['code'] ?: '';
+
+        if ($code) {
+            return $this->redirect("/auth/callback?code={$code}");
+        }
 
         if ($msg) {
-            try {
-                $claims = JWTHelper::valid('message', $msg);
-                $msg = $claims->message;
-            } catch (Exception $e) {
-                $msg = '';
+            switch ($msg) {
+                case 'logout':
+                    $msg = 'You have been logged out!';
+                    break;
+
+                case 'token':
+                    $msg = 'Invalid authentication!';
+                    break;
+
+                default:
+                    $msg = '';
+                    break;
             }
         }
 

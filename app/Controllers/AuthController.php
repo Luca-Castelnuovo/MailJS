@@ -3,39 +3,37 @@
 namespace App\Controllers;
 
 use Exception;
-use App\Helpers\SessionHelper;
+use App\Controllers\Controller;
 use App\Helpers\StringHelper;
-use App\Helpers\JWTHelper;
+use App\Helpers\SessionHelper;
+use lucacastelnuovo\AppsClient\AppsClient;
 use Zend\Diactoros\ServerRequest;
-use League\OAuth2\Client\Provider\Github;
 
 class AuthController extends Controller
 {
     private $provider;
 
     /**
-     * Initialize the OAuth provider
+     * Initialize the provider
      * 
      * @return void
      */
     public function __construct()
     {
-        $this->provider = new Github([
-            'clientId'     => config('auth.client_id'),
-            'clientSecret' => config('auth.client_secret'),
-            'redirectUri'  => config('auth.redirect_url'),
+        $this->provider = new AppsClient([
+            'app_id' => config('app.id'),
+            'app_url'     => config('app.url')
         ]);
     }
 
     /**
-     * Login start OAuth
-     *
+     * Redirect to authorization portal
+     * 
      * @return RedirectResponse
      */
-    public function login()
+    public function request()
     {
         $authUrl = $this->provider->getAuthorizationUrl();
-        SessionHelper::set('state', $this->provider->getState());
 
         return $this->redirect($authUrl);
     }
@@ -49,29 +47,45 @@ class AuthController extends Controller
      */
     public function callback(ServerRequest $request)
     {
-        $state = $request->getQueryParams()['state'];
         $code = $request->getQueryParams()['code'];
 
-        if (empty($state) || ($state !== SessionHelper::get('state'))) {
-            return $this->logout('Provided state is invalid!');
+        try {
+            $data = $this->provider->getData($code, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+        } catch (Exception $e) {
+            // var_dump($e->getMessage());exit;
+            return $this->logout("token");
         }
 
-        // Prevent session fixation
+        $id = StringHelper::escape($data->sub); // Value is used in DB calls
+
+        return $this->login($id, $data->variant, $data->exp);
+    }
+
+    /**
+     * Create session
+     * 
+     * @param string $id
+     * @param string $variant
+     * @param string $expires
+     *
+     * @return RedirectResponse
+     */
+    public function login($id, $variant, $expires)
+    {
+        $return_to = SessionHelper::get('return_to');
+
         SessionHelper::destroy();
+        SessionHelper::set('id', $id);
+        SessionHelper::set('variant', $variant);
+        SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
+        SessionHelper::set('expires', $expires);
 
-        try {
-            $token = $this->provider->getAccessToken('authorization_code', ['code' => $code]);
-            $user_id = StringHelper::escape($this->provider->getResourceOwner($token)->getNickname());
+        if (!file_exists("users/{$id}")) {
+            mkdir("users/{$id}", 0770);
+        }
 
-            if (!in_array($user_id, config('auth.allowed_users', []))) {
-                return $this->logout('Your account has not been authorized!');
-            }
-
-            SessionHelper::set('user_id', $user_id);
-            SessionHelper::set('last_activity', time());
-            SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
-        } catch (Exception $e) {
-            return $this->logout("Error: {$e}");
+        if ($return_to) {
+            return $this->redirect($return_to);
         }
 
         return $this->redirect('/dashboard');
@@ -80,20 +94,16 @@ class AuthController extends Controller
     /**
      * Destroy session
      * 
-     * @param string $message optional
+     * @param string $msg optional
      *
      * @return RedirectResponse
      */
-    public function logout($message = 'You have been logged out!')
+    public function logout($msg = 'logout')
     {
         SessionHelper::destroy();
 
-        if ($message) {
-            $message = JWTHelper::create('message', [
-                'message' => $message
-            ], 5);
-
-            return $this->redirect("/?msg={$message}");
+        if ($msg) {
+            return $this->redirect("/?msg={$msg}");
         }
 
         return $this->redirect('/');
