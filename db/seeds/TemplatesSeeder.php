@@ -20,9 +20,9 @@ class TemplatesSeeder extends AbstractSeed
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
+                'id'             => $faker->uuid,
                 'user_id'        => $faker->userName,
                 'name'           => $faker->userName,
-                'uuid'           => $faker->uuid,
                 'captcha_key'    => $faker->md5,
                 'email_to'       => $faker->email,
                 'email_replyTo'  => $faker->email,

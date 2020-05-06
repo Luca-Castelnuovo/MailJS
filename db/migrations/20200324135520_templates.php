@@ -31,10 +31,10 @@ class Templates extends AbstractMigration
      */
     public function change()
     {
-        $templates = $this->table('templates'); // TODO: move to uuid system
-        $templates->addColumn('user_id', 'string', ['limit' => 64, 'null' => false])
+        $templates = $this->table('templates', ['id' => false, 'primary_key' => 'id']);
+        $templates->addColumn('id', 'uuid')
+            ->addColumn('user_id', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('name', 'string', ['limit' => 64, 'null' => false])
-            ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])
             ->addColumn('captcha_key', 'string', ['limit' => 64, 'null' => true])
 
             ->addColumn('email_to', 'string', ['limit' => 256, 'null' => false])

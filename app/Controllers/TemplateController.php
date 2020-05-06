@@ -31,12 +31,14 @@ class TemplateController extends Controller
             );
         }
 
+        // TODO: add variant check
+
         DB::create(
             'templates',
             [
+                'id' => Uuid::uuid4()->toString(),
                 'user_id' => SessionHelper::get('user_id'),
                 'name' => $request->data->name,
-                'uuid' => Uuid::uuid4()->toString(),
                 'captcha_key' => $request->data->captcha_key,
                 'email_to' => $request->data->email_to,
                 'email_replyTo' => $request->data->email_replyTo,
@@ -55,7 +57,7 @@ class TemplateController extends Controller
      * Update template
      *
      * @param ServerRequest $request
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -108,8 +110,7 @@ class TemplateController extends Controller
                 'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
                 'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
                 'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-                'email_content' => $request->data->email_content ?: $template['email_content'],
-                'updated_at' => date("Y-m-d H:i:s")
+                'email_content' => $request->data->email_content ?: $template['email_content']
             ],
             [
                 'id' => $id
@@ -122,7 +123,7 @@ class TemplateController extends Controller
     /**
      * Delete template
      *
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -151,7 +152,7 @@ class TemplateController extends Controller
      * Create access_key
      *
      * @param ServerRequest $request
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -175,12 +176,8 @@ class TemplateController extends Controller
             );
         }
 
-        $uuid = DB::get('templates', 'uuid', [
-            'id' => $id
-        ]);
-
         $key = JWTHelper::create('submission', [
-            'sub' => $uuid,
+            'sub' => $id,
             'allowed_origin' => $request->data->allowed_origin
         ]);
 
@@ -192,7 +189,7 @@ class TemplateController extends Controller
     /**
      * Reset all access_key
      *
-     * @param int $id
+     * @param string $id
      *
      * @return JsonResponse
      */
@@ -206,10 +203,7 @@ class TemplateController extends Controller
             );
         }
 
-        DB::update('templates', [
-            'uuid' => Uuid::uuid4()->toString(),
-            'updated_at' => date("Y-m-d H:i:s")
-        ], $id);
+        DB::update('templates', ['id' => Uuid::uuid4()->toString(),], $id);
 
         return $this->respondJson();
     }

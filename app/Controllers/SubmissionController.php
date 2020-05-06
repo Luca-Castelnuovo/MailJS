@@ -30,7 +30,7 @@ class SubmissionController extends Controller
             'email_fromName',
             'email_subject',
             'email_content'
-        ], ['uuid' => $request->uuid]);
+        ], ['id' => $request->id]);
 
         try {
             if ($template['captcha_key']) {

@@ -63,18 +63,18 @@ class JWTMiddleware implements Middleware
             ], 401);
         }
 
-        if (!DB::has('templates', ['uuid' =>  $credentials->sub])) {
+        if (!DB::has('templates', ['id' =>  $credentials->sub])) {
             return new JsonResponse([
                 'success' => false,
                 'errors' => [
                     'status' => 404,
                     'title' => 'template_not_found',
-                    'detail' => 'this uuid is not connected to a template'
+                    'detail' => 'Template not found or template_id reset'
                 ]
             ], 404);
         }
 
-        $request->uuid = $credentials->sub;
+        $request->id = $credentials->sub;
         $request->origin = $origin_header;
 
         return $next($request);
