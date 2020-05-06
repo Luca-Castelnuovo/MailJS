@@ -9,29 +9,27 @@
 
 ### 🏠 [Homepage](https://mailjs.lucacastelnuovo.nl)
 
-### 📖 [Docs](https://mailjs.lucacastelnuovo.nl/docs)
+### 📖 [Docs](https://ltcastelnuovo.gitbook.io/mailjs/)
 
-### 💾 [SDK](https://mailjs.lucacastelnuovo.nl/sdk)
+### 💾 [SDK](https://github.com/Luca-Castelnuovo/MailJS-sdk)
 
 ## Install
 
 1. Install Package
+
 ```sh
 git clone https://github.com/Luca-Castelnuovo/MailJS.git
-
 composer install
 ```
-2. Create Gihub OAuth application
-_the callback url should be https://your.app/auth/callback_
 
 ## Configuration
 
 Edit .env
 
 ```bash
-APP_URL=http://domain.com
+APP_URL=https://mailjs.lucacastelnuovo.nl
+APP_ID=GRKCfi
 APP_KEY=1234abcd
-EXTERNAL_CONFIG=https://config.domain.com/config.json
 
 DB_HOST=localhost
 DB_PORT=3306
@@ -43,10 +41,6 @@ SMTP_HOST=smtp.example.com
 SMTP_PORT=587
 SMTP_USER=info@example.com
 SMTP_PASSWORD=letmein
-
-GITHUB_CIENT_ID=1234
-GITHUB_CLIENT_SECRET=abcd
-GITHUB_REDIRECT=https://domain.com/auth/callback
 ```
 
 ## 📝 License

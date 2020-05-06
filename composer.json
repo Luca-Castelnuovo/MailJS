@@ -4,8 +4,8 @@
     "require": {
         "catfan/medoo": "^1.7",
         "firebase/php-jwt": "^5.1",
-        "guzzlehttp/guzzle": "^6.5",
-        "league/oauth2-github": "^2.0",
+        "google/recaptcha": "^1.2",
+        "lucacastelnuovo/apps-client": "^1.0",
         "miladrahimi/phprouter": "^4.0",
         "phpmailer/phpmailer": "^6.1",
         "ramsey/uuid": "^4.0",

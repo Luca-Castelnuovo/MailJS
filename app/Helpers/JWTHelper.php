@@ -1,5 +1,10 @@
 <?php
 
+// TODO: simplify
+// - set/check iss
+// - set/check aud
+// - discard setting/checking type
+
 namespace App\Helpers;
 
 use Exception;

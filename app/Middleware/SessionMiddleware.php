@@ -2,6 +2,7 @@
 
 namespace App\Middleware;
 
+use App\Helpers\AuthHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\SessionHelper;
 use MiladRahimi\PhpRouter\Middleware;
@@ -21,7 +22,7 @@ class SessionMiddleware implements Middleware
      */
     public function handle(ServerRequestInterface $request, $next)
     {
-        if (!SessionHelper::valid()) {
+        if (!AuthHelper::valid()) {
             SessionHelper::destroy();
 
             if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {

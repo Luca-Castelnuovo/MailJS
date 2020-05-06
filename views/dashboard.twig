@@ -1,11 +1,9 @@
-{% extends "base.twig" %}
+{% extends "partials/base.twig" %}
 {% set title = "Dashboard" %}
 
-{% block style %}
-    {% include 'dashboard/index.css' %}
-{% endblock %}
-
 {% block content %}
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+
     <h2>Templates</h2>
     <div class="row">
         {% include 'dashboard/create_template.twig' %}
@@ -14,8 +12,6 @@
             {% include 'dashboard/base_template.twig' %}
         {% endfor %}
     </div>
-{% endblock %}
 
-{% block script %}
-    {% include 'dashboard/index.js' %}
+    <script src="/assets/js/dashboard.js"></script>
 {% endblock %}

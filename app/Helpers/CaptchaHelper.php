@@ -2,8 +2,7 @@
 
 namespace App\Helpers;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use ReCaptcha\ReCaptcha;
 
 class CaptchaHelper
 {
@@ -13,23 +12,13 @@ class CaptchaHelper
      * @param string $captcha_response
      * @param string $captcha_secret
      *
-     * @throws GuzzleException
-     *
      * @return bool
      */
     public static function validate($captcha_response, $captcha_secret)
     {
-        $guzzle_client = new Client();
+        $recaptcha = new ReCaptcha($captcha_secret);
+        $response = $recaptcha->verify($captcha_response);
 
-        $response = $guzzle_client->request('POST', config('links.captcha'), [
-            'form_params' => [
-                'secret' => $captcha_secret,
-                'response' => $captcha_response,
-            ],
-        ]);
-
-        $response = json_decode($response->getBody());
-
-        return $response->success;
+        return $response->isSuccess();
     }
 }

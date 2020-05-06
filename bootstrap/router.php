@@ -13,29 +13,30 @@ $router = new Router('', 'App\Controllers');
 $router->define('code', '[0-9]+');
 
 $router->get('/', 'GeneralController@index');
-$router->get('/docs', 'GeneralController@docs');
-$router->get('/sdk', 'GeneralController@sdk');
-$router->get('/template', 'GeneralController@template');
 $router->get('/error/{code}', 'GeneralController@error');
-$router->get('/dashboard', 'GeneralController@dashboard', SessionMiddleware::class);
 
-$router->get('/auth/login', 'AuthController@login');
-$router->get('/auth/callback', 'AuthController@callback');
-$router->get('/auth/logout', 'AuthController@logout');
+$router->group(['prefix' => '/auth'], function (Router $router) {
+    $router->get('/request', 'AuthController@request');
+    $router->get('/callback', 'AuthController@callback');
+    $router->get('/logout', 'AuthController@logout');
+});
 
-$router->group(['middleware' => [JSONMiddleware::class, SessionMiddleware::class]], function (Router $router) {
-    $router->post('/template', 'TemplateController@create');
-    $router->put('/template/{id}', 'TemplateController@update');
-    $router->delete('/template/{id}', 'TemplateController@delete');
+$router->group(['middleware' => SessionMiddleware::class], function (Router $router) {
+    $router->get('/dashboard', 'UserController@dashboard');
+});
 
-    $router->post('/template/{id}/key', 'TemplateController@createKey');
-    $router->delete('/template/{id}/key', 'TemplateController@resetKey');
+$router->group(['prefix' => '/template', 'middleware' => [JSONMiddleware::class, SessionMiddleware::class]], function (Router $router) {
+    $router->post('', 'TemplateController@create');
+    $router->put('/{id}', 'TemplateController@update');
+    $router->delete('/{id}', 'TemplateController@delete');
+
+    $router->post('/{id}/key', 'TemplateController@createKey');
+    $router->delete('/{id}/key', 'TemplateController@resetKey');
 });
 
 $router->group(['middleware' => [CORSMiddleware::class, RateLimitMiddleware::class, JWTMiddleware::class, JSONMiddleware::class]], function (Router $router) {
     $router->any('/submit', 'SubmissionController@submit');
 });
-
 
 try {
     $router->dispatch();

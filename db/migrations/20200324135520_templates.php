@@ -31,7 +31,7 @@ class Templates extends AbstractMigration
      */
     public function change()
     {
-        $templates = $this->table('templates');
+        $templates = $this->table('templates'); // TODO: move to uuid system
         $templates->addColumn('user_id', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('name', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('uuid', 'string', ['limit' => 36, 'null' => false])

@@ -10,25 +10,29 @@ function config($key, $fallback = null)
     static $config;
 
     if (is_null($config)) {
-        $configExternal = json_decode(file_get_contents(env('EXTERNAL_CONFIG')));
         $config = [
-            'links' => [
-                'captcha' => 'https://www.google.com/recaptcha/api/siteverify',
-                'docs' => 'https://ltcastelnuovo.gitbook.io/mailjs/',
-                'sdk' => 'https://www.npmjs.com/package/mailjs-sdk',
-                'template' => 'https://beefree.io/editor/?template=empty'
-            ],
             'analytics' => [
                 'enabled' => true,
                 'domainId' => '751563b2-769f-441f-bfab-b3f2c099ccc8',
                 'options' => '{ "localhost": false, "detailed": true }'
             ],
-            'auth' => [
-                'client_id' => env('GITHUB_CIENT_ID'),
-                'client_secret' => env('GITHUB_CLIENT_SECRET'),
-                'redirect_url' => env('GITHUB_REDIRECT'),
-                'allowed_users' => $configExternal->allowed_users,
-                'session_expires' => 1800 // 30 min
+            'app' => [
+                'url' => env('APP_URL'),
+                'id' => env('APP_ID'),
+                'variants' => [ // TODO: implement variant checks
+                    'Free' => [
+                        'monthly_requests' => 200,
+                        'max_templates' => 2
+                    ],
+                    'Personal' => [
+                        'monthly_requests' => 1000,
+                        'max_templates' => 5
+                    ],
+                    'Professional' => [
+                        'monthly_requests' => 5000,
+                        'max_templates' => 100
+                    ],
+                ],
             ],
             'cors' => [
                 'allow_origins' => ['*'],
@@ -41,10 +45,6 @@ function config($key, $fallback = null)
                 'database' => env('DB_DATABASE'),
                 'username' => env('DB_USERNAME'),
                 'password' => env('DB_PASSWORD')
-            ],
-            'hmac' => [
-                'algorithm' => 'sha256',
-                'secret' => env('APP_KEY')
             ],
             'jwt' => [
                 'iss' => env('APP_URL'),

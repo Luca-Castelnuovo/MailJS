@@ -2,10 +2,9 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
 use App\Helpers\JWTHelper;
-use App\Helpers\SessionHelper;
+use App\Helpers\AuthHelper;
 use Zend\Diactoros\ServerRequest;
 
 class GeneralController extends Controller
@@ -30,38 +29,8 @@ class GeneralController extends Controller
 
         return $this->respond('index.twig', [
             'message' => $msg,
-            'logged_in' => SessionHelper::valid()
+            'logged_in' => AuthHelper::valid()
         ]);
-    }
-
-    /**
-     * Docs screen
-     * 
-     * @return RedirectResponse
-     */
-    public function docs()
-    {
-        return $this->redirect(config('links.docs'));
-    }
-
-    /**
-     * SDK screen
-     * 
-     * @return RedirectResponse
-     */
-    public function sdk()
-    {
-        return $this->redirect(config('links.sdk'));
-    }
-
-    /**
-     * Template screen
-     * 
-     * @return RedirectResponse
-     */
-    public function template()
-    {
-        return $this->redirect(config('links.template'));
     }
 
     /**
@@ -107,62 +76,5 @@ class GeneralController extends Controller
             'short_message' => $short_message,
             'message' => $message
         ], $code);
-    }
-
-    /**
-     * Dashboard screen
-     *
-     * @return HtmlResponse
-     */
-    public function dashboard()
-    {
-        $templates = DB::select(
-            'templates',
-            [
-                'id',
-                'name',
-                'captcha_key',
-                'email_to',
-                'email_replyTo',
-                'email_cc',
-                'email_bcc',
-                'email_fromName',
-                'email_subject',
-                'email_content',
-                'updated_at',
-                'created_at'
-            ],
-            [
-                'user_id' => SessionHelper::get('user_id'),
-                "ORDER" => ["id" => "ASC"]
-            ]
-        );
-
-        $result = [];
-
-        foreach ($templates as $template) {
-            $history = DB::select(
-                'history',
-                [
-                    'template_params[JSON]',
-                    'user_ip',
-                    'origin',
-                    'created_at'
-                ],
-                [
-                    'template_id' => $template['id'],
-                    "ORDER" => ["id" => "ASC"]
-                ]
-            );
-
-            $result[$template['id']] = $template;
-            $result[$template['id']]['history'] = $history;
-        }
-
-        $templates = array_values($result);
-
-        return $this->respond('dashboard.twig', [
-            'templates' => $templates
-        ]);
     }
 }
