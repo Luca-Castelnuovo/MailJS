@@ -3,8 +3,8 @@
 namespace App\Middleware;
 
 use App\Helpers\AuthHelper;
-use App\Helpers\StringHelper;
-use App\Helpers\SessionHelper;
+use lucacastelnuovo\Helpers\Str;
+use lucacastelnuovo\Helpers\Session;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\RedirectResponse;
@@ -23,9 +23,9 @@ class SessionMiddleware implements Middleware
     public function handle(ServerRequestInterface $request, $next)
     {
         if (!AuthHelper::valid()) {
-            SessionHelper::destroy();
+            Session::destroy();
 
-            if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
+            if (!Str::contains($request->getHeader('content-type')[0], '/json')) {
                 return new RedirectResponse('/auth/logout', 403);
             }
 
@@ -39,7 +39,7 @@ class SessionMiddleware implements Middleware
             ], 403);
         }
 
-        SessionHelper::set('last_activity', time());
+        Session::set('last_activity', time());
 
         return $next($request);
     }

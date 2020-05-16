@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use DB;
 use Exception;
-use App\Helpers\SessionHelper;
 use App\Helpers\JWTHelper;
 use App\Validators\TemplateValidator;
+use lucacastelnuovo\Helpers\Session;
 use Ramsey\Uuid\Uuid;
 use Zend\Diactoros\ServerRequest;
 
@@ -37,7 +37,7 @@ class TemplateController extends Controller
             'templates',
             [
                 'id' => Uuid::uuid4()->toString(),
-                'user_id' => SessionHelper::get('user_id'),
+                'user_id' => Session::get('user_id'),
                 'name' => $request->data->name,
                 'captcha_key' => $request->data->captcha_key,
                 'email_to' => $request->data->email_to,
@@ -63,7 +63,7 @@ class TemplateController extends Controller
      */
     public function update(ServerRequest $request, $id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',
@@ -129,7 +129,7 @@ class TemplateController extends Controller
      */
     public function delete($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',
@@ -158,7 +158,7 @@ class TemplateController extends Controller
      */
     public function createKey(ServerRequest $request, $id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',
@@ -179,7 +179,7 @@ class TemplateController extends Controller
         $key = JWTHelper::create('submission', [
             'sub' => $id,
             'allowed_origin' => $request->data->allowed_origin
-        ]);
+        ], config('app.url'));
 
         return $this->respondJson([
             'key' => $key
@@ -195,7 +195,7 @@ class TemplateController extends Controller
      */
     public function resetKey($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
             return $this->respondJsonError(
                 'template_not_owned',
                 'The user doesn\'t own the template',

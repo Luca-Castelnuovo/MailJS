@@ -10,7 +10,6 @@
     "require": {
         "catfan/medoo": "^1.7",
         "firebase/php-jwt": "^5.1",
-        "google/recaptcha": "^1.2",
         "lucacastelnuovo/helpers-php": "^1.0",
         "miladrahimi/phprouter": "^4.0",
         "phpmailer/phpmailer": "^6.1",

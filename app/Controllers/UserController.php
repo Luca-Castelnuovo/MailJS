@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use DB;
-use App\Helpers\SessionHelper;
+use lucacastelnuovo\Helpers\Session;
 
 class UserController extends Controller
 {
@@ -31,7 +31,7 @@ class UserController extends Controller
                 'created_at'
             ],
             [
-                'user_id' => SessionHelper::get('user_id'),
+                'user_id' => Session::get('user_id'),
                 "ORDER" => ["id" => "ASC"]
             ]
         );
@@ -50,7 +50,7 @@ class UserController extends Controller
      */
     public function history($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
             return $this->redirect('/dashboard');
         }
 

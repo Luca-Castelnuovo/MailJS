@@ -5,8 +5,7 @@ namespace App\Controllers;
 use DB;
 use Exception;
 use App\Helpers\MailHelper;
-use App\Helpers\SessionHelper;
-use App\Helpers\CaptchaHelper;
+use lucacastelnuovo\Helpers\Captcha;
 use Zend\Diactoros\ServerRequest;
 
 class SubmissionController extends Controller
@@ -34,7 +33,7 @@ class SubmissionController extends Controller
 
         try {
             if ($template['captcha_key']) {
-                if (!CaptchaHelper::validate(
+                if (!Captcha::recaptcha(
                     $request->data->{"g-recaptcha-response"},
                     $template['captcha_key']
                 )) {

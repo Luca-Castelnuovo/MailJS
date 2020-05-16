@@ -18,17 +18,19 @@ class JWTHelper
      *
      * @param string $type
      * @param array  $data
-     * @param int    $expires optional
+     * @param string $aud optional
      *
      * @return string
      */
-    public static function create($type, $data, $expires = null)
+    public static function create($type, $data, $aud = null)
     {
-        $expires = $expires ?: config('jwt.ttl');
+        $aud = $aud ?: config('jwt.iss');
+
         $head = [
             'iss' => config('jwt.iss'),
+            'aud' => $aud,
             'iat' => time(),
-            'exp' => time() + $expires,
+            'exp' => time() + config('jwt')[$type],
             'type' => $type
         ];
 
@@ -36,7 +38,7 @@ class JWTHelper
 
         return JWT::encode(
             $payload,
-            config('jwt.secret'),
+            config('jwt.private_key'),
             config('jwt.algorithm')
         );
     }

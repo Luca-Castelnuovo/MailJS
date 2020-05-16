@@ -4,9 +4,9 @@ namespace App\Controllers;
 
 use Exception;
 use App\Controllers\Controller;
-use App\Helpers\StringHelper;
-use App\Helpers\SessionHelper;
-use lucacastelnuovo\AppsClient\AppsClient;
+use lucacastelnuovo\Helpers\Str;
+use lucacastelnuovo\Helpers\Session;
+use lucacastelnuovo\Helpers\AppsClient;
 use Zend\Diactoros\ServerRequest;
 
 class AuthController extends Controller
@@ -56,7 +56,7 @@ class AuthController extends Controller
             return $this->logout("token");
         }
 
-        $id = StringHelper::escape($data->sub); // Value is used in DB calls
+        $id = Str::escape($data->sub); // Value is used in DB calls
 
         return $this->login($id, $data->variant, $data->exp);
     }
@@ -72,13 +72,13 @@ class AuthController extends Controller
      */
     public function login($id, $variant, $expires)
     {
-        $return_to = SessionHelper::get('return_to');
+        $return_to = Session::get('return_to');
 
-        SessionHelper::destroy();
-        SessionHelper::set('id', $id);
-        SessionHelper::set('variant', $variant);
-        SessionHelper::set('ip', $_SERVER['REMOTE_ADDR']);
-        SessionHelper::set('expires', $expires);
+        Session::destroy();
+        Session::set('id', $id);
+        Session::set('variant', $variant);
+        Session::set('ip', $_SERVER['REMOTE_ADDR']);
+        Session::set('expires', $expires);
 
         if (!file_exists("users/{$id}")) {
             mkdir("users/{$id}", 0770);
@@ -100,7 +100,7 @@ class AuthController extends Controller
      */
     public function logout($msg = 'logout')
     {
-        SessionHelper::destroy();
+        Session::destroy();
 
         if ($msg) {
             return $this->redirect("/?msg={$msg}");

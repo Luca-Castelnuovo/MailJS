@@ -2,7 +2,7 @@
 
 namespace App\Middleware;
 
-use App\Helpers\StringHelper;
+use lucacastelnuovo\Helpers\Str;
 use MiladRahimi\PhpRouter\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\JsonResponse;
@@ -21,7 +21,7 @@ class JSONMiddleware implements Middleware
     public function handle(ServerRequestInterface $request, $next)
     {
         if (in_array($request->getMethod(), ['POST', 'PUT'])) {
-            if (!StringHelper::contains($request->getHeader('content-type')[0], '/json')) {
+            if (!Str::contains($request->getHeader('content-type')[0], '/json')) {
                 return new JsonResponse([
                     'success' => false,
                     'errors' => [

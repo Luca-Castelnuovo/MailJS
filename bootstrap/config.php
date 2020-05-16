@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\ArrayHelper;
+use lucacastelnuovo\Helpers\Arr;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
@@ -47,10 +47,10 @@ function config($key, $fallback = null)
                 'password' => env('DB_PASSWORD')
             ],
             'jwt' => [
-                'iss' => env('APP_URL'),
-                'ttl' => 31536000, // 1 year
                 'algorithm' => 'HS256',
-                'secret' => env('APP_KEY')
+                'secret' => env('APP_KEY'),
+                'iss' => env('APP_URL'),
+                'submission' => 31536000 // 1year
             ],
             'smtp' => [
                 'host' => env('SMTP_HOST'),
@@ -62,5 +62,5 @@ function config($key, $fallback = null)
         ];
     }
 
-    return ArrayHelper::get($config, $key, $fallback);
+    return Arr::get($config, $key, $fallback);
 }
