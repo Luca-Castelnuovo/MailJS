@@ -20,16 +20,18 @@ For development
 1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
 2. `composer install`
 3. Edit `.env`
-4. `composer migrate`
-5. `composer seed`
-6. Start development server `php -S localhost:8080 -t public`
+4. `composer jwt`
+5. `composer migrate`
+6. `composer seed`
+7. Start development server `php -S localhost:8080 -t public`
 
 For production
 
 1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
 2. `composer install --optimize-autoloader --no-dev`
 3. Edit `.env`
-4. `composer migrate`
+4. `composer jwt`
+5. `composer migrate`
 
 ## Security Vulnerabilities
 
