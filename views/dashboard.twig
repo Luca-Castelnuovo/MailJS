@@ -1,9 +1,10 @@
 {% extends "partials/base.twig" %}
 {% set title = "Dashboard" %}
+{% set navbarDisable = false %}
+{% set page_css = "/assets/css/dashboard.css" %}
+{% set page_script = "/assets/js/dashboard.js" %}
 
 {% block content %}
-    <link rel="stylesheet" href="/assets/css/dashboard.css">
-
     <h2>Templates</h2>
     <div class="row">
         {% include 'dashboard/create_template.twig' %}
@@ -12,6 +13,4 @@
             {% include 'dashboard/base_template.twig' %}
         {% endfor %}
     </div>
-
-    <script src="/assets/js/dashboard.js"></script>
 {% endblock %}

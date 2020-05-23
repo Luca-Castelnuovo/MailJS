@@ -2,17 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Helpers\AuthHelper;
-use Zend\Diactoros\ServerRequest;
+use CQ\Helpers\Auth;
+use CQ\Controllers\Controller;
 
 class GeneralController extends Controller
 {
     /**
-     * Login screen
+     * Index screen
      * 
-     * @return HtmlResponse
+     * @param object $request
+     * 
+     * @return Html
      */
-    public function index(ServerRequest $request)
+    public function index($request)
     {
         $msg = $request->getQueryParams()['msg'] ?: '';
         $code = $request->getQueryParams()['code'] ?: '';
@@ -39,16 +41,16 @@ class GeneralController extends Controller
 
         return $this->respond('index.twig', [
             'message' => $msg,
-            'logged_in' => AuthHelper::valid()
+            'logged_in' => Auth::valid()
         ]);
     }
 
     /**
      * Error screen
      * 
-     * @param string $code
-     *
-     * @return HtmlResponse
+     * @param string $httpcode
+     * 
+     * @return Html
      */
     public function error($code)
     {
@@ -61,23 +63,15 @@ class GeneralController extends Controller
                 $short_message = 'Oops! Page not found';
                 $message = 'We are sorry, but the page you requested was not found';
                 break;
-            case '422':
-                $short_message = 'Oops! Parameters missing';
-                $message = 'The page you requested missed required parameters';
-                break;
             case '500':
                 $short_message = 'Oops! Server error';
-                $message = 'We are experiencing some technical issues';
-                break;
-            case '502':
-                $short_message = 'Oops! Proxy error';
                 $message = 'We are experiencing some technical issues';
                 break;
 
             default:
                 $short_message = 'Oops! Unknown Error';
                 $message = 'Unknown error occured';
-                $code = 500;
+                $code = 400;
                 break;
         }
 

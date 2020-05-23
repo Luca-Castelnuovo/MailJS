@@ -3,11 +3,13 @@
 namespace App\Controllers;
 
 use Exception;
-use App\Controllers\Controller;
-use lucacastelnuovo\Helpers\Str;
-use lucacastelnuovo\Helpers\Session;
-use lucacastelnuovo\Helpers\AppsClient;
-use Zend\Diactoros\ServerRequest;
+use CQ\Helpers\App;
+use CQ\Helpers\Str;
+use CQ\Helpers\Session;
+use CQ\Helpers\Request;
+use CQ\Apps\Client;
+use CQ\Config\Config;
+use CQ\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -20,16 +22,17 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->provider = new AppsClient([
-            'app_id' => config('app.id'),
-            'app_url'     => config('app.url')
+        $this->provider = new Client([
+            'app_id' => Config::get('apps.id'),
+            'app_url' => Config::get('app.url'),
+            'debug' => App::debug()
         ]);
     }
 
     /**
      * Redirect to authorization portal
      * 
-     * @return RedirectResponse
+     * @return Redirect
      */
     public function request()
     {
@@ -41,22 +44,22 @@ class AuthController extends Controller
     /**
      * Callback for OAuth
      *
-     * @param ServerRequest $request
+     * @param object $request
      * 
-     * @return RedirectResponse
+     * @return Redirect
      */
-    public function callback(ServerRequest $request)
+    public function callback($request)
     {
         $code = $request->getQueryParams()['code'];
 
         try {
-            $data = $this->provider->getData($code, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+            $data = $this->provider->getData($code, Request::ip(), Request::userAgent());
         } catch (Exception $e) {
+            return $this->logout('token');
             // var_dump($e->getMessage());exit;
-            return $this->logout("token");
         }
 
-        $id = Str::escape($data->sub); // Value is used in DB calls
+        $id = Str::escape($data->sub);
 
         return $this->login($id, $data->variant, $data->exp);
     }
@@ -68,7 +71,7 @@ class AuthController extends Controller
      * @param string $variant
      * @param string $expires
      *
-     * @return RedirectResponse
+     * @return Redirect
      */
     public function login($id, $variant, $expires)
     {
@@ -77,12 +80,8 @@ class AuthController extends Controller
         Session::destroy();
         Session::set('id', $id);
         Session::set('variant', $variant);
-        Session::set('ip', $_SERVER['REMOTE_ADDR']);
+        Session::set('ip', Request::ip());
         Session::set('expires', $expires);
-
-        if (!file_exists("users/{$id}")) {
-            mkdir("users/{$id}", 0770);
-        }
 
         if ($return_to) {
             return $this->redirect($return_to);
@@ -96,7 +95,7 @@ class AuthController extends Controller
      * 
      * @param string $msg optional
      *
-     * @return RedirectResponse
+     * @return Redirect
      */
     public function logout($msg = 'logout')
     {

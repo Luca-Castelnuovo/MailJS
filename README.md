@@ -13,37 +13,29 @@
 
 ### 💾 [SDK](https://github.com/Luca-Castelnuovo/MailJS-sdk)
 
-## Install
+## Installation
 
-1. Install Package
+For development
 
-```sh
-git clone https://github.com/Luca-Castelnuovo/MailJS.git
-composer install
-```
+1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
+2. `composer install`
+3. Edit `.env`
+4. `composer migrate`
+5. `composer seed`
+6. Start development server `php -S localhost:8080 -t public`
 
-## Configuration
+For production
 
-Edit .env
+1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
+2. `composer install --optimize-autoloader --no-dev`
+3. Edit `.env`
+4. `composer migrate`
 
-```bash
-APP_URL=https://mailjs.lucacastelnuovo.nl
-APP_ID=GRKCfi
-APP_KEY=1234abcd
+## Security Vulnerabilities
 
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=database
-DB_USERNAME=root
-DB_PASSWORD=root
+Please review [our security policy](https://github.com/Luca-Castelnuovo/TestingPlatform/security/policy) on how to report security vulnerabilities.
 
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USER=info@example.com
-SMTP_PASSWORD=letmein
-```
-
-## 📝 License
+## License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
-This project is [MIT](https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/Luca-Castelnuovo/TestingPlatform/blob/master/LICENSE) licensed.

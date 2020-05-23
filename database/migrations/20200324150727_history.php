@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class History extends AbstractMigration
+class History extends Migration
 {
     /**
      * Change Method.
@@ -33,9 +33,10 @@ class History extends AbstractMigration
     {
         $history = $this->table('history');
         $history->addColumn('template_id', 'integer')
+            ->addColumn('template_owner', 'string')
             ->addColumn('template_params', 'text')
-            ->addColumn('user_ip', 'string', ['limit' => 39])
-            ->addColumn('origin', 'string', ['limit' => 256])
+            ->addColumn('user_ip', 'string')
+            ->addColumn('origin', 'string')
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();
     }

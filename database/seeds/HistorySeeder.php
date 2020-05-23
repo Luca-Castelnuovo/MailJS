@@ -1,9 +1,8 @@
 <?php
 
+use CQ\DB\Seeder;
 
-use Phinx\Seed\AbstractSeed;
-
-class HistorySeeder extends AbstractSeed
+class HistorySeeder extends Seeder
 {
     /**
      * Run Method.
@@ -15,12 +14,13 @@ class HistorySeeder extends AbstractSeed
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        $faker = self::faker();
         $data = [];
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
                 'template_id'     => $faker->randomDigit,
+                'template_owner'  => $faker->uuid,
                 'template_params' => '{"name":"123","email":"test@gmail.com"}',
                 'origin'          => $faker->domainName,
                 'user_ip'         => $faker->ipv4,

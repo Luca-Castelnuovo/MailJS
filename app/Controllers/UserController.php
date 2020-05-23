@@ -2,15 +2,16 @@
 
 namespace App\Controllers;
 
-use DB;
-use lucacastelnuovo\Helpers\Session;
+use CQ\DB\DB;
+use CQ\Helpers\Session;
+use CQ\Controllers\Controller;
 
 class UserController extends Controller
 {
     /**
      * Dashboard screen
      *
-     * @return HtmlResponse
+     * @return Html
      */
     public function dashboard()
     {
@@ -46,11 +47,11 @@ class UserController extends Controller
      *
      * @param string $id
      * 
-     * @return HtmlResponse
+     * @return Html
      */
     public function history($id)
     {
-        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+        if (!DB::has('templates', ['id' => $id, 'user_id' => Session::get('user_id')])) {
             return $this->redirect('/dashboard');
         }
 

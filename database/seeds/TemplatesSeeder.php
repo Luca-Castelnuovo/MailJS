@@ -1,9 +1,8 @@
 <?php
 
+use CQ\DB\Seeder;
 
-use Phinx\Seed\AbstractSeed;
-
-class TemplatesSeeder extends AbstractSeed
+class TemplatesSeeder extends Seeder
 {
     /**
      * Run Method.
@@ -15,13 +14,13 @@ class TemplatesSeeder extends AbstractSeed
      */
     public function run()
     {
-        $faker = Faker\Factory::create();
+        $faker = self::faker();
         $data = [];
 
         for ($i = 0; $i < 5; $i++) {
             $data[] = [
                 'id'             => $faker->uuid,
-                'user_id'        => $faker->userName,
+                'user_id'        => $faker->uuid,
                 'name'           => $faker->userName,
                 'captcha_key'    => $faker->md5,
                 'email_to'       => $faker->email,

@@ -1,8 +1,8 @@
 <?php
 
-use Phinx\Migration\AbstractMigration;
+use CQ\DB\Migration;
 
-class Templates extends AbstractMigration
+class Templates extends Migration
 {
     /**
      * Change Method.
@@ -33,18 +33,16 @@ class Templates extends AbstractMigration
     {
         $templates = $this->table('templates', ['id' => false, 'primary_key' => 'id']);
         $templates->addColumn('id', 'uuid')
-            ->addColumn('user_id', 'string', ['limit' => 64, 'null' => false])
-            ->addColumn('name', 'string', ['limit' => 64, 'null' => false])
-            ->addColumn('captcha_key', 'string', ['limit' => 64, 'null' => true])
-
-            ->addColumn('email_to', 'string', ['limit' => 256, 'null' => false])
-            ->addColumn('email_replyTo', 'string', ['limit' => 256, 'null' => true])
-            ->addColumn('email_cc', 'string', ['limit' => 256, 'null' => true])
-            ->addColumn('email_bcc', 'string', ['limit' => 256, 'null' => true])
-            ->addColumn('email_fromName', 'string', ['limit' => 256, 'null' => true])
-            ->addColumn('email_subject', 'string', ['limit' => 256, 'null' => false])
-            ->addColumn('email_content', 'text', ['null' => true])
-
+            ->addColumn('user_id', 'string')
+            ->addColumn('name', 'string')
+            ->addColumn('captcha_key', 'string')
+            ->addColumn('email_to', 'string')
+            ->addColumn('email_replyTo', 'string')
+            ->addColumn('email_cc', 'string')
+            ->addColumn('email_bcc', 'string')
+            ->addColumn('email_fromName', 'string')
+            ->addColumn('email_subject', 'string')
+            ->addColumn('email_content', 'text')
             ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->create();

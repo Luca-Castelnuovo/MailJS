@@ -1,26 +1,25 @@
 {
-    "name": "lucacastelnuovo/mail-js",
-    "description": "JS interface for my mail server",
+    "name": "luca-castelnuovo/mailjs",
+    "description": "Backend for email submissions powering serverless aplications",
+    "keywords": [
+        "mailjs",
+        "framework",
+        "cubequence"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "Luca Castelnuovo",
-            "email": "ltcastelnuovo@gmail.com"
+            "email": "luca@castelnuovo.xyz"
         }
     ],
     "require": {
-        "catfan/medoo": "^1.7",
-        "firebase/php-jwt": "^5.1",
-        "lucacastelnuovo/helpers-php": "^1.0",
-        "miladrahimi/phprouter": "^4.0",
-        "phpmailer/phpmailer": "^6.1",
-        "ramsey/uuid": "^4.0",
-        "respect/validation": "^2.0",
-        "robmorgan/phinx": "^0.12.0",
-        "twig/twig": "^3.0",
-        "vlucas/phpdotenv": "^4.1"
+        "php": ">=5.3.0",
+        "cubequence/framework": "^1.0",
+        "phpmailer/phpmailer": "^6.1"
     },
     "require-dev": {
-        "fzaninotto/faker": "^1.9"
+        "filp/whoops": "^2.7"
     },
     "config": {
         "optimize-autoloader": true,
@@ -41,5 +40,9 @@
         "migrate": "composer phinx migrate",
         "phinx": "vendor/bin/phinx",
         "seed": "composer phinx seed:run -v"
+    },
+    "support": {
+        "issues": "https://github.com/Luca-Castelnuovo/CubeQuence/issues",
+        "source": "https://github.com/Luca-Castelnuovo/CubeQuence"
     }
 }
