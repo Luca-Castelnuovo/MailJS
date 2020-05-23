@@ -32,7 +32,7 @@ class UserController extends Controller
                 'created_at'
             ],
             [
-                'user_id' => Session::get('user_id'),
+                'user_id' => Session::get('id'),
                 "ORDER" => ["id" => "ASC"]
             ]
         );
@@ -51,7 +51,7 @@ class UserController extends Controller
      */
     public function history($id)
     {
-        if (!DB::has('templates', ['id' => $id, 'user_id' => Session::get('user_id')])) {
+        if (!DB::has('templates', ['id' => $id, 'user_id' => Session::get('id')])) {
             return $this->redirect('/dashboard');
         }
 

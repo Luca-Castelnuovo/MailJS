@@ -65,7 +65,7 @@ class TemplateController extends Controller
             'templates',
             [
                 'id' => UUID::v6(),
-                'user_id' => Session::get('user_id'),
+                'user_id' => Session::get('id'),
                 'name' => $request->data->name,
                 'captcha_key' => $request->data->captcha_key,
                 'email_to' => $request->data->email_to,
@@ -94,7 +94,7 @@ class TemplateController extends Controller
      */
     public function update($request, $id)
     {
-        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('id'))) {
             return $this->respondJson(
                 'Template not owned',
                 [],
@@ -163,7 +163,7 @@ class TemplateController extends Controller
      */
     public function delete($id)
     {
-        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('id'))) {
             return $this->respondJson(
                 'Template not owned',
                 [],
@@ -195,7 +195,7 @@ class TemplateController extends Controller
      */
     public function createKey($request, $id)
     {
-        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('id'))) {
             return $this->respondJson(
                 'Template not owned',
                 [],
@@ -233,7 +233,7 @@ class TemplateController extends Controller
      */
     public function resetKey($id)
     {
-        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+        if (!$this->hasUserTemplate($id, Session::get('id'))) {
             return $this->respondJson(
                 'Template not owned',
                 [],
