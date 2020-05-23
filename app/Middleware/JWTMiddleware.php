@@ -8,7 +8,7 @@ use CQ\Response\Json;
 use CQ\Middleware\Middleware;
 use App\Helpers\JWTHelper;
 
-class JWTMiddleware implements Middleware
+class JWTMiddleware extends Middleware
 {
     /**
      * Validate JWT token.
