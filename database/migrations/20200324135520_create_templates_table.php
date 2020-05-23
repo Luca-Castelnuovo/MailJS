@@ -2,7 +2,7 @@
 
 use CQ\DB\Migration;
 
-class Templates extends Migration
+class CreateTemplatesTable extends Migration
 {
     /**
      * Change Method.

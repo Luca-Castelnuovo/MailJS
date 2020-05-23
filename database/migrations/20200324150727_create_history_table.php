@@ -2,7 +2,7 @@
 
 use CQ\DB\Migration;
 
-class History extends Migration
+class CreateHistoryTable extends Migration
 {
     /**
      * Change Method.
