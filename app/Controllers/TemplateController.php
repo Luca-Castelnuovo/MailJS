@@ -229,7 +229,7 @@ class TemplateController extends Controller
             'allowed_origin' => $request->data->allowed_origin
         ], Config::get('jwt.submission'));
 
-        return $this->respondJson([
+        return $this->respondJson('Key Created', [
             'key' => $key
         ]);
     }
