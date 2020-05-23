@@ -251,7 +251,7 @@ class TemplateController extends Controller
             );
         }
 
-        DB::update('templates', ['key_id' => UUID::v4()], $id);
+        DB::update('templates', ['key_id' => UUID::v4()], ['id' => $id]);
 
         return $this->respondJson(
             'Key Reset',
