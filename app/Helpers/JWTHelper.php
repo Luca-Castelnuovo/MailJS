@@ -3,69 +3,60 @@
 namespace App\Helpers;
 
 use Exception;
-use Firebase\JWT\ExpiredException;
-use Firebase\JWT\JWT;
+use CQ\JWT\JWT;
+use CQ\Config\Config;
 
 class JWTHelper
 {
     /**
-     * Create JWT.
+     * Create JWT provider
      *
-     * @param string $type
-     * @param array  $data
-     * @param int    $expires optional
-     *
-     * @return string
+     * @return JWT
      */
-    public static function create($type, $data, $expires = null)
+    private static function getProvider()
     {
-        $expires = $expires ?: config('jwt.ttl');
-        $head = [
-            'iss' => config('jwt.iss'),
-            'iat' => time(),
-            'exp' => time() + $expires,
-            'type' => $type
-        ];
-
-        $payload = array_merge($head, $data);
-
-        return JWT::encode(
-            $payload,
-            config('jwt.secret'),
-            config('jwt.algorithm')
-        );
+        return new JWT([
+            'iss' => Config::get('jwt.iss'),
+            'aud' => Config::get('app.url'),
+            'private_key' => Config::get('jwt.private_key'),
+            'public_key' => Config::get('jwt.public_key')
+        ]);
     }
 
     /**
-     * Decode and validate JWT.
+     * Create JWT
+     *
+     * @param array $data
+     * @param int $seconds_valid
+     * @param string $aud
+     * 
+     * @return string
+     */
+    public static function create($data, $seconds_valid, $aud = null)
+    {
+        $provider = self::getProvider();
+
+        return $provider->create($data, $seconds_valid, $aud);
+    }
+
+    /**
+     * Validate JWT
      *
      * @param string $type
-     * @param string $token
-     *
-     * @return bool
+     * @param string $code
+     * 
+     * @return array
+     * @throws Exception
      */
-    public static function valid($type, $token)
+    public static function valid($type, $code)
     {
-        if (!$token) {
-            throw new Exception('Token not provided');
-        }
+        $provider = self::getProvider();
+        $claims = $provider->valid($code);
 
-        try {
-            $credentials = JWT::decode(
-                $token,
-                config('jwt.secret'),
-                [config('jwt.algorithm')]
-            );
-        } catch (ExpiredException $e) {
-            throw new Exception('Token has expired');
-        } catch (Exception $e) {
-            throw new Exception('Token is invalid');
-        }
-
-        if ($type !== $credentials->type) {
+        if ($claims->type !== $type) {
             throw new Exception('Token type not valid');
         }
 
-        return $credentials;
+        return $claims;
     }
 }

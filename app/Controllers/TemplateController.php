@@ -2,41 +2,71 @@
 
 namespace App\Controllers;
 
-use DB;
 use Exception;
-use App\Helpers\SessionHelper;
-use App\Helpers\JWTHelper;
+use CQ\DB\DB;
+use CQ\Config\Config;
+use CQ\Helpers\UUID;
+use CQ\Helpers\Session;
+use CQ\Helpers\Variant;
+use CQ\Controllers\Controller;
 use App\Validators\TemplateValidator;
-use Ramsey\Uuid\Uuid;
-use Zend\Diactoros\ServerRequest;
+
+use App\Helpers\JWTHelper;
 
 class TemplateController extends Controller
 {
     /**
+     * Check if user owns template
+     *
+     * @param int $template_id
+     * @param string $user_id
+     * 
+     * @return boolean
+     */
+    protected function hasUserTemplate($template_id, $user_id)
+    {
+        return DB::has('templates', [
+            'id' => $template_id,
+            'user_id' => $user_id
+        ]);
+    }
+
+    /**
      * Create template
      *
-     * @param ServerRequest $request
+     * @param object $request
      *
-     * @return JsonResponse
+     * @return Json
      */
-    public function create(ServerRequest $request)
+    public function create($request)
     {
         try {
             TemplateValidator::create($request->data);
         } catch (Exception $e) {
-            return $this->respondJsonError(
-                'invalid_input',
+            return $this->respondJson(
+                'Invalid domain',
                 json_decode($e->getMessage()),
                 422
+            );
+        }
+
+        $n_templates = DB::count('templates', ['owner_id' => Session::get('id')]);
+        if (!Variant::check(Session::get('variant'), 'max_templates', $n_templates)) {
+            $n_templates_licensed = Variant::variantValue(Session::get('variant'), 'max_templates');
+
+            return $this->respondJson(
+                "Template quota reached, max {$n_templates_licensed}",
+                [],
+                400
             );
         }
 
         DB::create(
             'templates',
             [
-                'user_id' => SessionHelper::get('user_id'),
+                'id' => UUID::v6(),
+                'user_id' => Session::get('user_id'),
                 'name' => $request->data->name,
-                'uuid' => Uuid::uuid4()->toString(),
                 'captcha_key' => $request->data->captcha_key,
                 'email_to' => $request->data->email_to,
                 'email_replyTo' => $request->data->email_replyTo,
@@ -48,23 +78,26 @@ class TemplateController extends Controller
             ]
         );
 
-        return $this->respondJson();
+        return $this->respondJson(
+            'Template Created',
+            ['reload' => true]
+        );
     }
 
     /**
      * Update template
      *
-     * @param ServerRequest $request
-     * @param int $id
+     * @param object $request
+     * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
-    public function update(ServerRequest $request, $id)
+    public function update($request, $id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+            return $this->respondJson(
+                'Template not owned',
+                [],
                 403
             );
         }
@@ -72,8 +105,8 @@ class TemplateController extends Controller
         try {
             TemplateValidator::update($request->data);
         } catch (Exception $e) {
-            return $this->respondJsonError(
-                'invalid_input',
+            return $this->respondJson(
+                'Invalid Input',
                 json_decode($e->getMessage()),
                 422
             );
@@ -108,30 +141,32 @@ class TemplateController extends Controller
                 'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
                 'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
                 'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-                'email_content' => $request->data->email_content ?: $template['email_content'],
-                'updated_at' => date("Y-m-d H:i:s")
+                'email_content' => $request->data->email_content ?: $template['email_content']
             ],
             [
                 'id' => $id
             ]
         );
 
-        return $this->respondJson();
+        return $this->respondJson(
+            'Template Updated',
+            ['reload' => true]
+        );
     }
 
     /**
      * Delete template
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
     public function delete($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+            return $this->respondJson(
+                'Template not owned',
+                [],
                 403
             );
         }
@@ -144,23 +179,26 @@ class TemplateController extends Controller
             'template_id' => $id,
         ]);
 
-        return $this->respondJson();
+        return $this->respondJson(
+            'Template Deletd',
+            ['reload' => true]
+        );
     }
 
     /**
      * Create access_key
      *
-     * @param ServerRequest $request
-     * @param int $id
+     * @param object $request
+     * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
-    public function createKey(ServerRequest $request, $id)
+    public function createKey($request, $id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+            return $this->respondJson(
+                'Template not owned',
+                [],
                 403
             );
         }
@@ -168,21 +206,18 @@ class TemplateController extends Controller
         try {
             TemplateValidator::createKey($request->data);
         } catch (Exception $e) {
-            return $this->respondJsonError(
-                'invalid_input',
+            return $this->respondJson(
+                'Invalid Input',
                 json_decode($e->getMessage()),
                 422
             );
         }
 
-        $uuid = DB::get('templates', 'uuid', [
-            'id' => $id
-        ]);
-
-        $key = JWTHelper::create('submission', [
-            'sub' => $uuid,
+        $key = JWTHelper::create([
+            'type' => 'submission',
+            'sub' => $id,
             'allowed_origin' => $request->data->allowed_origin
-        ]);
+        ], Config::get('jwt.submission'));
 
         return $this->respondJson([
             'key' => $key
@@ -192,25 +227,25 @@ class TemplateController extends Controller
     /**
      * Reset all access_key
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return JsonResponse
+     * @return Json
      */
     public function resetKey($id)
     {
-        if (!$this->hasUserTemplate($id, SessionHelper::get('user_id'))) {
-            return $this->respondJsonError(
-                'template_not_owned',
-                'The user doesn\'t own the template',
+        if (!$this->hasUserTemplate($id, Session::get('user_id'))) {
+            return $this->respondJson(
+                'Template not owned',
+                [],
                 403
             );
         }
 
-        DB::update('templates', [
-            'uuid' => Uuid::uuid4()->toString(),
-            'updated_at' => date("Y-m-d H:i:s")
-        ], $id);
+        DB::update('templates', ['id' => UUID::v6(),], $id);
 
-        return $this->respondJson();
+        return $this->respondJson(
+            'Key Reset',
+            ['reload' => true]
+        );
     }
 }

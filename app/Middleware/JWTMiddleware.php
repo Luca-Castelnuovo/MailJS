@@ -2,25 +2,23 @@
 
 namespace App\Middleware;
 
-use DB;
 use Exception;
+use CQ\DB\DB;
+use CQ\Response\Json;
+use CQ\Middleware\Middleware;
 use App\Helpers\JWTHelper;
-use App\Helpers\StringHelper;
-use MiladRahimi\PhpRouter\Middleware;
-use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
 
 class JWTMiddleware implements Middleware
 {
     /**
      * Validate JWT token.
      *
-     * @param Request $request
+     * @param $request
      * @param $next
      *
      * @return mixed
      */
-    public function handle(ServerRequestInterface $request, $next)
+    public function handle($request, $next)
     {
         $authorization_header = $request->getHeader('authorization')[0];
         $access_token = str_replace('Bearer ', '', $authorization_header);
@@ -28,7 +26,7 @@ class JWTMiddleware implements Middleware
         try {
             $credentials = JWTHelper::valid('submission', $access_token);
         } catch (Exception $error) {
-            return new JsonResponse([
+            return new Json([
                 'success' => false,
                 'errors' => [
                     'status' => 401,
@@ -39,21 +37,8 @@ class JWTMiddleware implements Middleware
         }
 
         $origin_header = $request->getHeader('origin')[0];
-        // $referer_header = $request->getHeader('referer')[0];
-
-        // if (!StringHelper::beginsWith($referer_header, $origin_header)) {
-        //     return new JsonResponse([
-        //         'success' => false,
-        //         'errors' => [
-        //             'status' => 401,
-        //             'title' => 'invalid_referer_origin',
-        //             'detail' => "Refer doesn't match Origin header"
-        //         ]
-        //     ], 401);
-        // }
-
         if ($origin_header !== $credentials->allowed_origin) {
-            return new JsonResponse([
+            return new Json([
                 'success' => false,
                 'errors' => [
                     'status' => 401,
@@ -64,7 +49,7 @@ class JWTMiddleware implements Middleware
         }
 
         if (!DB::has('templates', ['uuid' =>  $credentials->sub])) {
-            return new JsonResponse([
+            return new Json([
                 'success' => false,
                 'errors' => [
                     'status' => 404,
@@ -74,7 +59,7 @@ class JWTMiddleware implements Middleware
             ], 404);
         }
 
-        $request->uuid = $credentials->sub;
+        $request->id = $credentials->sub;
         $request->origin = $origin_header;
 
         return $next($request);

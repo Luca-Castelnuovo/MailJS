@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Exception;
+use CQ\Config\Config;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as MailException;
 
@@ -23,10 +24,10 @@ class MailHelper
         try {
             // Server Conf
             $mail->isSMTP();
-            $mail->Host       = config('smtp.host');
+            $mail->Host       = Config::get('smtp.host');
             $mail->SMTPAuth   = true;
-            $mail->Username   = config('smtp.username');
-            $mail->Password   = config('smtp.password');
+            $mail->Username   = Config::get('smtp.username');
+            $mail->Password   = Config::get('smtp.password');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->isHTML(true);
@@ -37,8 +38,8 @@ class MailHelper
             $mail->Body = $config['email_content'];
 
             $mail->setFrom(
-                config('smtp.username'),
-                $config['email_fromName'] ?: config('smtp.fromName')
+                Config::get('smtp.username'),
+                $config['email_fromName'] ?: Config::get('smtp.fromName')
             );
 
             if ($config['email_replyTo']) {

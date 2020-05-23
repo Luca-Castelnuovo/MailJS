@@ -9,47 +9,33 @@
 
 ### 🏠 [Homepage](https://mailjs.lucacastelnuovo.nl)
 
-### 📖 [Docs](https://mailjs.lucacastelnuovo.nl/docs)
+### 📖 [Docs](https://ltcastelnuovo.gitbook.io/mailjs/)
 
-### 💾 [SDK](https://mailjs.lucacastelnuovo.nl/sdk)
+### 💾 [SDK](https://github.com/Luca-Castelnuovo/MailJS-sdk)
 
-## Install
+## Installation
 
-1. Install Package
-```sh
-git clone https://github.com/Luca-Castelnuovo/MailJS.git
+For development
 
-composer install
-```
-2. Create Gihub OAuth application
-_the callback url should be https://your.app/auth/callback_
+1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
+2. `composer install`
+3. Edit `.env`
+4. `composer migrate`
+5. `composer seed`
+6. Start development server `php -S localhost:8080 -t public`
 
-## Configuration
+For production
 
-Edit .env
+1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
+2. `composer install --optimize-autoloader --no-dev`
+3. Edit `.env`
+4. `composer migrate`
 
-```bash
-APP_URL=http://domain.com
-APP_KEY=1234abcd
-EXTERNAL_CONFIG=https://config.domain.com/config.json
+## Security Vulnerabilities
 
-DB_HOST=localhost
-DB_PORT=3306
-DB_DATABASE=database
-DB_USERNAME=root
-DB_PASSWORD=root
+Please review [our security policy](https://github.com/Luca-Castelnuovo/TestingPlatform/security/policy) on how to report security vulnerabilities.
 
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USER=info@example.com
-SMTP_PASSWORD=letmein
-
-GITHUB_CIENT_ID=1234
-GITHUB_CLIENT_SECRET=abcd
-GITHUB_REDIRECT=https://domain.com/auth/callback
-```
-
-## 📝 License
+## License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
-This project is [MIT](https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE) licensed.
+This project is [MIT](https://github.com/Luca-Castelnuovo/TestingPlatform/blob/master/LICENSE) licensed.
