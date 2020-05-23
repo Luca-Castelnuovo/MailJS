@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const data = formDataToJSON(new FormData(createForm));
 
-        apiUse('POST', '/template', data);
+        apiUse('post', '/template', data);
     });
 
     /**
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = form.getAttribute('data-id');
             const data = formDataToJSON(new FormData(form));
 
-            apiUse('POST', `/template/${id}`, data);
+            apiUse('post', `/template/${id}`, data);
         });
     });
 
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const id = form.getAttribute('data-id');
 
-            apiUse('DELETE', `/template/${id}`, {});
+            apiUse('delete', `/template/${id}`, {});
         })
     );
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = form.getAttribute('data-id');
             const data = formDataToJSON(new FormData(form));
 
-            apiUse('POST', `/template/${id}/key`, data);
+            apiUse('post', `/template/${id}/key`, data);
         })
     );
     
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const id = form.getAttribute('data-id');
 
-            apiUse('DELETE', `/template/${id}`, {});
+            apiUse('delete', `/template/${id}`, {});
         })
     );
 });
