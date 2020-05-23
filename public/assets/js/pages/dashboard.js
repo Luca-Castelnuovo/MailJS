@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const id = form.getAttribute('data-id');
 
-            apiUse('delete', `/template/${id}`, {});
+            apiUse('delete', `/template/${id}/key`, {});
         })
     );
 });
