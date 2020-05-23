@@ -6,6 +6,7 @@ use CQ\Middleware\CORS;
 use CQ\Middleware\JSON;
 use CQ\Middleware\Session;
 use CQ\Middleware\RateLimit;
+use App\Middleware\JWTMiddleware;
 
 Route::$router = $router->get();
 Middleware::$router = $router->get();
@@ -24,12 +25,12 @@ Middleware::create(['middleware' => [Session::class]], function () {
     Route::get('/history/{id}', 'UserController@history');
 });
 
-Middleware::create(['prefix' => '/template', 'middleware' => [JSON::class, Session::class]], function () {
-    Route::post('', 'TemplateController@create');
-    Route::put('/{id}', 'TemplateController@update');
+Middleware::create(['prefix' => '/template', 'middleware' => [Session::class]], function () {
+    Route::post('', 'TemplateController@create', JSON::class);
+    Route::put('/{id}', 'TemplateController@update', JSON::class);
     Route::delete('/{id}', 'TemplateController@delete');
 
-    Route::post('/{id}/key', 'TemplateController@createKey');
+    Route::post('/{id}/key', 'TemplateController@createKey', JSON::class);
     Route::delete('/{id}/key', 'TemplateController@resetKey');
 });
 

@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const id = form.getAttribute('data-id');
             const data = formDataToJSON(new FormData(form));
 
-            apiUse('post', `/template/${id}`, data);
+            apiUse('put', `/template/${id}`, data);
         });
     });
 
