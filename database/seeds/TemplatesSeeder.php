@@ -21,6 +21,7 @@ class TemplatesSeeder extends Seeder
             $data[] = [
                 'id'             => $faker->uuid,
                 'user_id'        => $faker->uuid,
+                'key_id'        => $faker->uuid,
                 'name'           => $faker->userName,
                 'captcha_key'    => $faker->md5,
                 'email_to'       => $faker->email,

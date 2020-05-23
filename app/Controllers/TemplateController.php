@@ -66,6 +66,7 @@ class TemplateController extends Controller
             [
                 'id' => UUID::v6(),
                 'user_id' => Session::get('id'),
+                'key_id' => UUID::v4(),
                 'name' => $request->data->name,
                 'captcha_key' => $request->data->captcha_key,
                 'email_to' => $request->data->email_to,
@@ -213,9 +214,18 @@ class TemplateController extends Controller
             );
         }
 
+        $template = DB::get('templates', ['key_id'], ['id' => $id]);
+        if (!$template) {
+            return $this->respondJson(
+                'Template not found',
+                [],
+                404
+            );
+        }
+
         $key = JWTHelper::create([
             'type' => 'submission',
-            'sub' => $id,
+            'sub' => $template['key_id'],
             'allowed_origin' => $request->data->allowed_origin
         ], Config::get('jwt.submission'));
 
@@ -241,7 +251,7 @@ class TemplateController extends Controller
             );
         }
 
-        DB::update('templates', ['id' => UUID::v6(),], $id);
+        DB::update('templates', ['key_id' => UUID::v4()], $id);
 
         return $this->respondJson(
             'Key Reset',

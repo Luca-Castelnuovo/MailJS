@@ -34,6 +34,7 @@ class CreateTemplatesTable extends Migration
         $templates = $this->table('templates', ['id' => false, 'primary_key' => 'id']);
         $templates->addColumn('id', 'uuid')
             ->addColumn('user_id', 'string')
+            ->addColumn('key_id', 'string')
             ->addColumn('name', 'string')
             ->addColumn('captcha_key', 'string', ['null' => true])
             ->addColumn('email_to', 'string')
