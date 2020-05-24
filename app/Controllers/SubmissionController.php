@@ -35,13 +35,15 @@ class SubmissionController extends Controller
             'email_content'
         ], ['id' => $request->id]);
 
-        // TODO debug
-        $n_requests = DB::count('history', ['template_owner' => $template['user_id']]);
-        if (!Variant::check(Session::get('variant'), 'monthly_requests', $n_requests)) {
-            $n_requests_licensed = Variant::variantValue(Session::get('variant'), 'monthly_requests');
-
+        // TODO: debug
+        $variant_provider = new Variant([
+            'user' => Session::get('variant'),
+            'type' => 'monthly_requests',
+            'current_value' => DB::count('history', ['template_owner' => $template['user_id']])
+        ]);
+        if (!$variant_provider->reachedLimit()) {
             return $this->respondJson(
-                "Request quota reached, max {$n_requests_licensed}",
+                "Monthly request quota reached, max {$variant_provider->configuredValue()}",
                 [],
                 400
             );

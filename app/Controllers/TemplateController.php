@@ -50,12 +50,14 @@ class TemplateController extends Controller
             );
         }
 
-        $n_templates = DB::count('templates', ['user_id' => Session::get('id')]);
-        if (!Variant::check(Session::get('variant'), 'max_templates', $n_templates)) {
-            $n_templates_licensed = Variant::variantValue(Session::get('variant'), 'max_templates');
-
+        $variant_provider = new Variant([
+            'user' => Session::get('variant'),
+            'type' => 'max_templates',
+            'current_value' => DB::count('templates', ['user_id' => Session::get('id')])
+        ]);
+        if (!$variant_provider->reachedLimit()) {
             return $this->respondJson(
-                "Template quota reached, max {$n_templates_licensed}",
+                "Template quota reached, max {$variant_provider->configuredValue()}",
                 [],
                 400
             );
