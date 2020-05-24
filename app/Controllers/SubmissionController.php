@@ -5,7 +5,6 @@ namespace App\Controllers;
 use Exception;
 use CQ\DB\DB;
 use CQ\Response\Twig;
-use CQ\Helpers\Session;
 use CQ\Helpers\Variant;
 use CQ\Captcha\reCaptcha;
 use CQ\Controllers\Controller;
@@ -34,9 +33,8 @@ class SubmissionController extends Controller
             'email_fromName',
             'email_subject',
             'email_content'
-        ], ['id' => $request->id]);
+        ], ['key_id' => $request->id]);
 
-        // TODO: debug
         $variant_provider = new Variant([
             'user' => $template['user_variant'],
             'type' => 'monthly_requests',
