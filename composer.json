@@ -1,6 +1,6 @@
 {
     "name": "luca-castelnuovo/mailjs",
-    "description": "Backend for email submissions powering serverless aplications",
+    "description": "Backend for email submissions powering serverless applications",
     "keywords": [
         "mailjs",
         "framework",
