@@ -68,6 +68,7 @@ class TemplateController extends Controller
             [
                 'id' => UUID::v6(),
                 'user_id' => Session::get('id'),
+                'user_variant' => Session::get('variant'),
                 'key_id' => UUID::v4(),
                 'name' => $request->data->name,
                 'captcha_key' => $request->data->captcha_key,

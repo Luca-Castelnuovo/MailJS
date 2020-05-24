@@ -25,6 +25,7 @@ class SubmissionController extends Controller
         $template = DB::get('templates', [
             'id',
             'user_id',
+            'user_variant',
             'captcha_key',
             'email_to',
             'email_replyTo',
@@ -37,7 +38,7 @@ class SubmissionController extends Controller
 
         // TODO: debug
         $variant_provider = new Variant([
-            'user' => Session::get('variant'),
+            'user' => $template['user_variant'],
             'type' => 'monthly_requests',
             'current_value' => DB::count('history', ['template_owner' => $template['user_id']])
         ]);
