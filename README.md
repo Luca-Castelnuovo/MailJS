@@ -5,7 +5,7 @@
   </a>
 </p>
 
-> Backend for email submissions powering serverless aplications
+> Backend for email submissions powering serverless applications
 
 ### 🏠 [Homepage](https://mailjs.lucacastelnuovo.nl)
 
