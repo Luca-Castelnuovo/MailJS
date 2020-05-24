@@ -5,13 +5,13 @@ namespace App\Controllers;
 use Exception;
 use CQ\DB\DB;
 use CQ\Config\Config;
+use CQ\Helpers\JWT;
 use CQ\Helpers\UUID;
 use CQ\Helpers\Session;
 use CQ\Helpers\Variant;
 use CQ\Controllers\Controller;
 use App\Validators\TemplateValidator;
 
-use App\Helpers\JWTHelper;
 
 class TemplateController extends Controller
 {
@@ -223,14 +223,17 @@ class TemplateController extends Controller
             );
         }
 
-        $key = JWTHelper::create([
+        $key = JWT::create([
             'type' => 'submission',
             'sub' => $template['key_id'],
             'allowed_origin' => $request->data->allowed_origin
         ], Config::get('jwt.submission'));
 
         return $this->respondJson('Key Created', [
-            'key' => $key
+            'prompt' => [
+                'title' => 'Your key is:',
+                'data' => $key
+            ]
         ]);
     }
 

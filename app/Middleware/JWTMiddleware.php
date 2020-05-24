@@ -4,9 +4,9 @@ namespace App\Middleware;
 
 use Exception;
 use CQ\DB\DB;
+use CQ\Helpers\JWT;
 use CQ\Response\Json;
 use CQ\Middleware\Middleware;
-use App\Helpers\JWTHelper;
 
 class JWTMiddleware extends Middleware
 {
@@ -24,7 +24,7 @@ class JWTMiddleware extends Middleware
         $access_token = str_replace('Bearer ', '', $authorization_header);
 
         try {
-            $credentials = JWTHelper::valid('submission', $access_token);
+            $credentials = JWT::valid('submission', $access_token);
         } catch (Exception $error) {
             return new Json([
                 'success' => false,

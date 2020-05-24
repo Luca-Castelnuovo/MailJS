@@ -35,6 +35,7 @@ class SubmissionController extends Controller
             'email_content'
         ], ['id' => $request->id]);
 
+        // TODO debug
         $n_requests = DB::count('history', ['template_owner' => $template['user_id']]);
         if (!Variant::check(Session::get('variant'), 'monthly_requests', $n_requests)) {
             $n_requests_licensed = Variant::variantValue(Session::get('variant'), 'monthly_requests');
