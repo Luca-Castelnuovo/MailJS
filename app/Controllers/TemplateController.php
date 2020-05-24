@@ -50,7 +50,7 @@ class TemplateController extends Controller
             );
         }
 
-        $n_templates = DB::count('templates', ['owner_id' => Session::get('id')]);
+        $n_templates = DB::count('templates', ['user_id' => Session::get('id')]);
         if (!Variant::check(Session::get('variant'), 'max_templates', $n_templates)) {
             $n_templates_licensed = Variant::variantValue(Session::get('variant'), 'max_templates');
 
