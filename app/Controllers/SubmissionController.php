@@ -41,7 +41,7 @@ class SubmissionController extends Controller
             'type' => 'monthly_requests',
             'current_value' => DB::count('history', ['template_owner' => $template['user_id']])
         ]);
-        if (!$variant_provider->reachedLimit()) {
+        if (!$variant_provider->limitReached()) {
             return $this->respondJson(
                 "Monthly request quota reached, max {$variant_provider->configuredValue()}",
                 [],

@@ -55,7 +55,7 @@ class TemplateController extends Controller
             'type' => 'max_templates',
             'current_value' => DB::count('templates', ['user_id' => Session::get('id')])
         ]);
-        if (!$variant_provider->reachedLimit()) {
+        if (!$variant_provider->limitReached()) {
             return $this->respondJson(
                 "Template quota reached, max {$variant_provider->configuredValue()}",
                 [],
