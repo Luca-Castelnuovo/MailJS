@@ -1,17 +1,18 @@
-<h1 align="center">Welcome to MailJS 👋</h1>
-<p>
-  <a href="https://github.com/Luca-Castelnuovo/MailJS/blob/master/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
+<p align="center"><a href="https://github.com/Luca-Castelnuovo/MailJS"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/Apps/99fd8e1cb1f4f9992ebd7f8e2739332ab22401d2/public/assets/images/banner.png"></a></p>
+
+<p align="center">
+<a href="https://github.com/Luca-Castelnuovo/MailJS/commits/master"><img src="https://img.shields.io/github/last-commit/Luca-Castelnuovo/MailJS" alt="Latest Commit"></a>
+<a href="https://github.com/Luca-Castelnuovo/MailJS/issues"><img src="https://img.shields.io/github/issues/Luca-Castelnuovo/MailJS" alt="Issues"></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/github/license/Luca-Castelnuovo/MailJS" alt="License"></a>
 </p>
 
-> Backend for email submissions powering serverless applications
+# MailJS
 
-### 🏠 [Homepage](https://mailjs.lucacastelnuovo.nl)
+Backend for email submissions powering serverless applications
 
-### 📖 [Docs](https://ltcastelnuovo.gitbook.io/mailjs/)
-
-### 💾 [SDK](https://github.com/Luca-Castelnuovo/MailJS-sdk)
+-   [Homepage](https://mailjs.lucacastelnuovo.nl)
+-   [SDK](https://github.com/Luca-Castelnuovo/MailJS-sdk)
+-   [Docs](https://ltcastelnuovo.gitbook.io/mailjs/)
 
 ## Installation
 
@@ -20,24 +21,26 @@ For development
 1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
 2. `composer install`
 3. Edit `.env`
-4. `composer jwt`
-5. `composer migrate`
-6. `composer seed`
-7. Start development server `php -S localhost:8080 -t public`
+4. `php cubequence app:key`
+5. `php cubequence app:jwt`
+6. `php cubequence db:migrate`
+7. `php cubequence db:seed`
+8. Start development server `php -S localhost:8080 -t public`
 
-For production
+For deployment
 
 1. `git clone https://github.com/Luca-Castelnuovo/MailJS.git`
 2. `composer install --optimize-autoloader --no-dev`
 3. Edit `.env`
-4. `composer jwt`
-5. `composer migrate`
+4. `php cubequence app:key`
+5. `php cubequence app:jwt`
+6. `php cubequence db:migrate`
 
 ## Security Vulnerabilities
 
-Please review [our security policy](https://github.com/Luca-Castelnuovo/TestingPlatform/security/policy) on how to report security vulnerabilities.
+Please review [our security policy](https://github.com/Luca-Castelnuovo/MailJS/security/policy) on how to report security vulnerabilities.
 
 ## License
 
 Copyright © 2020 [Luca Castelnuovo](https://github.com/Luca-Castelnuovo).<br />
-This project is [MIT](https://github.com/Luca-Castelnuovo/TestingPlatform/blob/master/LICENSE) licensed.
+This project is [MIT](LICENSE.md) licensed.
