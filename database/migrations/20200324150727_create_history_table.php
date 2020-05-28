@@ -32,8 +32,8 @@ class CreateHistoryTable extends Migration
     public function change()
     {
         $history = $this->table('history');
-        $history->addColumn('template_id', 'integer')
-            ->addColumn('template_owner', 'string')
+        $history->addColumn('template_id', 'uuid')
+            ->addColumn('template_owner', 'uuid')
             ->addColumn('template_params', 'text')
             ->addColumn('user_ip', 'string')
             ->addColumn('origin', 'string')

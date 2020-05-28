@@ -35,6 +35,10 @@ class SubmissionController extends Controller
             'email_content'
         ], ['key_id' => $request->id]);
 
+        if (date('j') === '1') { // Reset history every month
+            // DB::delete('history', '*'); // TODO: wildcard delete
+        }
+
         $variant_provider = new Variant([
             'user' => $template['user_variant'],
             'type' => 'monthly_requests',

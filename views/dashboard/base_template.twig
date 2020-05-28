@@ -17,11 +17,13 @@
                     </button>
                     {% include 'dashboard/key_template.twig' %}
                 </div>
+                {% if history_access %}
                 <div class="col s12 m3">
                     <a class="btn modal-trigger blue accent-4 waves-effect waves-light" style="width: 100%" href="/history/{{ template.id }}">
                         History
                     </a>
                 </div>
+                {% endif %}
                 <div class="col s12 m3">
                     <button class="btn modal-trigger blue accent-4 waves-effect waves-light" style="width: 100%" data-target="template-{{ template.id }}-delete">
                         Delete

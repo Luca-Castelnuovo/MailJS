@@ -38,8 +38,14 @@ class UserController extends Controller
             ]
         );
 
+        $variant_provider = new Variant([
+            'user' => Session::get('variant'),
+            'type' => 'history_access'
+        ]);
+
         return $this->respond('dashboard.twig', [
             'templates' => $templates,
+            'history_access' => $variant_provider->configuredValue(),
             'remaining_requests' => $this->remainingRequests()
         ]);
     }
@@ -57,6 +63,14 @@ class UserController extends Controller
             return $this->redirect('/dashboard');
         }
 
+        $variant_provider = new Variant([
+            'user' => Session::get('variant'),
+            'type' => 'history_access'
+        ]);
+        if (!$variant_provider->configuredValue()) {
+            return $this->redirect('/dashboard');
+        }
+
         $history = DB::select(
             'history',
             [
@@ -66,8 +80,7 @@ class UserController extends Controller
                 'created_at'
             ],
             [
-                'template_id' => $id,
-                "ORDER" => ["id" => "ASC"]
+                'template_id' => $id
             ]
         );
 
