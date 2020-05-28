@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/Luca-Castelnuovo/MailJS"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/Apps/99fd8e1cb1f4f9992ebd7f8e2739332ab22401d2/public/assets/images/banner.png"></a></p>
+<p align="center"><a href="https://github.com/Luca-Castelnuovo/MailJS"><img src="https://rawcdn.githack.com/Luca-Castelnuovo/MailJS/fc11a12f7c60df1275f15462a8309cec32e65db5/public/assets/images/banner.png"></a></p>
 
 <p align="center">
 <a href="https://github.com/Luca-Castelnuovo/MailJS/commits/master"><img src="https://img.shields.io/github/last-commit/Luca-Castelnuovo/MailJS" alt="Latest Commit"></a>
