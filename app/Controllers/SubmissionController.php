@@ -36,7 +36,9 @@ class SubmissionController extends Controller
         ], ['key_id' => $request->id]);
 
         if (date('j') === '1') { // Reset history every month
-            // DB::delete('history', '*'); // TODO: wildcard delete
+            DB::delete('history', ['AND' => [
+                "id[<]" => 0
+            ]]);
         }
 
         $variant_provider = new Variant([
