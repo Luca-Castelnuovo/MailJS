@@ -14,6 +14,9 @@
     </thead>
 
     <tbody>
+        {% if not history %}
+            <span class="flow-text">No Entries</span>
+        {% endif %}
         {% for entry in history %}
             <tr>
                 <td>{{ entry.created_at }}</td>
