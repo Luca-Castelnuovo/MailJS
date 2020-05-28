@@ -33,8 +33,7 @@ class UserController extends Controller
                 'created_at'
             ],
             [
-                'user_id' => Session::get('id'),
-                "ORDER" => ["id" => "ASC"]
+                'user_id' => Session::get('id')
             ]
         );
 
@@ -80,7 +79,8 @@ class UserController extends Controller
                 'created_at'
             ],
             [
-                'template_id' => $id
+                'template_id' => $id,
+                'ORDER' => ['id' => 'DESC']
             ]
         );
 
