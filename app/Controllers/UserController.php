@@ -32,9 +32,7 @@ class UserController extends Controller
                 'updated_at',
                 'created_at'
             ],
-            [
-                'user_id' => Session::get('id')
-            ]
+            ['user_id' => Session::get('id')]
         );
 
         $variant_provider = new Variant([
@@ -70,6 +68,12 @@ class UserController extends Controller
             return $this->redirect('/dashboard');
         }
 
+        $template = DB::get(
+            'templates',
+            ['name'],
+            ['id' => $id]
+        );
+
         $history = DB::select(
             'history',
             [
@@ -86,6 +90,7 @@ class UserController extends Controller
 
         return $this->respond('history.twig', [
             'history' => $history,
+            'template_name' => $template['name'],
             'remaining_requests' => $this->remainingRequests()
         ]);
     }
