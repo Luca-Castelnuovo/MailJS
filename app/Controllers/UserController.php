@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CQ\DB\DB;
 use CQ\Helpers\Session;
+use CQ\Helpers\Variant;
 use CQ\Controllers\Controller;
 
 class UserController extends Controller
@@ -38,7 +39,8 @@ class UserController extends Controller
         );
 
         return $this->respond('dashboard.twig', [
-            'templates' => $templates
+            'templates' => $templates,
+            'remaining_requests' => $this->remainingRequests()
         ]);
     }
 
@@ -70,7 +72,25 @@ class UserController extends Controller
         );
 
         return $this->respond('history.twig', [
-            'history' => $history
+            'history' => $history,
+            'remaining_requests' => $this->remainingRequests()
         ]);
+    }
+
+    /**
+     * Get number of remaining requests
+     *
+     * @return int
+     */
+    private function remainingRequests()
+    {
+        $used_requests = DB::count('history', ['template_owner' => Session::get('id')]);
+        $variant_provider = new Variant([
+            'user' => Session::get('variant'),
+            'type' => 'monthly_requests'
+        ]);
+        $remaining_requests = $variant_provider->configuredValue() - $used_requests;
+
+        return $remaining_requests;
     }
 }
