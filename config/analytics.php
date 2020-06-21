@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'enabled' => true,
-    'domainId' => '751563b2-769f-441f-bfab-b3f2c099ccc8',
-    'options' => '{ "localhost": false, "detailed": true }'
+    'enabled' => false,
+    'domainId' => ''
 ];
