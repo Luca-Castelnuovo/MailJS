@@ -51,7 +51,7 @@ class UserController extends Controller
      * Template history
      *
      * @param string $id
-     * 
+     *
      * @return Html
      */
     public function history($id)

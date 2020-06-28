@@ -48,7 +48,7 @@ class JWTMiddleware extends Middleware
             ], 401);
         }
 
-        if (!DB::has('templates', ['key_id' =>  $credentials->sub])) {
+        if (!DB::has('templates', ['key_id' => $credentials->sub])) {
             return new Json([
                 'success' => false,
                 'errors' => [

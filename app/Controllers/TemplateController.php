@@ -12,7 +12,6 @@ use CQ\Helpers\Variant;
 use CQ\Controllers\Controller;
 use App\Validators\TemplateValidator;
 
-
 class TemplateController extends Controller
 {
     /**
@@ -20,7 +19,7 @@ class TemplateController extends Controller
      *
      * @param int $template_id
      * @param string $user_id
-     * 
+     *
      * @return boolean
      */
     protected function hasUserTemplate($template_id, $user_id)

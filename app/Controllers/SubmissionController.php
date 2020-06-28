@@ -16,7 +16,7 @@ class SubmissionController extends Controller
      * Handle submission in JSON format.
      *
      * @param object $request
-     * 
+     *
      * @return JsonResponse
      */
     public function submit($request)
@@ -37,7 +37,7 @@ class SubmissionController extends Controller
 
         if (date('j') === '1') { // Reset history every month
             DB::delete('history', ['AND' => [
-                "id[<]" => 0
+                'id[<]' => 0
             ]]);
         }
 
@@ -58,7 +58,7 @@ class SubmissionController extends Controller
             if ($template['captcha_key']) {
                 if (!reCaptcha::v2(
                     $template['captcha_key'],
-                    $request->data->{"g-recaptcha-response"}
+                    $request->data->{'g-recaptcha-response'}
                 )) {
                     throw new Exception('Invalid captcha response');
                 }

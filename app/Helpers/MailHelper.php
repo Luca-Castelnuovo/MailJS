@@ -13,9 +13,9 @@ class MailHelper
      * Send Emails
      *
      * @param array $config
-     * 
-     * @return 
-     * @throws Exception 
+     *
+     * @return
+     * @throws Exception
      */
     public static function send($config)
     {
@@ -24,12 +24,12 @@ class MailHelper
         try {
             // Server Conf
             $mail->isSMTP();
-            $mail->Host       = Config::get('smtp.host');
-            $mail->SMTPAuth   = true;
-            $mail->Username   = Config::get('smtp.username');
-            $mail->Password   = Config::get('smtp.password');
+            $mail->Host = Config::get('smtp.host');
+            $mail->SMTPAuth = true;
+            $mail->Username = Config::get('smtp.username');
+            $mail->Password = Config::get('smtp.password');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+            $mail->Port = 587;
             $mail->isHTML(true);
 
             // Template Conf
