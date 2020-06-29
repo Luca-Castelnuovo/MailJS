@@ -17,7 +17,7 @@ class HistorySeeder extends Seeder
         $faker = self::faker();
         $data = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'template_id' => $faker->randomDigit,
                 'template_owner' => $faker->uuid,

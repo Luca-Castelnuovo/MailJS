@@ -2,20 +2,21 @@
 
 namespace App\Helpers;
 
-use Exception;
 use CQ\Config\Config;
-use PHPMailer\PHPMailer\PHPMailer;
+use Exception;
 use PHPMailer\PHPMailer\Exception as MailException;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class MailHelper
 {
     /**
-     * Send Emails
+     * Send Emails.
      *
      * @param array $config
      *
-     * @return
      * @throws Exception
+     *
+     * @return
      */
     public static function send($config)
     {

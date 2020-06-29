@@ -17,7 +17,7 @@ class TemplatesSeeder extends Seeder
         $faker = self::faker();
         $data = [];
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 5; ++$i) {
             $data[] = [
                 'id' => $faker->uuid,
                 'user_id' => $faker->uuid,

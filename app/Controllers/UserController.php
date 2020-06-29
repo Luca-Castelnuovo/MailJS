@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
+use CQ\Controllers\Controller;
 use CQ\DB\DB;
 use CQ\Helpers\Session;
 use CQ\Helpers\Variant;
-use CQ\Controllers\Controller;
 
 class UserController extends Controller
 {
     /**
-     * Dashboard screen
+     * Dashboard screen.
      *
      * @return Html
      */
@@ -30,25 +30,25 @@ class UserController extends Controller
                 'email_subject',
                 'email_content',
                 'updated_at',
-                'created_at'
+                'created_at',
             ],
             ['user_id' => Session::get('id')]
         );
 
         $variant_provider = new Variant([
             'user' => Session::get('variant'),
-            'type' => 'history_access'
+            'type' => 'history_access',
         ]);
 
         return $this->respond('dashboard.twig', [
             'templates' => $templates,
             'history_access' => $variant_provider->configuredValue(),
-            'remaining_requests' => $this->remainingRequests()
+            'remaining_requests' => $this->remainingRequests(),
         ]);
     }
 
     /**
-     * Template history
+     * Template history.
      *
      * @param string $id
      *
@@ -62,7 +62,7 @@ class UserController extends Controller
 
         $variant_provider = new Variant([
             'user' => Session::get('variant'),
-            'type' => 'history_access'
+            'type' => 'history_access',
         ]);
         if (!$variant_provider->configuredValue()) {
             return $this->redirect('/dashboard');
@@ -80,23 +80,23 @@ class UserController extends Controller
                 'template_params[JSON]',
                 'user_ip',
                 'origin',
-                'created_at'
+                'created_at',
             ],
             [
                 'template_id' => $id,
-                'ORDER' => ['id' => 'DESC']
+                'ORDER' => ['id' => 'DESC'],
             ]
         );
 
         return $this->respond('history.twig', [
             'history' => $history,
             'template_name' => $template['name'],
-            'remaining_requests' => $this->remainingRequests()
+            'remaining_requests' => $this->remainingRequests(),
         ]);
     }
 
     /**
-     * Get number of remaining requests
+     * Get number of remaining requests.
      *
      * @return int
      */
@@ -105,10 +105,9 @@ class UserController extends Controller
         $used_requests = DB::count('history', ['template_owner' => Session::get('id')]);
         $variant_provider = new Variant([
             'user' => Session::get('variant'),
-            'type' => 'monthly_requests'
+            'type' => 'monthly_requests',
         ]);
-        $remaining_requests = $variant_provider->configuredValue() - $used_requests;
 
-        return $remaining_requests;
+        return $variant_provider->configuredValue() - $used_requests;
     }
 }

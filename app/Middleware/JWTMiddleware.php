@@ -2,11 +2,11 @@
 
 namespace App\Middleware;
 
-use Exception;
 use CQ\DB\DB;
 use CQ\Helpers\JWT;
-use CQ\Response\Json;
 use CQ\Middleware\Middleware;
+use CQ\Response\Json;
+use Exception;
 
 class JWTMiddleware extends Middleware
 {
@@ -31,8 +31,8 @@ class JWTMiddleware extends Middleware
                 'errors' => [
                     'status' => 401,
                     'title' => 'JWT Error',
-                    'detail' => $error->getMessage()
-                ]
+                    'detail' => $error->getMessage(),
+                ],
             ], 401);
         }
 
@@ -43,8 +43,8 @@ class JWTMiddleware extends Middleware
                 'errors' => [
                     'status' => 401,
                     'title' => 'invalid_origin',
-                    'detail' => "Provided origin doesn't match allowed origin"
-                ]
+                    'detail' => "Provided origin doesn't match allowed origin",
+                ],
             ], 401);
         }
 
@@ -54,8 +54,8 @@ class JWTMiddleware extends Middleware
                 'errors' => [
                     'status' => 404,
                     'title' => 'template_not_found',
-                    'detail' => 'this uuid is not connected to a template'
-                ]
+                    'detail' => 'this uuid is not connected to a template',
+                ],
             ], 404);
         }
 

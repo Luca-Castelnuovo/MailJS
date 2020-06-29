@@ -47,6 +47,7 @@ class CreateTemplatesTable extends Migration
             ->addColumn('email_content', 'text')
             ->addColumn('updated_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->create();
+            ->create()
+        ;
     }
 }

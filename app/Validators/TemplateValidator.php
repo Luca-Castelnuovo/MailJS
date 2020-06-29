@@ -8,11 +8,9 @@ use Respect\Validation\Validator as v;
 class TemplateValidator extends Validator
 {
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function create($data)
     {
@@ -24,17 +22,16 @@ class TemplateValidator extends Validator
             ->attribute('email_bcc', v::optional(v::stringType()->length(1, 256)))
             ->attribute('email_fromName', v::optional(v::stringType()->length(1, 256)))
             ->attribute('email_subject', v::stringType()->length(1, 256))
-            ->attribute('email_content', v::stringType()->length(1, 15000));
+            ->attribute('email_content', v::stringType()->length(1, 15000))
+        ;
 
         self::validate($v, $data);
     }
 
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function update($data)
     {
@@ -46,17 +43,16 @@ class TemplateValidator extends Validator
             ->attribute('email_bcc', v::optional(v::stringType()->length(1, 256)))
             ->attribute('email_fromName', v::optional(v::stringType()->length(1, 256)))
             ->attribute('email_subject', v::stringType()->length(1, 256))
-            ->attribute('email_content', v::stringType()->length(1, 15000));
+            ->attribute('email_content', v::stringType()->length(1, 15000))
+        ;
 
         self::validate($v, $data);
     }
 
     /**
-     * Validate json submission
+     * Validate json submission.
      *
      * @param object $data
-     *
-     * @return void
      */
     public static function createKey($data)
     {

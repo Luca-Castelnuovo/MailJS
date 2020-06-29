@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Response\Twig;
-use CQ\Helpers\Variant;
+use App\Helpers\MailHelper;
 use CQ\Captcha\reCaptcha;
 use CQ\Controllers\Controller;
-use App\Helpers\MailHelper;
+use CQ\DB\DB;
+use CQ\Helpers\Variant;
+use CQ\Response\Twig;
+use Exception;
 
 class SubmissionController extends Controller
 {
@@ -32,19 +32,19 @@ class SubmissionController extends Controller
             'email_bcc',
             'email_fromName',
             'email_subject',
-            'email_content'
+            'email_content',
         ], ['key_id' => $request->id]);
 
-        if (date('j') === '1') { // Reset history every month
+        if ('1' === date('j')) { // Reset history every month
             DB::delete('history', ['AND' => [
-                'id[<]' => 0
+                'id[<]' => 0,
             ]]);
         }
 
         $variant_provider = new Variant([
             'user' => $template['user_variant'],
             'type' => 'monthly_requests',
-            'current_value' => DB::count('history', ['template_owner' => $template['user_id']])
+            'current_value' => DB::count('history', ['template_owner' => $template['user_id']]),
         ]);
         if (!$variant_provider->limitReached()) {
             return $this->respondJson(
@@ -71,7 +71,7 @@ class SubmissionController extends Controller
                 'email_bcc' => Twig::renderFromText($template['email_bcc'], (array) $request->data),
                 'email_fromName' => Twig::renderFromText($template['email_fromName'], (array) $request->data),
                 'email_subject' => Twig::renderFromText($template['email_subject'], (array) $request->data),
-                'email_content' => Twig::renderFromText($template['email_content'], (array) $request->data)
+                'email_content' => Twig::renderFromText($template['email_content'], (array) $request->data),
             ]);
         } catch (Exception $e) {
             return $this->respondJson(

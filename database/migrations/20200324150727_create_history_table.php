@@ -38,6 +38,7 @@ class CreateHistoryTable extends Migration
             ->addColumn('user_ip', 'string')
             ->addColumn('origin', 'string')
             ->addColumn('created_at', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-            ->create();
+            ->create()
+        ;
     }
 }

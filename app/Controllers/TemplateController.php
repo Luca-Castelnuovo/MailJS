@@ -2,36 +2,20 @@
 
 namespace App\Controllers;
 
-use Exception;
-use CQ\DB\DB;
-use CQ\Config\Config;
-use CQ\Helpers\JWT;
-use CQ\Helpers\UUID;
-use CQ\Helpers\Session;
-use CQ\Helpers\Variant;
-use CQ\Controllers\Controller;
 use App\Validators\TemplateValidator;
+use CQ\Config\Config;
+use CQ\Controllers\Controller;
+use CQ\DB\DB;
+use CQ\Helpers\JWT;
+use CQ\Helpers\Session;
+use CQ\Helpers\UUID;
+use CQ\Helpers\Variant;
+use Exception;
 
 class TemplateController extends Controller
 {
     /**
-     * Check if user owns template
-     *
-     * @param int $template_id
-     * @param string $user_id
-     *
-     * @return boolean
-     */
-    protected function hasUserTemplate($template_id, $user_id)
-    {
-        return DB::has('templates', [
-            'id' => $template_id,
-            'user_id' => $user_id
-        ]);
-    }
-
-    /**
-     * Create template
+     * Create template.
      *
      * @param object $request
      *
@@ -52,7 +36,7 @@ class TemplateController extends Controller
         $variant_provider = new Variant([
             'user' => Session::get('variant'),
             'type' => 'max_templates',
-            'current_value' => DB::count('templates', ['user_id' => Session::get('id')])
+            'current_value' => DB::count('templates', ['user_id' => Session::get('id')]),
         ]);
         if (!$variant_provider->limitReached()) {
             return $this->respondJson(
@@ -77,7 +61,7 @@ class TemplateController extends Controller
                 'email_bcc' => $request->data->email_bcc,
                 'email_fromName' => $request->data->email_fromName,
                 'email_subject' => $request->data->email_subject,
-                'email_content' => $request->data->email_content
+                'email_content' => $request->data->email_content,
             ]
         );
 
@@ -88,7 +72,7 @@ class TemplateController extends Controller
     }
 
     /**
-     * Update template
+     * Update template.
      *
      * @param object $request
      * @param string $id
@@ -126,10 +110,10 @@ class TemplateController extends Controller
                 'email_bcc',
                 'email_fromName',
                 'email_subject',
-                'email_content'
+                'email_content',
             ],
             [
-                'id' => $id
+                'id' => $id,
             ]
         );
 
@@ -144,10 +128,10 @@ class TemplateController extends Controller
                 'email_bcc' => $request->data->email_bcc ?: $template['email_bcc'],
                 'email_fromName' => $request->data->email_fromName ?: $template['email_fromName'],
                 'email_subject' => $request->data->email_subject ?: $template['email_subject'],
-                'email_content' => $request->data->email_content ?: $template['email_content']
+                'email_content' => $request->data->email_content ?: $template['email_content'],
             ],
             [
-                'id' => $id
+                'id' => $id,
             ]
         );
 
@@ -158,7 +142,7 @@ class TemplateController extends Controller
     }
 
     /**
-     * Delete template
+     * Delete template.
      *
      * @param string $id
      *
@@ -189,7 +173,7 @@ class TemplateController extends Controller
     }
 
     /**
-     * Create access_key
+     * Create access_key.
      *
      * @param object $request
      * @param string $id
@@ -228,19 +212,19 @@ class TemplateController extends Controller
         $key = JWT::create([
             'type' => 'submission',
             'sub' => $template['key_id'],
-            'allowed_origin' => $request->data->allowed_origin
+            'allowed_origin' => $request->data->allowed_origin,
         ], Config::get('jwt.submission'));
 
         return $this->respondJson('Key Created', [
             'prompt' => [
                 'title' => 'Your key is:',
-                'data' => $key
-            ]
+                'data' => $key,
+            ],
         ]);
     }
 
     /**
-     * Reset all access_key
+     * Reset all access_key.
      *
      * @param string $id
      *
@@ -262,5 +246,21 @@ class TemplateController extends Controller
             'Key Reset',
             ['reload' => true]
         );
+    }
+
+    /**
+     * Check if user owns template.
+     *
+     * @param int    $template_id
+     * @param string $user_id
+     *
+     * @return bool
+     */
+    protected function hasUserTemplate($template_id, $user_id)
+    {
+        return DB::has('templates', [
+            'id' => $template_id,
+            'user_id' => $user_id,
+        ]);
     }
 }
