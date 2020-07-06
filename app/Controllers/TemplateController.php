@@ -215,11 +215,8 @@ class TemplateController extends Controller
             'allowed_origin' => $request->data->allowed_origin,
         ], Config::get('jwt.submission'));
 
-        return $this->respondJson('Key Created', [
-            'prompt' => [
-                'title' => 'Your key is:',
-                'data' => $key,
-            ],
+        return $this->respondJson('Key copied to clipboard!', [
+            'copy' => $key,
         ]);
     }
 
