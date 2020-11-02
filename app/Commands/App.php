@@ -50,7 +50,7 @@ class App
             }
 
             file_put_contents($path, str_replace(
-                'APP_KEY="'.getenv('APP_KEY').'"',
+                'APP_KEY="'.env('APP_KEY').'"',
                 'APP_KEY="'.$key.'"',
                 file_get_contents($path)
             ));
@@ -109,13 +109,13 @@ class App
             }
 
             file_put_contents($path, str_replace(
-                'JWT_PRIVATE_KEY="'.getenv('JWT_PRIVATE_KEY').'"',
+                'JWT_PRIVATE_KEY="'.env('JWT_PRIVATE_KEY').'"',
                 'JWT_PRIVATE_KEY="'.$private_key_string.'"',
                 file_get_contents($path)
             ));
 
             file_put_contents($path, str_replace(
-                'JWT_PUBLIC_KEY="'.getenv('JWT_PUBLIC_KEY').'"',
+                'JWT_PUBLIC_KEY="'.env('JWT_PUBLIC_KEY').'"',
                 'JWT_PUBLIC_KEY="'.$public_key_string.'"',
                 file_get_contents($path)
             ));

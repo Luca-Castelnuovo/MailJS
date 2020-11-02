@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'host' => getenv('SMTP_HOST'),
-    'port' => getenv('SMTP_PORT'),
-    'username' => getenv('SMTP_USER'),
-    'password' => getenv('SMTP_PASSWORD'),
+    'host' => env('SMTP_HOST'),
+    'port' => env('SMTP_PORT'),
+    'username' => env('SMTP_USER'),
+    'password' => env('SMTP_PASSWORD'),
     'fromName' => 'Luca Castelnuovo',
 ];
