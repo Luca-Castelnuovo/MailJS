@@ -6,7 +6,8 @@
 <a href="LICENSE.md"><img src="https://img.shields.io/github/license/Luca-Castelnuovo/MailJS" alt="License"></a>
 </p>
 
-# MailJS
+# [DEPRECATED] MailJS
+See https://github.com/Luca-Castelnuovo/Form for new version of this project.
 
 Backend for email submissions powering serverless applications
 
